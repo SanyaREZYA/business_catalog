@@ -1,0 +1,26 @@
+{
+  "name": "business_catalog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanyaREZYA/business_catalog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SanyaREZYA/business_catalog/issues"
+  },
+  "homepage": "https://github.com/SanyaREZYA/business_catalog#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
