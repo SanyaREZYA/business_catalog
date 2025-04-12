@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/SanyaREZYA/business_catalog#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.14.1"
   },
   "devDependencies": {
     "prettier": "^3.5.3"
