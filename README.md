@@ -29,6 +29,7 @@ business_catalog/
 Спочатку склонуйте репозиторій з GitHub:
 
 git clone https://github.com/your-username/business_catalog.git
+
 cd business_catalog
 
 2. Встановлення Node.js
