@@ -1,4 +1,3 @@
-<!--Сторінка пошуку. Відкривається при введенні даних в інпут в хедері-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +11,76 @@
 <header class="">
 
 </header>
-<main class="">
 
+<main class="results-wrapper">
+  <h2>4 результати найдено для "apple"</h2>
+  <div class="cards-container">
+    <div class="card">
+      <div class="category">Послуги з ремонту та будівництва</div>
+      <div class="logo">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlTjJ_AAqC4WU5SDVhRVSyGnmLNJoWxbyQTg&s" alt="RudService">
+      </div>
+      <h3>RudService ремонт Apple</h3>
+      <p><span class="icon">🌐</span> Київська</p>
+      <p><span class="icon">✉️</span> valer2018@meta.ua</p>
+      <p><span class="icon">🔗</span> rudservice.com.ua</p>
+      <div class="rating">★★★★★</div>
+      <div class="actions">
+        <button class="btn">Детальніше</button>
+        <button class="btn">Контакти</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="category">Послуги з ремонту та будівництва</div>
+      <div class="logo">
+        <img src="data:image/png;base64,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" alt="Valsys">
+      </div>
+      <h3>Валсис, Сервісний центр</h3>
+      <p><span class="icon">🌐</span> Харківська</p>
+      <p><span class="icon">✉️</span> немає</p>
+      <p><span class="icon">🔗</span> valsys.com.ua</p>
+      <div class="rating">★★★★★</div>
+      <div class="actions">
+        <button class="btn">Детальніше</button>
+        <button class="btn">Контакти</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="category">Послуги з ремонту та будівництва</div>
+      <div class="logo">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSBW4Hg7E_m_wDDGfGrkmt-ShFs1ng0_IzGQ&s" alt="InService">
+      </div>
+      <h3>InService, сервісний центр у Харкові</h3>
+      <p><span class="icon">🌐</span> Харківська</p>
+      <p><span class="icon">✉️</span> inservice.vip@gmail.com</p>
+      <p><span class="icon">🔗</span> inservice.com.ua</p>
+      <div class="rating">★★★★★</div>
+      <div class="actions">
+        <button class="btn">Детальніше</button>
+        <button class="btn">Контакти</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="category">Маркетинг та маркетингові послуги</div>
+      <div class="logo">
+        <img src="https://zaxid.net/resources/catalog/photos/company/202503/19237.jpg" alt="COMPAS Agency">
+      </div>
+      <h3>COMPAS Agency, Маркетингова агенція</h3>
+      <p><span class="icon">🌐</span> Вся Україна</p>
+      <p><span class="icon">✉️</span> info@compas.agency</p>
+      <p><span class="icon">🔗</span> compas.agency</p>
+      <div class="rating">★★★★★</div>
+      <div class="actions">
+        <button class="btn">Детальніше</button>
+        <button class="btn">Контакти</button>
+      </div>
+    </div>
+  </div>
 </main>
+
 <footer class="">
 
 </footer>
