@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const pool = require("./db");
+const pool = require('./db');
 const PORT = process.env.PORT || 3000;
 
 app.use('/css', express.static(path.join(__dirname, 'css')));
@@ -30,6 +30,56 @@ app.get('/placement', (req, res) => {
 
 app.get('/search', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'search.html'));
+});
+
+app.get('/companies', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM companies');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/companies/:id', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM companies WHERE id = ?', [req.params.id]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/reviews', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM reviews');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/categories', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM categories');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting categories:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/activity-areas', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM activity_areas');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting activity areas:', err);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.listen(PORT, () => {
