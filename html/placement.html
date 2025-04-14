@@ -9,15 +9,348 @@
   <link rel="stylesheet" href="/css/placement.css">
 </head>
 <body>
-<header class="">
+  <header class="">
+    
+  </header>
+  <main class="">
+    <div class="container">
+        <h1 class="page-title">Додати новий бізнес до каталогу</h1>
+        
+        <div class="placement-options">
+            <div class="option-tabs">
+                <button class="tab-btn active" data-tab="standard">Стандартне розміщення (200 грн)</button>
+                <button class="tab-btn" data-tab="vip">VIP розміщення (500 грн)</button>
+            </div>
+            
+            <!-- Стандартне розміщення -->
+            <div id="standard-tab" class="tab-content active">
+                <form class="add-business-form">
+                    <div class="form-group">
+                        <label for="company-name">Назва компанії*</label>
+                        <input type="text" id="company-name" name="company-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Категорія*</label>
+                        <select id="category" name="category" required>
+                            <option value="">Оберіть категорію</option>
+                            <option value="restaurant">Ресторани та кафе</option>
+                            <option value="shop">Магазини</option>
+                            <option value="service">Послуги</option>
+                            <option value="education">Освіта</option>
+                            <option value="health">Здоров'я</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="region">Область*</label>
+                        <select id="region" name="region" required>
+                            <option value="">Оберіть область</option>
+                            <option value="kyiv">Київська</option>
+                            <option value="lviv">Львівська</option>
+                            <option value="kharkiv">Харківська</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Адреса компанії*</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-person">Відповідальна особа*</label>
+                        <input type="text" id="contact-person" name="contact-person" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone1">Телефон 1*</label>
+                            <input type="tel" id="phone1" name="phone1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone2">Телефон 2</label>
+                            <input type="tel" id="phone2" name="phone2">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone3">Телефон 3</label>
+                            <input type="tel" id="phone3" name="phone3">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail*</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telegram">Telegram</label>
+                            <input type="text" id="telegram" name="telegram">
+                        </div>
+                        <div class="form-group">
+                            <label for="viber">Viber</label>
+                            <input type="text" id="viber" name="viber">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="facebook">Facebook</label>
+                            <input type="url" id="facebook" name="facebook">
+                        </div>
+                        <div class="form-group">
+                            <label for="instagram">Instagram</label>
+                            <input type="url" id="instagram" name="instagram">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="website">Сайт компанії</label>
+                        <input type="url" id="website" name="website">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Опис компанії*</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="unique-offer">Унікальна торгова пропозиція</label>
+                        <textarea id="unique-offer" name="unique-offer"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="logo">Логотип компанії</label>
+                        <input type="file" id="logo" name="logo" accept="image/*">
+                    </div>
+                    
+                    <div class="price-info">
+                        <p><strong>Стандартне розміщення: 200 грн. (одноразово)</strong></p>
+                        <p>Вартість включає:</p>
+                        <ul>
+                            <li>Вічне розміщення без видалення</li>
+                            <li>Опис компанії</li>
+                            <li>Контактна інформація</li>
+                            <li>Рейтинг та відгуки</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Оплата розміщення</button>
+                </form>
+            </div>
+            
+            <!-- VIP розміщення -->
+            <div id="vip-tab" class="tab-content">
+                <form class="add-business-form">
+                    <div class="form-group">
+                        <label for="vip-company-name">Назва компанії*</label>
+                        <input type="text" id="vip-company-name" name="vip-company-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vip-phone">Телефон*</label>
+                        <input type="tel" id="vip-phone" name="vip-phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vip-email">E-mail*</label>
+                        <input type="email" id="vip-email" name="vip-email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vip-website">Посилання на сайт*</label>
+                        <input type="url" id="vip-website" name="vip-website" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="article-requirements">Побажання до статті</label>
+                        <textarea id="article-requirements" name="article-requirements"></textarea>
+                    </div>
 
-</header>
-<main class="">
+                    <div class="form-group">
+                      <label for="logo">Логотип компанії</label>
+                      <input type="file" id="logo" name="logo" accept="image/*">
+                    </div>
+                    
+                    <div class="price-info">
+                        <p><strong>VIP розміщення: 500 грн.</strong></p>
+                        <p>Вартість включає:</p>
+                        <ul>
+                            <li>VIP розміщення</li>
+                            <li>Активне посилання</li>
+                            <li>Унікальний текст від копірайтера</li>
+                            <li>Підтримка</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn vip-btn">Оплата розміщення</button>
+                </form>
+            </div>
+        </div>
+        <div class="placement-comparison">
+          <h2 class="section-title">Порівняння варіантів розміщення</h2>
+          
+          <div class="comparison-table-container">
+              <table class="comparison-table">
+                  <thead>
+                      <tr>
+                          <th>Переваги</th>
+                          <th>Стандартне (200 грн) одноразово</th>
+                          <th>VIP Розміщення (500 грн) одноразово</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Вічне розміщення (без видалення)</td>
+                          <td>✅</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Картка компанії</td>
+                          <td>✅</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Текст опис</td>
+                          <td>✅</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Контактні дані</td>
+                          <td>✅</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Рейтинг та відгуки</td>
+                          <td>✅</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Додавання в соцмережі: Facebook, X (Twitter), Telegram</td>
+                          <td>✅</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Наш копірайтер пише текст</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Активне SEO посилання</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Закріплено в ТОП розділу</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Закріплено в ТОП на головній</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Помічається як VIP компанія</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Можливість розмістити портфоліо</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Можливість розмістити вакансії</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Можливість працювати з відгуками</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                      <tr>
+                          <td>Техпідтримка</td>
+                          <td>❌</td>
+                          <td>✅</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+        
+        <div class="vip-examples-section">
+          <div class="vip-examples">
+              <h3>Приклади VIP розміщень:</h3>
+              <ul class="vip-examples-list">
+                  <li>Інформаційний портал <a href="">Харьковблог</a></li>
+                  <li>Розробка сайтів, веб студія <a href="">Тsenix</a></li>
+                  <li>Рихтовка автівок <a href="">Kuzov-market</a></li>
+                  <li>Астролог <a href="">Оксана Мураховская</a></li>
+              </ul>
+          </div>
+          
+          <div class="benefits-text">
+              <p>В епоху цифрових технологій та інтернет-ринку створення і просування онлайн-профілю для вашого 
+              підприємства стає невід'ємною частиною успішного бізнесу. В Україні, як і в багатьох інших країнах, 
+              розвивається сфера інтернет-маркетингу та реклами, надаючи підприємцям різні інструменти для 
+              залучення клієнтів і збільшення обсягів продажів.</p>
+              
+              <p>Реєстрація вашої компанії на сторінках каталогу ділових послуг України - один із ключових кроків на 
+              шляху до успішної присутності в мережі. Вона надає бізнесу унікальну можливість безкоштовного 
+              розміщення інформації про компанію, товари та послуги на платформах, що збирають базу даних 
+              компаній різних галузей.</p>
+              
+              <h4>Переваги реєстрації компанії в каталогах України:</h4>
+              
+              <p><strong> - Дешеве розміщення інформації:</strong> Однією з головних переваг реєстрації компанії в каталогах України 
+              є можливість розміщення базової інформації про ваше підприємство без великих витрат. Це чудова 
+              можливість представити вашу компанію широкій аудиторії потенційних клієнтів.</p>
+              
+              <p><strong> - Поліпшення видимості в пошукових системах:</strong> Каталоги компаній мають високу відвідуваність, і їхні 
+              сторінки часто потрапляють у топ пошукових запитів. Реєстрація в каталогах підвищує ймовірність 
+              того, що ваша компанія буде знайдена під час пошуку в інтернеті, що сприяє залученню додаткових 
+              клієнтів.</p>
+              
+              <p><strong> - Встановлення довіри клієнтів:</strong> Розміщення компаній на сторінках каталогу ділових послуг України 
+              дає потенційним клієнтам можливість перевірити інформацію про вашу компанію, ознайомитися з 
+              відгуками інших користувачів і оцінити вашу надійність і професіоналізм.</p>
+              
+              <p><strong> - Категоризація та спеціалізація:</strong> Каталоги надають можливість вибору відповідної категорії для 
+              вашої компанії, що спрощує пошук вашого бізнесу потенційними клієнтами, зацікавленими в 
+              конкретних товарах або послугах.</p>
+              
+              <p>Однак, крім стандартного розміщення, існують також і VIP пакети просування сайту, які пропонують 
+              додаткові можливості для поліпшення видимості вашої компанії в інтернеті.</p>
+          </div>
+        </div>
+    </div>
 
-</main>
-<footer class="">
-
-</footer>
-<script src="/js/placement.js"></script>
+  </main>
+  <footer class="">
+    
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Видаляємо активний клас у всіх кнопок і контентів
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Додаємо активний клас до обраної кнопки
+                this.classList.add('active');
+                
+                // Показуємо відповідний контент
+                const tabId = this.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+</script>
+  <script src="/js/placement.js"></script>
 </body>
 </html>
