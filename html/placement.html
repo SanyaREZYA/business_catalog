@@ -1,4 +1,4 @@
-<!--Тут буде форма, за допомогою якої можна зареєструвати компанію на нашому сайті-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,18 +124,24 @@
                         <input type="file" id="logo" name="logo" accept="image/*">
                     </div>
                     
-                    <div class="price-info">
-                        <p><strong>Стандартне розміщення: 200 грн. (одноразово)</strong></p>
-                        <p>Вартість включає:</p>
-                        <ul>
-                            <li>Вічне розміщення без видалення</li>
-                            <li>Опис компанії</li>
-                            <li>Контактна інформація</li>
-                            <li>Рейтинг та відгуки</li>
-                        </ul>
+                    <div class="pricing-cards">
+                        <div class="pricing-card">
+                            <div class="card-header">
+                                <h3>Стандарт</h3>
+                                <div class="price">200 <span>грн</span></div>
+                                <div class="price-note">одноразова оплата</div>
+                            </div>
+                            <div class="card-features">
+                                <ul>
+                                    <li><i class="check-icon">✓</i> Вічне розміщення</li>
+                                    <li><i class="check-icon">✓</i> Опис компанії</li>
+                                    <li><i class="check-icon">✓</i> Контактна інформація</li>
+                                    <li><i class="check-icon">✓</i> Рейтинг та відгуки</li>
+                                </ul>
+                                <button class="pricing-btn">Обрати</button>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="submit-btn">Оплата розміщення</button>
                 </form>
             </div>
             
@@ -172,112 +178,151 @@
                       <input type="file" id="logo" name="logo" accept="image/*">
                     </div>
                     
-                    <div class="price-info">
-                        <p><strong>VIP розміщення: 500 грн.</strong></p>
-                        <p>Вартість включає:</p>
-                        <ul>
-                            <li>VIP розміщення</li>
-                            <li>Активне посилання</li>
-                            <li>Унікальний текст від копірайтера</li>
-                            <li>Підтримка</li>
-                        </ul>
+                    <div class="pricing-cards">
+                        <div class="pricing-card vip">
+                            <div class="card-header">
+                                <div class="popular-label">Найкращий вибір</div>
+                                <h3>VIP</h3>
+                                <div class="price">500 <span>грн</span></div>
+                                <div class="price-note">одноразова оплата</div>
+                            </div>
+                            <div class="card-features">
+                                <ul>
+                                    <li><i class="check-icon">✓</i> Пріоритетне розміщення</li>
+                                    <li><i class="check-icon">✓</i> SEO-оптимізований текст</li>
+                                    <li><i class="check-icon">✓</i> Персональний менеджер</li>
+                                    <li><i class="check-icon">✓</i> ТОП позиції в каталозі</li>
+                                </ul>
+                                <button class="pricing-btn vip-btn">Обрати</button>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="submit-btn vip-btn">Оплата розміщення</button>
                 </form>
             </div>
         </div>
-        <div class="placement-comparison">
-          <h2 class="section-title">Порівняння варіантів розміщення</h2>
-          
-          <div class="comparison-table-container">
-              <table class="comparison-table">
-                  <thead>
-                      <tr>
-                          <th>Переваги</th>
-                          <th>Стандартне (200 грн) одноразово</th>
-                          <th>VIP Розміщення (500 грн) одноразово</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>Вічне розміщення (без видалення)</td>
-                          <td>✅</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Картка компанії</td>
-                          <td>✅</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Текст опис</td>
-                          <td>✅</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Контактні дані</td>
-                          <td>✅</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Рейтинг та відгуки</td>
-                          <td>✅</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Додавання в соцмережі: Facebook, X (Twitter), Telegram</td>
-                          <td>✅</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Наш копірайтер пише текст</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Активне SEO посилання</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Закріплено в ТОП розділу</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Закріплено в ТОП на головній</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Помічається як VIP компанія</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Можливість розмістити портфоліо</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Можливість розмістити вакансії</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Можливість працювати з відгуками</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                      <tr>
-                          <td>Техпідтримка</td>
-                          <td>❌</td>
-                          <td>✅</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
+        <div class="comparison-section">
+            <h2 class="section-heading">Порівняння варіантів розміщення</h2>
+            
+            <div class="comparison-container">
+                <div class="comparison-table">
+                    <!-- Заголовок таблиці -->
+                    <div class="comparison-row header">
+                        <div class="comparison-feature">Переваги</div>
+                        <div class="comparison-plan">
+                            <div class="plan-name">Стандарт</div>
+                            <div class="plan-price">200 грн</div>
+                            <div class="plan-note">одноразово</div>
+                        </div>
+                        <div class="comparison-plan highlight">
+                            <div class="plan-name">VIP</div>
+                            <div class="plan-price">500 грн</div>
+                            <div class="plan-note">одноразово</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Рядки з перевагами -->
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Вічне розміщення (без видалення)</div>
+                        <div class="comparison-value"><span class="check">✓</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Картка компанії</div>
+                        <div class="comparison-value"><span class="check">✓</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Текст опис</div>
+                        <div class="comparison-value"><span class="check">✓</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Контактні дані</div>
+                        <div class="comparison-value"><span class="check">✓</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Рейтинг та відгуки</div>
+                        <div class="comparison-value"><span class="check">✓</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Додавання в соцмережі: Facebook, X (Twitter), Telegram</div>
+                        <div class="comparison-value"><span class="check">✓</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+                    
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Наш копірайтер пише текст</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Активне SEO посилання</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Закріплено в ТОП розділу</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Закріплено в ТОП на головній</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Помічається як VIP компанія</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Можливість розмістити портфоліо</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Можливість розмістити вакансії</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Можливість працювати з відгуками</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Техпідтримка</div>
+                        <div class="comparison-value"><span class="cross">✗</span></div>
+                        <div class="comparison-value highlight"><span class="check">✓</span></div>
+                    </div>
+                    
+                    <div class="comparison-row footer">
+                        <div class="comparison-feature"></div>
+                        <div class="comparison-value">
+                            <button class="plan-btn">Обрати</button>
+                        </div>
+                        <div class="comparison-value highlight">
+                            <button class="plan-btn highlight">Обрати</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="vip-examples-section">
