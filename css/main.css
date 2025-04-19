@@ -48,3 +48,143 @@ html {
     font-weight: 400;
     font-style: normal;
 }
+
+.footer {
+    width: 100%;
+    padding: 40px 0;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer__hr {
+    width: 70%;
+    height: 2px;
+    background-color: #000;
+    border: none;
+}
+
+.footer-content {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+}
+
+.footer-section {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.footer__vr {
+    width: 2px;
+    background-color: #ccc;
+    border: none;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.footer-logo h1 {
+    font-size: 2.5rem;
+    font-family: "Winky Rough", sans-serif;
+    font-weight: 700;
+}
+
+.footer-description h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.footer-description p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+}
+
+.socials {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.socials img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.socials img:hover {
+    transform: scale(1.1);
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-contact,
+.footer-partners {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.footer-links a {
+    color: #000;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+    color: #0077cc;
+}
+
+.footer-contact p,
+.footer-partners p {
+    font-weight: 600;
+    margin: 0;
+}
+
+.footer-contact a,
+.footer-partners a {
+    font-size: 0.9rem;
+}
+
+.footer-right {
+    align-items: flex-start;
+}
+
+.footer-left {
+    align-items: flex-start;
+}
+
+.footer-copyright {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 10px;
+}
