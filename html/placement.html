@@ -1,336 +1,330 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Bizlist</title>
-  <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/placement.css">
+  <link href="/css/reset.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/placement.css" rel="stylesheet">
 </head>
 <body>
-  <header class="">
-    
-  </header>
-  <main class="">
-    <div class="container">
-        <h1 class="page-title">Додати новий бізнес до каталогу</h1>
-        
-        <div class="placement-options">
-            <div class="option-tabs">
-                <button class="tab-btn active" data-tab="standard">Стандартне розміщення (200 грн)</button>
-                <button class="tab-btn" data-tab="vip">VIP розміщення (500 грн)</button>
-            </div>
-            
-            <!-- Стандартне розміщення -->
-            <div id="standard-tab" class="tab-content active">
-                <form class="add-business-form">
-                    <div class="form-group">
-                        <label for="company-name">Назва компанії*</label>
-                        <input type="text" id="company-name" name="company-name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="category">Категорія*</label>
-                        <select id="category" name="category" required>
-                            <option value="">Оберіть категорію</option>
-                            <option value="restaurant">Ресторани та кафе</option>
-                            <option value="shop">Магазини</option>
-                            <option value="service">Послуги</option>
-                            <option value="education">Освіта</option>
-                            <option value="health">Здоров'я</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="region">Область*</label>
-                        <select id="region" name="region" required>
-                            <option value="">Оберіть область</option>
-                            <option value="kyiv">Київська</option>
-                            <option value="lviv">Львівська</option>
-                            <option value="kharkiv">Харківська</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="address">Адреса компанії*</label>
-                        <input type="text" id="address" name="address" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contact-person">Відповідальна особа*</label>
-                        <input type="text" id="contact-person" name="contact-person" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="phone1">Телефон 1*</label>
-                            <input type="tel" id="phone1" name="phone1" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone2">Телефон 2</label>
-                            <input type="tel" id="phone2" name="phone2">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone3">Телефон 3</label>
-                            <input type="tel" id="phone3" name="phone3">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">E-mail*</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="telegram">Telegram</label>
-                            <input type="text" id="telegram" name="telegram">
-                        </div>
-                        <div class="form-group">
-                            <label for="viber">Viber</label>
-                            <input type="text" id="viber" name="viber">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="facebook">Facebook</label>
-                            <input type="url" id="facebook" name="facebook">
-                        </div>
-                        <div class="form-group">
-                            <label for="instagram">Instagram</label>
-                            <input type="url" id="instagram" name="instagram">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="website">Сайт компанії</label>
-                        <input type="url" id="website" name="website">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="description">Опис компанії*</label>
-                        <textarea id="description" name="description" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="unique-offer">Унікальна торгова пропозиція</label>
-                        <textarea id="unique-offer" name="unique-offer"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="logo">Логотип компанії</label>
-                        <input type="file" id="logo" name="logo" accept="image/*">
-                    </div>
-                    
-                    <div class="pricing-cards">
-                        <div class="pricing-card">
-                            <div class="card-header">
-                                <h3>Стандарт</h3>
-                                <div class="price">200 <span>грн</span></div>
-                                <div class="price-note">одноразова оплата</div>
-                            </div>
-                            <div class="card-features">
-                                <ul>
-                                    <li><i class="check-icon">✓</i> Вічне розміщення</li>
-                                    <li><i class="check-icon">✓</i> Опис компанії</li>
-                                    <li><i class="check-icon">✓</i> Контактна інформація</li>
-                                    <li><i class="check-icon">✓</i> Рейтинг та відгуки</li>
-                                </ul>
-                                <button class="pricing-btn">Обрати</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            
-            <!-- VIP розміщення -->
-            <div id="vip-tab" class="tab-content">
-                <form class="add-business-form">
-                    <div class="form-group">
-                        <label for="vip-company-name">Назва компанії*</label>
-                        <input type="text" id="vip-company-name" name="vip-company-name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vip-phone">Телефон*</label>
-                        <input type="tel" id="vip-phone" name="vip-phone" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vip-email">E-mail*</label>
-                        <input type="email" id="vip-email" name="vip-email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vip-website">Посилання на сайт*</label>
-                        <input type="url" id="vip-website" name="vip-website" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="article-requirements">Побажання до статті</label>
-                        <textarea id="article-requirements" name="article-requirements"></textarea>
-                    </div>
+<header class="">
 
-                    <div class="form-group">
-                      <label for="logo-vip">Логотип компанії</label>
-                      <input type="file" id="logo-vip" name="logo" accept="image/*">
-                    </div>
-                    
-                    <div class="pricing-cards">
-                        <div class="pricing-card vip">
-                            <div class="card-header">
-                                <div class="popular-label">Найкращий вибір</div>
-                                <h3>VIP</h3>
-                                <div class="price">500 <span>грн</span></div>
-                                <div class="price-note">одноразова оплата</div>
-                            </div>
-                            <div class="card-features">
-                                <ul>
-                                    <li><i class="check-icon">✓</i> Пріоритетне розміщення</li>
-                                    <li><i class="check-icon">✓</i> SEO-оптимізований текст</li>
-                                    <li><i class="check-icon">✓</i> Персональний менеджер</li>
-                                    <li><i class="check-icon">✓</i> ТОП позиції в каталозі</li>
-                                </ul>
-                                <button class="pricing-btn vip-btn">Обрати</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+</header>
+<main class="">
+  <div class="container">
+    <div class="placement-options">
+      <div class="option-tabs">
+        <button class="tab-btn active" data-tab="standard">Стандартне розміщення (200 грн)</button>
+        <button class="tab-btn" data-tab="vip">VIP розміщення (500 грн)</button>
+      </div>
+
+      <div class="tab-content active" id="standard-tab">
+        <form class="add-business-form">
+          <div class="form-group">
+            <label for="company-name">Назва компанії*</label>
+            <input id="company-name" name="company-name" required type="text">
+          </div>
+
+          <div class="form-group">
+            <label for="category">Категорія*</label>
+            <select id="category" name="category" required>
+              <option value="">Оберіть категорію</option>
+              <option value="restaurant">Ресторани та кафе</option>
+              <option value="shop">Магазини</option>
+              <option value="service">Послуги</option>
+              <option value="education">Освіта</option>
+              <option value="health">Здоров'я</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="region">Область*</label>
+            <select id="region" name="region" required>
+              <option value="">Оберіть область</option>
+              <option value="kyiv">Київська</option>
+              <option value="lviv">Львівська</option>
+              <option value="kharkiv">Харківська</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Адреса компанії*</label>
+            <input id="address" name="address" required type="text">
+          </div>
+
+          <div class="form-group">
+            <label for="contact-person">Відповідальна особа*</label>
+            <input id="contact-person" name="contact-person" required type="text">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone1">Телефон 1*</label>
+              <input id="phone1" name="phone1" required type="tel">
             </div>
+            <div class="form-group">
+              <label for="phone2">Телефон 2</label>
+              <input id="phone2" name="phone2" type="tel">
+            </div>
+            <div class="form-group">
+              <label for="phone3">Телефон 3</label>
+              <input id="phone3" name="phone3" type="tel">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail*</label>
+            <input id="email" name="email" required type="email">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telegram">Telegram</label>
+              <input id="telegram" name="telegram" type="text">
+            </div>
+            <div class="form-group">
+              <label for="viber">Viber</label>
+              <input id="viber" name="viber" type="text">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="facebook">Facebook</label>
+              <input id="facebook" name="facebook" type="url">
+            </div>
+            <div class="form-group">
+              <label for="instagram">Instagram</label>
+              <input id="instagram" name="instagram" type="url">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="website">Сайт компанії</label>
+            <input id="website" name="website" type="url">
+          </div>
+
+          <div class="form-group">
+            <label for="description">Опис компанії*</label>
+            <textarea id="description" name="description" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="unique-offer">Унікальна торгова пропозиція</label>
+            <textarea id="unique-offer" name="unique-offer"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="logo">Логотип компанії</label>
+            <input accept="image/*" id="logo" name="logo" type="file">
+          </div>
+
+          <div class="pricing-cards">
+            <div class="pricing-card">
+              <div class="card-header">
+                <h3>Стандарт</h3>
+                <div class="price">200 <span>грн</span></div>
+                <div class="price-note">одноразова оплата</div>
+              </div>
+              <div class="card-features">
+                <ul>
+                  <li><i class="check-icon">✓</i> Вічне розміщення</li>
+                  <li><i class="check-icon">✓</i> Опис компанії</li>
+                  <li><i class="check-icon">✓</i> Контактна інформація</li>
+                  <li><i class="check-icon">✓</i> Рейтинг та відгуки</li>
+                </ul>
+                <button class="pricing-btn">Обрати</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="tab-content" id="vip-tab">
+        <form class="add-business-form">
+          <div class="form-group">
+            <label for="vip-company-name">Назва компанії*</label>
+            <input id="vip-company-name" name="vip-company-name" required type="text">
+          </div>
+
+          <div class="form-group">
+            <label for="vip-phone">Телефон*</label>
+            <input id="vip-phone" name="vip-phone" required type="tel">
+          </div>
+
+          <div class="form-group">
+            <label for="vip-email">E-mail*</label>
+            <input id="vip-email" name="vip-email" required type="email">
+          </div>
+
+          <div class="form-group">
+            <label for="vip-website">Посилання на сайт*</label>
+            <input id="vip-website" name="vip-website" required type="url">
+          </div>
+
+          <div class="form-group">
+            <label for="article-requirements">Побажання до статті</label>
+            <textarea id="article-requirements" name="article-requirements"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="logo-vip">Логотип компанії</label>
+            <input accept="image/*" id="logo-vip" name="logo" type="file">
+          </div>
+
+          <div class="pricing-cards">
+            <div class="pricing-card vip">
+              <div class="card-header">
+                <div class="popular-label">Найкращий вибір</div>
+                <h3>VIP</h3>
+                <div class="price">500 <span>грн</span></div>
+                <div class="price-note">одноразова оплата</div>
+              </div>
+              <div class="card-features">
+                <ul>
+                  <li><i class="check-icon">✓</i> Пріоритетне розміщення</li>
+                  <li><i class="check-icon">✓</i> SEO-оптимізований текст</li>
+                  <li><i class="check-icon">✓</i> Персональний менеджер</li>
+                  <li><i class="check-icon">✓</i> ТОП позиції в каталозі</li>
+                </ul>
+                <button class="pricing-btn vip-btn">Обрати</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="comparison-section">
+      <h2 class="section-heading">Порівняння варіантів розміщення</h2>
+
+      <div class="comparison-container">
+        <div class="comparison-table">
+          <!-- Заголовок таблиці -->
+          <div class="comparison-row header">
+            <div class="comparison-feature">Переваги</div>
+            <div class="comparison-plan">
+              <div class="plan-name">Стандарт</div>
+              <div class="plan-price">200 грн</div>
+              <div class="plan-note">одноразово</div>
+            </div>
+            <div class="comparison-plan highlight">
+              <div class="plan-name">VIP</div>
+              <div class="plan-price">500 грн</div>
+              <div class="plan-note">одноразово</div>
+            </div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Вічне розміщення (без видалення)</div>
+            <div class="comparison-value"><span class="check">✓</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Картка компанії</div>
+            <div class="comparison-value"><span class="check">✓</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Текст опис</div>
+            <div class="comparison-value"><span class="check">✓</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Контактні дані</div>
+            <div class="comparison-value"><span class="check">✓</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Рейтинг та відгуки</div>
+            <div class="comparison-value"><span class="check">✓</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Додавання в соцмережі: Facebook, X (Twitter), Telegram</div>
+            <div class="comparison-value"><span class="check">✓</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Наш копірайтер пише текст</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Активне SEO посилання</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Закріплено в ТОП розділу</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Закріплено в ТОП на головній</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Помічається як VIP компанія</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Можливість розмістити портфоліо</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Можливість розмістити вакансії</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Можливість працювати з відгуками</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="comparison-feature">Техпідтримка</div>
+            <div class="comparison-value"><span class="cross">✗</span></div>
+            <div class="comparison-value highlight"><span class="check">✓</span></div>
+          </div>
+
+          <div class="comparison-row footer">
+            <div class="comparison-feature"></div>
+            <div class="comparison-value">
+              <button class="plan-btn">Обрати</button>
+            </div>
+            <div class="comparison-value highlight">
+              <button class="plan-btn highlight">Обрати</button>
+            </div>
+          </div>
         </div>
-        <div class="comparison-section">
-            <h2 class="section-heading">Порівняння варіантів розміщення</h2>
-            
-            <div class="comparison-container">
-                <div class="comparison-table">
-                    <!-- Заголовок таблиці -->
-                    <div class="comparison-row header">
-                        <div class="comparison-feature">Переваги</div>
-                        <div class="comparison-plan">
-                            <div class="plan-name">Стандарт</div>
-                            <div class="plan-price">200 грн</div>
-                            <div class="plan-note">одноразово</div>
-                        </div>
-                        <div class="comparison-plan highlight">
-                            <div class="plan-name">VIP</div>
-                            <div class="plan-price">500 грн</div>
-                            <div class="plan-note">одноразово</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Рядки з перевагами -->
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Вічне розміщення (без видалення)</div>
-                        <div class="comparison-value"><span class="check">✓</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-                    
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Картка компанії</div>
-                        <div class="comparison-value"><span class="check">✓</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Текст опис</div>
-                        <div class="comparison-value"><span class="check">✓</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Контактні дані</div>
-                        <div class="comparison-value"><span class="check">✓</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Рейтинг та відгуки</div>
-                        <div class="comparison-value"><span class="check">✓</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Додавання в соцмережі: Facebook, X (Twitter), Telegram</div>
-                        <div class="comparison-value"><span class="check">✓</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-                    
-                    
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Наш копірайтер пише текст</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-                    
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Активне SEO посилання</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-                    
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Закріплено в ТОП розділу</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Закріплено в ТОП на головній</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Помічається як VIP компанія</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Можливість розмістити портфоліо</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Можливість розмістити вакансії</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Можливість працювати з відгуками</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-
-                    <div class="comparison-row">
-                        <div class="comparison-feature">Техпідтримка</div>
-                        <div class="comparison-value"><span class="cross">✗</span></div>
-                        <div class="comparison-value highlight"><span class="check">✓</span></div>
-                    </div>
-                    
-                    <div class="comparison-row footer">
-                        <div class="comparison-feature"></div>
-                        <div class="comparison-value">
-                            <button class="plan-btn">Обрати</button>
-                        </div>
-                        <div class="comparison-value highlight">
-                            <button class="plan-btn highlight">Обрати</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+      </div>
     </div>
 
-  </main>
-  <footer class="">
-    
-  </footer>
-  <script src="/js/placement.js"></script>
+  </div>
+
+</main>
+<footer class="">
+
+</footer>
+<script src="/js/placement.js"></script>
 </body>
 </html>
