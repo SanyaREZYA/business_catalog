@@ -1,144 +1,57 @@
-const track = document.querySelector('.slider__track');
-let slides = Array.from(track.children);
+const sliderTrack = document.querySelector('.slider__track');
+const slides = document.querySelectorAll('.slider__item');
 const dots = document.querySelectorAll('.slider-dot');
+let currentIndex = 0;
+const slideWidth = slides[0].offsetWidth + 20; // Width + margin (360px + 10px + 10px)
+const totalSlides = slides.length;
 
-const slideWidth = slides[0].offsetWidth + 40;
-let position = 2;
-let autoSlideInterval;
-let isAnimating = false;
+slides.forEach((slide) => {
+  const clone = slide.cloneNode(true);
+  sliderTrack.appendChild(clone);
+});
 
-const cloneStart = slides.slice(0, 2).map(el => el.cloneNode(true));
-const cloneEnd = slides.slice(-2).map(el => el.cloneNode(true));
-cloneStart.forEach(clone => track.appendChild(clone));
-cloneEnd.reverse().forEach(clone => track.prepend(clone));
-slides = Array.from(track.children);
-
-track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-function updateActiveSlide(pos) {
-  slides.forEach(slide => slide.classList.remove('slider__active-slide'));
-  slides[pos + 1]?.classList.add('slider__active-slide');
-
-  let realIndex = (pos - 2) % 3;
-  if (realIndex < 0) realIndex += 3;
-  dots.forEach(dot => dot.classList.remove('slider-dot--active'));
-  dots[realIndex].classList.add('slider-dot--active');
-}
-
-function moveSlide(forward = true) {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  const nextPosition = position + (forward ? 1 : -1);
-
-  if (nextPosition >= slides.length - 2) {
-    track.style.transition = 'transform 0.5s ease-in-out';
-    track.style.transform = `translateX(-${slideWidth * nextPosition}px)`;
-
-    track.addEventListener('transitionend', () => {
-      track.style.transition = 'none';
-      position = 2;
-      track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-      requestAnimationFrame(() => {
-        track.style.transition = 'transform 0.5s ease-in-out';
-        isAnimating = false;
-        updateActiveSlide(position);
-      });
-    }, { once: true });
-
-    return;
-  }
-
-if (nextPosition < 2) {
-  track.style.transition = 'transform 0.5s ease-in-out';
-  track.style.transform = `translateX(-${slideWidth * nextPosition}px)`;
-
-  track.addEventListener('transitionend', () => {
-    track.style.transition = 'none';
-    position = slides.length - 3;
-    track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-    requestAnimationFrame(() => {
-      track.style.transition = 'transform 0.5s ease-in-out';
-      isAnimating = false;
-      updateActiveSlide(position);
-    });
-  }, { once: true });
-
-  return;
-}
-
-position = nextPosition;
-updateActiveSlide(position);
-track.style.transition = 'transform 0.5s ease-in-out';
-track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-track.addEventListener('transitionend', () => {
-  isAnimating = false;
-}, { once: true });
-}
-
-
-function handleReset() {
-  if (position >= slides.length - 2) {
-    track.style.transition = 'none';
-
-    position = 2;
-    track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-    requestAnimationFrame(() => {
-      track.style.transition = 'transform 0.5s ease-in-out';
-      isAnimating = false;
-      updateActiveSlide(position);
-    });
-
-    return;
-  }
-
-  if (position < 2) {
-    track.style.transition = 'none';
-    position = slides.length - 3;
-    track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-    requestAnimationFrame(() => {
-      track.style.transition = 'transform 0.5s ease-in-out';
-      isAnimating = false;
-      updateActiveSlide(position);
-    });
-
-    return;
-  }
-
-  isAnimating = false;
-}
-
-  function startAutoSlide() {
-    autoSlideInterval = setInterval(() => moveSlide(true), 3000);
-  }
-
-  function stopAutoSlide() {
-    clearInterval(autoSlideInterval);
-  }
-
-  startAutoSlide();
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-      if (isAnimating) return;
-      stopAutoSlide();
-      isAnimating = true;
-
-      position = index + 2;
-      updateActiveSlide(position);
-      track.style.transition = 'transform 0.5s ease-in-out';
-      track.style.transform = `translateX(-${slideWidth * position}px)`;
-
-      track.addEventListener('transitionend', () => {
-        isAnimating = false;
-        startAutoSlide();
-      }, { once: true });
-    });
+function updateSlider() {
+  const allSlides = document.querySelectorAll('.slider__item');
+  allSlides.forEach((slide, index) => {
+    slide.classList.remove('slider__item--active');
+    if (index === currentIndex + 1) {
+      slide.classList.add('slider__item--active');
+    }
   });
 
-  updateActiveSlide(position);
+  dots.forEach((dot, index) => {
+    dot.classList.toggle(
+      'slider-dot--active',
+      index === currentIndex % totalSlides,
+    );
+  });
+}
+
+function moveToSlide(index) {
+  sliderTrack.style.transition = 'transform 0.5s ease-in-out';
+  sliderTrack.style.transform = `translateX(${-index * slideWidth}px)`;
+  currentIndex = index;
+
+  if (currentIndex >= totalSlides) {
+    setTimeout(() => {
+      sliderTrack.style.transition = 'none';
+      sliderTrack.style.transform = `translateX(0)`;
+      currentIndex = 0;
+      updateSlider();
+    }, 500);
+  } else {
+    updateSlider();
+  }
+}
+
+updateSlider();
+
+setInterval(() => {
+  moveToSlide(currentIndex + 1);
+}, 3000);
+
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    moveToSlide(index);
+  });
+});
