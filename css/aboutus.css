@@ -1,91 +1,81 @@
-body,html{
-    width: 100%;
-    height: 100%;
-}
- body{
-    line-height: 1;
-     font-family: 'Inter', sans-serif;
+/* Загальні стилі */
+body {
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
-
-}
-.page{
-    width: 100%;
-    height: 100%;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
 }
 
-.breadcrumbs{
-    display: flex;
-    justify-content: center;
-    padding: 35px 0 10px 0;
+/* Заголовок статті */
+.article-title {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
 
+/* Вирівнювання тексту */
+.text-justify {
+    text-align: justify;
 }
-.breadcrumbs-list{
-    display: flex;
-    gap:14px;
-}
-.breadcrumbs__item.link {
-    position: relative;
-    color: #a1a1a1;
-    -webkit-transition: color .5s ease;
-    transition: color .5s ease;
-}
-.breadcrumbs__item.link::after {
-    content: "";
-    position: absolute;
-    top: calc(50% - 6px);
-    right: -10px;
-    width: 5px;
-    height: 12px;
-    background: url(/images/arrow.svg) center / 100% no-repeat;
 
+/* Контактна інформація */
+.contact-info i {
+    width: 20px;
 }
-.article{
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
-    width: 100%;
-    height: 100%;
+
+/* Контейнер з реквізитами */
+.text-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
 }
-.article_main{
-    max-width: calc(100% - 200px)
+
+/* Відступ секцій */
+.section-padding {
+    padding: 40px 0;
 }
-._container{
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    width: 80%;
-    gap:20px;
+
+/* Посилання в контактах */
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
 }
-strong{
-    font-weight: bolder;
+
+.contact-info a:hover {
+    text-decoration: underline;
 }
-* {
-    box-sizing: border-box;
+
+/* Жирні заголовки */
+.contact-info strong {
+    display: inline-block;
+    margin-bottom: 5px;
 }
 p{
-    line-height: 120%;
-    text-align: justify;
-    font-size: 14px;
-}
-.info{
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-a{
-    color: #0202f3;
-}
-h1,h2,h3{
-    font-weight: bolder;
-}
-h1{
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-h2{
-    font-size: 24px;
-}
-h3{
     font-size: 18px;
+}
+strong{
+    font-size: 20px;
+}
+h4{
+    font-size: 28px;
+}
+/* Адаптивність для мобільних */
+@media (max-width: 767.98px) {
+    .article-title {
+        font-size: 24px;
+    }
+
+    .section-padding {
+        padding: 20px 0;
+    }
+
+    .text-container {
+        padding: 15px;
+    }
+
+    .contact-info i {
+        width: auto;
+        margin-right: 5px;
+    }
 }
