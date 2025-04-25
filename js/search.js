@@ -1,13 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Елементи для пошуку за назвою компанії:
   const nameInput = document.querySelector('.input-group input[type="search"]');
   const nameButton = document.querySelector('.input-group button');
-  
-  // Елементи для пошуку по тегу:
   const tagInput = document.querySelector('.tag-search input[type="text"]');
   const tagButton = document.querySelector('.tag-search button');
 
-  // Використовуємо спільну функцію для обробки обох видів пошуку
   if (nameInput && nameButton) {
     nameButton.addEventListener('click', () => searchCombined(nameInput.value));
     nameInput.addEventListener('keypress', function (e) {
@@ -30,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function searchCombined(query) {
   if (!query.trim()) return;
 
-  // Створюємо два запити: для пошуку за назвою та для пошуку за тегом
   const searchByName = fetch(`/companies/search/${encodeURIComponent(query)}`)
     .then(res => {
       if (!res.ok) throw new Error('Network response was not ok for company name search');
@@ -43,7 +38,6 @@ function searchCombined(query) {
       return res.json();
     });
 
-  // Об'єднуємо результати, видаляючи дублікати (за id)
   Promise.all([searchByName, searchByTag])
     .then(([byName, byTag]) => {
       const merged = [];
