@@ -68,6 +68,14 @@ body {
     display: block;
 }
 
+.left-column .first-image {
+    max-width: 70%;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 5px;
+    display: block;
+}
+
 .left-column .contact-info {
     color: #000000;
     font-size: 16px;
