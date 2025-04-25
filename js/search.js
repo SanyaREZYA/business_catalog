@@ -1,29 +1,65 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const input = document.querySelector('.input-group input[type="search"]');
-  const button = document.querySelector('.input-group button');
+  // Елементи для пошуку за назвою компанії:
+  const nameInput = document.querySelector('.input-group input[type="search"]');
+  const nameButton = document.querySelector('.input-group button');
+  
+  // Елементи для пошуку по тегу:
+  const tagInput = document.querySelector('.tag-search input[type="text"]');
+  const tagButton = document.querySelector('.tag-search button');
 
-  if (!input || !button) return;
+  // Використовуємо спільну функцію для обробки обох видів пошуку
+  if (nameInput && nameButton) {
+    nameButton.addEventListener('click', () => searchCombined(nameInput.value));
+    nameInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        searchCombined(nameInput.value);
+      }
+    });
+  }
 
-  button.addEventListener('click', () => searchCompany(input.value));
-
-  input.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      searchCompany(input.value);
-    }
-  });
+  if (tagInput && tagButton) {
+    tagButton.addEventListener('click', () => searchCombined(tagInput.value));
+    tagInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        searchCombined(tagInput.value);
+      }
+    });
+  }
 });
 
-function searchCompany(name) {
-  if (!name.trim()) return;
+function searchCombined(query) {
+  if (!query.trim()) return;
 
-  fetch(`/companies/search/${encodeURIComponent(name)}`)
+  // Створюємо два запити: для пошуку за назвою та для пошуку за тегом
+  const searchByName = fetch(`/companies/search/${encodeURIComponent(query)}`)
     .then(res => {
-      if (!res.ok) throw new Error('Network response was not ok');
+      if (!res.ok) throw new Error('Network response was not ok for company name search');
       return res.json();
+    });
+    
+  const searchByTag = fetch(`/companies-by-tag-name/${encodeURIComponent(query)}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Network response was not ok for tag search');
+      return res.json();
+    });
+
+  // Об'єднуємо результати, видаляючи дублікати (за id)
+  Promise.all([searchByName, searchByTag])
+    .then(([byName, byTag]) => {
+      const merged = [];
+      const seenIds = new Set();
+
+      [...byName, ...byTag].forEach(company => {
+        if (!seenIds.has(company.id)) {
+          seenIds.add(company.id);
+          merged.push(company);
+        }
+      });
+
+      renderResults(merged);
     })
-    .then(data => renderResults(data))
     .catch(err => {
-      console.error('Search error:', err);
+      console.error('Combined search error:', err);
       renderError('Помилка при завантаженні результатів.');
     });
 }
@@ -43,7 +79,7 @@ function renderResults(companies) {
     const {
       name = 'Без назви',
       category = 'Категорія',
-      image = '/images/default.png',
+      logo_path = '/images/default.png',
       location = 'Невідомо',
       email = '-',
       website = '#'
@@ -55,7 +91,7 @@ function renderResults(companies) {
     card.innerHTML = `
       <div class="card h-100 shadow-sm">
         <div class="badge">${category}</div>
-        <img alt="${name}" class="card-img-top" src="${image}">
+        <img alt="${name}" class="card-img-top" src="${logo_path}">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">${name}</h5>
           <p class="info-item"><span>📍</span> ${location}</p>
