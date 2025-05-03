@@ -1,9 +1,35 @@
+require('dotenv').config();
 const express = require('express');
+const multer = require('multer');
 const path = require('path');
 const app = express();
-const pool = require('./db');
+const { Pool } = require('pg');
+//const pool = require('./db');
 const PORT = process.env.PORT || 3000;
 
+// Підключення до PostgreSQL
+const pool = new Pool({
+  user: process.env.DB_USER || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  database: 'bizlist',
+  password: process.env.DB_PASSWORD || '',
+  port: process.env.DB_PORT || 5432,
+});
+
+// Налаштування Multer для завантаження файлів
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/images', express.static('images'));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -30,6 +56,133 @@ app.get('/placement', (req, res) => {
 
 app.get('/search', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'search.html'));
+});
+
+// API для додавання компанії
+app.post('/api/add-business', upload.single('logo'), async (req, res) => {
+  try {
+    const {
+      placement_type,
+      company_name: name,
+      category,
+      region,
+      address,
+      postal_code,
+      'contact-person': founder,
+      edrpou_code,
+      year_founded,
+      phone1,
+      phone2,
+      phone3,
+      email,
+      telegram,
+      viber,
+      facebook,
+      instagram,
+      website,
+      description: full_description,
+      'unique-offer': short_description,
+      'working-hours': working_hours
+    } = req.body;
+
+    // Перевірка обов'язкових полів
+    const requiredFields = {
+      'Назва компанії': name,
+      'Відповідальна особа': founder,
+      'Категорія': category,
+      'Область': region,
+      'Код ЄДРПОУ': edrpou_code,
+      'Рік заснування': year_founded,
+      'Поштовий індекс': postal_code
+    };
+
+    for (const [field, value] of Object.entries(requiredFields)) {
+      if (!value) throw new Error(`Поле "${field}" є обов'язковим`);
+    }
+
+    // Перевірка числових полів
+    const activity_area_id = parseInt(region);
+    const category_id = parseInt(category);
+    const year = parseInt(year_founded);
+
+    if (isNaN(activity_area_id) || isNaN(category_id) || isNaN(year)) {
+      throw new Error('Некоректні числові значення');
+    }
+
+    // Перевірка форматів полів
+    if (!/^\d{8,10}$/.test(edrpou_code)) {
+      throw new Error('Код ЄДРПОУ має містити 8-10 цифр');
+    }
+
+    if (!/^\d{5}$/.test(postal_code)) {
+      throw new Error('Поштовий індекс має містити 5 цифр');
+    }
+
+    if (year < 1900 || year > new Date().getFullYear()) {
+      throw new Error('Невірно вказаний рік заснування');
+    }
+
+    const logoPath = req.file ? req.file.path : null;
+
+    const query = `
+      INSERT INTO companies (
+        name, founder, edrpou_code, year_founded, activity_area_id, 
+        category_id, address, postal_code, phone1, phone2, phone3,
+        email, telegram, viber, facebook, instagram, website, logo_path,
+        short_description, full_description, working_hours,
+        created_at, updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, NOW(), NOW())
+      RETURNING id
+    `;
+
+    const values = [
+      name,
+      founder,
+      edrpou_code,
+      year,
+      activity_area_id,
+      category_id,
+      address,
+      postal_code,
+      phone1,
+      phone2 || null,
+      phone3 || null,
+      email,
+      telegram || null,
+      viber || null,
+      facebook || null,
+      instagram || null,
+      website || null,
+      logoPath,
+      short_description || null,
+      full_description || null,
+      working_hours || null,
+    ];
+
+    const { rows } = await pool.query(query, values);
+    
+    res.status(201).json({
+      success: true,
+      companyId: rows[0].id,
+      message: 'Компанію успішно додано!'
+    });
+  } catch (error) {
+    console.error('Помилка при додаванні компанії:', error);
+    res.status(400).json({  
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// Ендпоїнт для отримання областей
+app.get('/api/activity-areas', async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT id, name FROM activity_areas');
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get('/companies', async (req, res) => {

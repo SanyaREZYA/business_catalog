@@ -110,6 +110,36 @@ main {
     flex: 1;
 }
 
+#working-hours {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .working-hours-example {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.3rem;
+  }
+
+.form-group input:required {
+    border-left: 3px solid #3498db;
+  }
+  
+  .form-group input:invalid {
+    border-left: 3px solid #e74c3c;
+  }
+  
+  .error-hint {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    display: none;
+  }
+  
+  input:invalid + .error-hint {
+    display: block;
+  }
+
 .submit-btn {
     background-color: #3498db;
     color: white;

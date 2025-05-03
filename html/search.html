@@ -1,23 +1,232 @@
 <!--Сторінка пошуку. Відкривається при введенні даних в інпут в хедері-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <title>Bizlist</title>
-  <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/search.css">
+  <link href="/css/reset.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/search.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header class="">
-
+<header class="nav-bar">
+  <div class="logo">
+    <img alt="logo" src="/images/logo.png">
+    <h1>BizList</h1>
+  </div>
+  <ul class="nav-links">
+    <li class="nav-link"><a href="/">Головна</a></li>
+    <li class="nav-link"><a href="/aboutus">Про нас</a></li>
+    <li class="nav-link"><a href="/placement">Розміщення</a></li>
+    <li class="nav-link"><a href="/advert">Реклама</a></li>
+  </ul>
+  <div class="input-group" style="width: 20%;">
+    <input aria-label="Search" class="form-control" placeholder="Search..." type="search">
+    <button class="btn btn-primary" type="submit">
+      🔍
+    </button>
+  </div>
 </header>
-<main class="">
 
+<main class="container py-5">
+  <div class="row g-4">
+
+    <!-- Карта 1 -->
+    <div class="col-md-3 mb-6">
+      <div class="card h-100 shadow-sm">
+        <div class="badge">Послуги з ремонту</div>
+        <img
+          alt="RudService"
+          class="card-img-top" src="data:image/png;base64,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">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">RudService ремонт Apple</h5>
+          <p class="info-item"><span>📍</span> Київська</p>
+          <p class="info-item"><span>📧</span> valer2018@meta.ua</p>
+          <p class="info-item"><span>🌐</span> rudservice.com.ua</p>
+
+          <div class="rating mb-3" data-rating="0">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
+
+          <div class="actions mt-auto d-flex justify-content-between">
+            <a class="btn btn-outline-primary btn-sm" href="https://rudservice.com.ua/">Контакти</a>
+            <a class="btn btn-primary btn-sm" href="#">Детальніше</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Карта 2 -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <div class="badge">Сервісний центр</div>
+        <img
+          alt="Valsys"
+          class="card-img-top" src="data:image/png;base64,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">
+        <div class="card-body">
+          <h5 class="card-title">Валсис, Сервісний центр</h5>
+          <p class="info-item">
+            <span>📍</span> Харківська
+          </p>
+          <p class="info-item">
+            <span>📧</span> info@valsys.com.ua
+          </p>
+          <p class="info-item">
+            <span>🌐</span> valsys.com.ua
+          </p>
+          <div class="rating" data-rating="0">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
+
+          <div class="actions mt-auto d-flex justify-content-between">
+            <a class="btn btn-outline-primary btn-sm" href="https://valsys.com.ua/ua">Контакти</a>
+            <a class="btn btn-primary btn-sm" href="#">Детальніше</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Карта 3 -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <div class="badge">Сервісний центр</div>
+        <img alt="FixLab"
+             class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReTJewjETON01omDyTISMtN3DiJl9YHYkvIw&s">
+        <div class="card-body">
+          <h5 class="card-title">FixLab СЦ</h5>
+          <p class="info-item"><span>📍</span> Львівська</p>
+          <p class="info-item"><span>📧</span> fixlab@gmail.com</p>
+          <p class="info-item"><span>🌐</span> fixlab.ua</p>
+          <div class="rating" data-rating="0">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
+          <div class="actions mt-auto d-flex justify-content-between">
+            <a class="btn btn-outline-primary btn-sm" href="https://fixlab.com.ua/">Контакти</a>
+            <a class="btn btn-primary btn-sm" href="#">Детальніше</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Карта 4 -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <div class="badge">Сервісний центр</div>
+        <img alt="ServicePro"
+             class="card-img-top"
+             src="data:image/png;base64,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" style="height: 120px;">
+        <div class="card-body">
+          <h5 class="card-title">ServicePro</h5>
+          <p class="info-item"><span>📍</span> Одеська</p>
+          <p class="info-item"><span>📧</span> support@servicepro.ua</p>
+          <p class="info-item"><span>🌐</span> servicepro.ua</p>
+          <div class="rating" data-rating="0">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
+          <div class="actions mt-auto d-flex justify-content-between">
+            <a class="btn btn-outline-primary btn-sm" href="https://iservicepro.tech/">Контакти</a>
+            <a class="btn btn-primary btn-sm" href="#">Детальніше</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Карта 5 -->
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <div class="badge">Послуги з ремонту</div>
+        <img
+          alt="RepairTech"
+          class="card-img-top" src="data:image/png;base64,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">
+        <div class="card-body">
+          <h5 class="card-title">RepairTech</h5>
+          <p class="info-item"><span>📍</span> Дніпропетровська</p>
+          <p class="info-item"><span>📧</span> info@repairtech.ua</p>
+          <p class="info-item"><span>🌐</span> repairtech.ua</p>
+          <div class="rating" data-rating="0">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
+          <div class="actions mt-auto d-flex justify-content-between">
+            <a class="btn btn-outline-primary btn-sm" href="https://repairtechsolutions.com/">Контакти</a>
+            <a class="btn btn-primary btn-sm" href="#">Детальніше</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </main>
-<footer class="">
-
+<footer class="footer">
+  <hr class="footer__hr">
+  <div class="footer-content">
+    <div class="footer-section footer-left">
+      <div class="footer-logo">
+        <img alt="logo" src="/images/logo.png">
+        <h1>BizList</h1>
+      </div>
+      <div class="footer-description">
+        <h4>BizList — сучасний бізнес-каталог для пошуку компаній та послуг.</h4>
+        <p>Пошук компаній, послуг і ділових партнерів у одному місці.</p>
+      </div>
+    </div>
+    <div class="footer__vr"></div>
+    <div class="footer-section footer-right">
+      <div class="footer-socials">
+        <ul class="socials">
+          <li><a href="#"><img alt="Facebook" src="/images/social-networks/facebook.png"></a></li>
+          <li><a href="#"><img alt="Instagram" src="/images/social-networks/instagram.png"></a></li>
+          <li><a href="#"><img alt="Twitter" src="/images/social-networks/twitter.png"></a></li>
+          <li><a href="#"><img alt="Telegram" src="/images/social-networks/telegram.png"></a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <div class="footer-contact">
+          <p>Email:</p>
+          <a href="mailto:rezyasanya@gmail.com">rezyasanya@gmail.com</a>
+        </div>
+        <div class="footer-partners">
+          <p>Партнери:</p>
+          <a href="https://carlsbergukraine.com/">Carlsberg Ukraine</a>
+          <a href="https://umanpivo.ua/">Уманьпиво</a>
+          <a href="https://worldoftanks.eu/uk/">World of Tanks</a>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <p>&copy;2025 BizList. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/search.js"></script>
 </body>
 </html>
