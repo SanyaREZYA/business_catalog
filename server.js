@@ -158,6 +158,16 @@ app.get('/reviews', async (req, res) => {
   }
 });
 
+app.get('/last-reviews', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM reviews ORDER BY created_at DESC LIMIT 8');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/categories', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM categories');
