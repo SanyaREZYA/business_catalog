@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
+  },
 });
 const upload = multer({ storage });
 
@@ -82,7 +82,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       website,
       description: full_description,
       'unique-offer': short_description,
-      'working-hours': working_hours
+      'working-hours': working_hours,
     } = req.body;
 
     // Перевірка обов'язкових полів
@@ -93,7 +93,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       'Область': region,
       'Код ЄДРПОУ': edrpou_code,
       'Рік заснування': year_founded,
-      'Поштовий індекс': postal_code
+      'Поштовий індекс': postal_code,
     };
 
     for (const [field, value] of Object.entries(requiredFields)) {
@@ -125,14 +125,13 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
     const logoPath = req.file ? req.file.path : null;
 
     const query = `
-      INSERT INTO companies (
-        name, founder, edrpou_code, year_founded, activity_area_id, 
-        category_id, address, postal_code, phone1, phone2, phone3,
-        email, telegram, viber, facebook, instagram, website, logo_path,
-        short_description, full_description, working_hours,
-        created_at, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, NOW(), NOW())
-      RETURNING id
+        INSERT INTO companies (name, founder, edrpou_code, year_founded, activity_area_id,
+                               category_id, address, postal_code, phone1, phone2, phone3,
+                               email, telegram, viber, facebook, instagram, website, logo_path,
+                               short_description, full_description, working_hours,
+                               created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, NOW(),
+                NOW()) RETURNING id
     `;
 
     const values = [
@@ -160,28 +159,18 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
     ];
 
     const { rows } = await pool.query(query, values);
-    
+
     res.status(201).json({
       success: true,
       companyId: rows[0].id,
-      message: 'Компанію успішно додано!'
+      message: 'Компанію успішно додано!',
     });
   } catch (error) {
     console.error('Помилка при додаванні компанії:', error);
-    res.status(400).json({  
+    res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-  }
-});
-
-// Ендпоїнт для отримання областей
-app.get('/api/activity-areas', async (req, res) => {
-  try {
-    const { rows } = await pool.query('SELECT id, name FROM activity_areas');
-    res.json(rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
 });
 

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function setupCharCounter(textareaId, counterId, maxLength) {
     const textarea = document.getElementById(textareaId);
     const counter = document.getElementById(counterId);
-    
+
     if (textarea && counter) {
       textarea.addEventListener('input', function() {
         const currentLength = this.value.length;
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function setupImagePreview(inputId, previewId) {
     const input = document.getElementById(inputId);
     const preview = document.getElementById(previewId);
-    
+
     if (input && preview) {
       input.addEventListener('change', function() {
         if (this.files && this.files[0]) {
@@ -53,23 +53,23 @@ document.addEventListener('DOMContentLoaded', function() {
   async function submitForm(form, endpoint) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
-    
+
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Відправка...';
-    
+
     try {
       const formData = new FormData(form);
       const placementType = formData.get('placement_type');
-      
+
       // Перевірка обов'язкових полів
       const requiredFields = {
         'company_name': 'Назва компанії',
         'contact-person': 'Відповідальна особа',
         'edrpou_code': 'Код ЄДРПОУ',
         'year_founded': 'Рік заснування',
-        'postal_code': 'Поштовий індекс'
+        'postal_code': 'Поштовий індекс',
       };
-  
+
       for (const [field, name] of Object.entries(requiredFields)) {
         if (!formData.get(field)) {
           throw new Error(`Будь ласка, заповніть поле "${name}"`);
@@ -81,27 +81,27 @@ document.addEventListener('DOMContentLoaded', function() {
           throw new Error('Для VIP розміщення обов\'язково виберіть категорію та область');
         }
       }
-  
+
       // Додаткова перевірка форматів
       if (!/^\d{8,10}$/.test(formData.get('edrpou_code'))) {
         throw new Error('Код ЄДРПОУ має містити 8-10 цифр');
       }
-  
+
       if (!/^\d{5}$/.test(formData.get('postal_code'))) {
         throw new Error('Поштовий індекс має містити 5 цифр');
       }
-  
+
       const response = await fetch(endpoint, {
         method: 'POST',
-        body: formData
+        body: formData,
       });
-      
+
       const result = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(result.message || 'Помилка сервера');
       }
-      
+
       alert(result.message || 'Компанію успішно додано!');
       form.reset();
       document.querySelectorAll('.file-preview').forEach(el => el.innerHTML = '');
@@ -127,17 +127,17 @@ document.addEventListener('DOMContentLoaded', function() {
   // Завантаження категорій для select
   async function loadInitialData() {
     try {
-      
-      const areasResponse = await fetch('/api/activity-areas');
+
+      const areasResponse = await fetch('/activity-areas');
       const areas = await areasResponse.json();
       const regionSelect = document.getElementById('region');
       const vipRegionSelect = document.getElementById('vip-region');
-      
+
       const categoriesResponse = await fetch('/categories');
       const categories = await categoriesResponse.json();
       const categorySelect = document.getElementById('category');
       const vipCategorySelect = document.getElementById('vip-category');
-      
+
       const populateSelect = (select, data) => {
         if (select) {
           data.forEach(item => {
