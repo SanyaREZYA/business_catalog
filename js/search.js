@@ -94,31 +94,55 @@ function renderResults(companies) {
   }
   companies.forEach(company => {
     const {
+      id,
       name = 'Без назви',
-      category = 'Категорія',
+      short_description = 'Категорія',
       logo_path = '/images/default.png',
-      location = 'Невідомо',
+      address = 'Невідомо',
       email = '-',
-      website = '#'
+      website = '#',
+      founder = 'Невідомо',
+      year_founded = 'Невідомо'
     } = company;
+
     const card = document.createElement('div');
     card.className = 'col-md-3 mb-6';
+
     card.innerHTML = `
       <div class="card h-100 shadow-sm">
-        <div class="badge">${category}</div>
+        <div class="badge">${short_description}</div>
         <img alt="${name}" class="card-img-top" src="${logo_path}">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">${name}</h5>
-          <p class="info-item"><span>📍</span> ${location}</p>
+          <p class="info-item"><span>📍</span> ${address}</p>
           <p class="info-item"><span>📧</span> ${email}</p>
           <p class="info-item"><span>🌐</span> ${website}</p>
+          <div class="details mt-3" style="display: none;">
+            <p class="info-item" style="margin-top:-1rem !important"><span>👤</span> ${founder}</p>
+            <p class="info-item"><span>📅</span> ${year_founded}</p>
+          </div>
           <div class="actions mt-auto d-flex justify-content-between">
-            <a class="btn btn-outline-primary btn-sm" href="${website}" target="_blank">Контакти</a>
-            <a class="btn btn-primary btn-sm" href="#">Детальніше</a>
+            <button class="btn btn-outline-primary btn-sm contact-btn" data-id="${id}">Контакти</button>
+            <a class="btn btn-primary btn-sm details-btn" href="/company.html?id=${id}">Детальніше</a>
           </div>
         </div>
       </div>`;
     container.appendChild(card);
+  });
+
+  const contactButtons = container.querySelectorAll('.contact-btn');
+  contactButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      const cardBody = this.closest('.card-body');
+      const details = cardBody.querySelector('.details');
+      if (details.style.display === 'none') {
+        details.style.display = 'block';
+        this.textContent = 'Згорнути';
+      } else {
+        details.style.display = 'none';
+        this.textContent = 'Контакти';
+      }
+    });
   });
 }
 

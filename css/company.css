@@ -1,0 +1,86 @@
+.company-page {
+  padding: 20px;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.company-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.company-card {
+  flex: 2;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: 10rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company-additional {
+  flex: 1;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.company-main {
+  flex: 2;
+}
+
+.company-extra {
+  flex: 1;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.company-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.company-logo {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.company-info h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.company-rating {
+  font-size: 1.2rem;
+  color: #f39c12;
+}
+
+.reviews-link {
+  margin-left: 10px;
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.company-details {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.company-details a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.company-description {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
