@@ -93,8 +93,17 @@ document.addEventListener('DOMContentLoaded', function() {
   
       const response = await fetch(endpoint, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        throw new Error(`Очікувався JSON, але отримано: ${text.substring(0, 100)}...`);
+      }
       
       const result = await response.json();
       

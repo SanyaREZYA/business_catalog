@@ -29,6 +29,10 @@ const upload = multer({ storage });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
 app.use('/images', express.static('images'));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
@@ -161,6 +165,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
 
     const { rows } = await pool.query(query, values);
     
+    res.setHeader('Content-Type', 'application/json');
     res.status(201).json({
       success: true,
       companyId: rows[0].id,
@@ -168,6 +173,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
     });
   } catch (error) {
     console.error('Помилка при додаванні компанії:', error);
+    res.setHeader('Content-Type', 'application/json');
     res.status(400).json({  
       success: false,
       message: error.message
