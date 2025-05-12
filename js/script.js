@@ -64,34 +64,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      const response = await fetch('/reviews');
-      if (!response.ok) {
+      const companiesResponse = await fetch('/companies');
+      if (!companiesResponse.ok) {
         throw new Error(
-          `Ошибка HTTP: ${response.status} ${response.statusText}`,
+          `Помилка HTTP: ${companiesResponse.status} ${companiesResponse.statusText}`,
         );
       }
-      const reviews = await response.json();
+      const companies = await companiesResponse.json();
+
+      const companyMap = {};
+      companies.forEach((company) => {
+        companyMap[company.id] = {
+          logo_path: company.logo_path,
+          name: company.name,
+        };
+      });
+
+      const reviewsResponse = await fetch('/last-reviews');
+      if (!reviewsResponse.ok) {
+        throw new Error(
+          `Помилка HTTP: ${reviewsResponse.status} ${reviewsResponse.statusText}`,
+        );
+      }
+      const reviews = await reviewsResponse.json();
 
       feedbackContainer.innerHTML = '';
       if (reviews.length === 0) {
-        feedbackContainer.innerHTML = '<p>Отзывов пока нет.</p>';
+        feedbackContainer.innerHTML = '<p>Відгуків поки немає.</p>';
         return;
       }
 
       reviews.forEach((review) => {
         const date = new Date(review.created_at);
         const formattedDate = `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
-        const imageSrc = '/images/poster_09.webp';
+
+        const company = companyMap[review.company_id] || {
+          logo_path: '/images/default-logo.png',
+          name: 'Невідома компанія',
+        };
+
         const reviewElement = document.createElement('div');
         reviewElement.className = 'feedback__item';
         reviewElement.innerHTML = `
-          <a href="/reviews/${review.id}" class="feedback__item-image">
-            <img src="${imageSrc}" width="110px" height="110px" alt="Отзыв от ${review.user_name}">
-          </a>
-          <div class="feedback__item-text">${review.review_text}</div>
-          <div class="feedback__item-info">${review.user_name} ${formattedDate}</div>
-          <a class="feedback__item-link white-back__button" href="/reviews/${review.id}">Читать детальнее</a>
-        `;
+        <a href="/reviews/${review.id}" class="feedback__item-image">
+          <img src="${company.logo_path}" width="110px" height="110px" alt="${company.name}">
+        </a>
+        <div class="feedback__item-text">${review.review_text}</div>
+        <div class="feedback__item-info">${review.user_name} ${formattedDate}</div>
+        <a class="feedback__item-link white-back__button" href="/reviews/${review.id}">Читати детальніше</a>
+      `;
         feedbackContainer.appendChild(reviewElement);
       });
     } catch (error) {
@@ -112,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const response = await fetch('/categories');
       if (!response.ok) {
         throw new Error(
-          `Ошибка HTTP: ${response.status} ${response.statusText}`,
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
         );
       }
       const categories = await response.json();
@@ -120,21 +141,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         categoryMap[category.id] = category.name;
       });
     } catch (error) {
-      console.error('Ошибка при загрузке категорий:', error);
+      console.error('Помилка при завантаженні категорій:', error);
     }
 
     try {
       const response = await fetch('/companies');
       if (!response.ok) {
         throw new Error(
-          `Ошибка HTTP: ${response.status} ${response.statusText}`,
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
         );
       }
       const companies = await response.json();
 
       catalogBody.innerHTML = '';
       if (companies.length === 0) {
-        catalogBody.innerHTML = '<p>Компании отсутствуют.</p>';
+        catalogBody.innerHTML = '<p>Компанії відсутні.</p>';
         return;
       }
 
@@ -195,9 +216,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         catalogBody.appendChild(companyElement);
       });
     } catch (error) {
-      console.error('Ошибка при загрузке компаний (услуги):', error);
+      console.error('Помилка при завантаженні компаній (послуги):', error);
       catalogBody.innerHTML =
-        '<p>Не удалось загрузить компании. Попробуйте позже.</p>';
+        '<p>Не вдалося завантажити компанії. Попробуйте пізніше.</p>';
     }
   }
 
@@ -211,7 +232,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const response = await fetch('/categories');
       if (!response.ok) {
         throw new Error(
-          `Ошибка HTTP: ${response.status} ${response.statusText}`,
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
         );
       }
       const categories = await response.json();
@@ -219,21 +240,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         categoryMap[category.id] = category.name;
       });
     } catch (error) {
-      console.error('Ошибка при загрузке категорий:', error);
+      console.error('Помилка при завантаженні категорій:', error);
     }
 
     try {
       const response = await fetch('/companies');
       if (!response.ok) {
         throw new Error(
-          `Ошибка HTTP: ${response.status} ${response.statusText}`,
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
         );
       }
       const companies = await response.json();
 
       lastAddedBody.innerHTML = '';
       if (companies.length === 0) {
-        lastAddedBody.innerHTML = '<p>Компании отсутствуют.</p>';
+        lastAddedBody.innerHTML = '<p>Компанії відсутні.</p>';
         return;
       }
 
@@ -280,7 +301,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               </li>
               <li class="item-catalog__item">
                 <img class="item-catalog__item-ico" src="/images/website.svg" alt="">
-                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website}</a>
+                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
               </li>
             </ul>
             <div class="item-catalog__feedback">
@@ -298,9 +319,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         lastAddedBody.appendChild(companyElement);
       });
     } catch (error) {
-      console.error('Ошибка при загрузке последней компании:', error);
+      console.error('Помилка при завантаженні послуг:', error);
       lastAddedBody.innerHTML =
-        '<p>Не удалось загрузить последнюю компанию. Попробуйте позже.</p>';
+        '<p>Не вдалося завантажити послуги. Попробуйте пізніше.</p>';
     }
   }
 
@@ -314,14 +335,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       const response = await fetch('/categories');
       if (!response.ok) {
         throw new Error(
-          `Ошибка HTTP: ${response.status} ${response.statusText}`,
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
         );
       }
       const categories = await response.json();
 
       catalogBody.innerHTML = '';
       if (categories.length === 0) {
-        catalogBody.innerHTML = '<p>Категории отсутствуют.</p>';
+        catalogBody.innerHTML = '<p>Категорії відсутні.</p>';
         return;
       }
 
