@@ -123,7 +123,7 @@ function renderResults(companies) {
           </div>
           <div class="actions mt-auto d-flex justify-content-between">
             <button class="btn btn-outline-primary btn-sm contact-btn" data-id="${id}">Контакти</button>
-            <a class="btn btn-primary btn-sm details-btn" href="/company.html?id=${id}">Детальніше</a>
+            <a class="btn btn-primary btn-sm details-btn" href="/company?id=${id}">Детальніше</a>
           </div>
         </div>
       </div>`;
