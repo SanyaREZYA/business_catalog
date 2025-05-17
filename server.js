@@ -170,6 +170,17 @@ app.get('/last-reviews', async (req, res) => {
   }
 });
 
+app.get('/reviews/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+  try {
+    const result = await pool.query('SELECT * FROM reviews WHERE company_id = $1', [companyId]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/categories', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM categories');
