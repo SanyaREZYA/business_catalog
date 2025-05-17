@@ -1,0 +1,49 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+/* Хедер */
+header.navbar {
+  height: 56px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+}
+
+/* Контейнер під хедером */
+.page-container {
+  display: flex;
+  flex: 1;
+  margin-top: 56px; /* висота хедера */
+  height: calc(100vh - 56px);
+}
+
+/* Сайдбар */
+.sidebar {
+  width: 15%;
+  min-width: 200px;
+  max-width: 300px;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  height: 100%;
+  position: relative;
+}
+
+/* Основний контент */
+main {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  height: 100%;
+}

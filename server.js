@@ -32,15 +32,30 @@ app.get('/search', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'search.html'));
 });
 
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html', 'admin.html'));
+});
+
 app.get('/companies', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM companies');
+    const result = await pool.query('SELECT * FROM public.companies');
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting companies:', err);
     res.status(500).send('Internal Server Error');
   }
 });
+
+app.get('/categories', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM public.categories');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.get('/companies/:id', async (req, res) => {
   try {
