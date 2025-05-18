@@ -1,30 +1,37 @@
 .company-page {
-  padding: 20px;
-  font-family: 'IBM Plex Sans', sans-serif;
+  padding: 40px 0;
+  background: #f8f9fa;
+  font-family: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
 }
 
 .company-container {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 32px;
   align-items: flex-start;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .company-card {
-  flex: 2;
+  flex: 2 1 650px;
   background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-left: 10rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 36px 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(33, 37, 41, 0.10);
+  border: 1px solid #dee2e6;
+  min-width: 340px;
 }
 
 .company-additional {
-  flex: 1;
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 10px;
-  margin-right: 10rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1 1 340px;
+  background: #f8f9fa;
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(33, 37, 41, 0.06);
+  border: 1px solid #dee2e6;
+  min-width: 260px;
 }
 
 .company-main {
@@ -42,45 +49,94 @@
 .company-header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 32px;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .company-logo {
-  width: 200px;
-  height: auto;
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(33, 37, 41, 0.10);
+  background: #fff;
+  border: 1px solid #dee2e6;
+  padding: 8px;
 }
 
 .company-info h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #212529;
+  letter-spacing: 0.5px;
 }
 
 .company-rating {
-  font-size: 1.2rem;
-  color: #f39c12;
+  font-size: 1.1rem;
+  color: #f59e42;
+  font-weight: 500;
+  margin-top: 0.5rem;
 }
 
 .reviews-link {
-  margin-left: 10px;
-  font-size: 0.9rem;
-  color: #007bff;
+  margin-left: 14px;
+  font-size: 1rem;
+  color: #0d6efd;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .company-details {
   margin-top: 20px;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
+  color: #495057;
+  line-height: 1.6;
 }
 
 .company-details a {
-  color: #007bff;
+  color: #0d6efd;
   text-decoration: none;
 }
 
 .company-description {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  margin-top: 28px;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #343a40;
+}
+
+.company-additional h5 {
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.2px;
+}
+
+.list-group-item {
+  background: transparent;
+  border: none;
+  padding-left: 0;
+  font-size: 1.01rem;
+  color: #495057;
+  padding-bottom: 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .company-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .company-card,
+  .company-additional {
+    min-width: 0;
+    width: 100%;
+  }
+  .company-header {
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-start;
+  }
 }

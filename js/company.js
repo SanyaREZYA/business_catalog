@@ -74,4 +74,87 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.error(error);
     document.querySelector('.company-container').innerHTML = '<p>Помилка завантаження даних компанії.</p>';
   }
+
+  async function loadReviews() {
+    const params = new URLSearchParams(window.location.search);
+    const companyId = params.get('id');
+    const list = document.getElementById('reviews-list');
+    list.innerHTML = '<div class="text-muted">Завантаження...</div>';
+    try {
+      const res = await fetch(`/companies/${companyId}/reviews`);
+      if (res.ok) {
+        const reviews = await res.json();
+        if (reviews.length) {
+          list.innerHTML = reviews.map(r => `
+            <div class="mb-3 p-2 border rounded bg-white">
+              <div class="fw-bold">${r.user_name || 'Анонім'}</div>
+              <div>${r.review_text}</div>
+              <div class="text-muted small">${r.created_at ? r.created_at.split('T')[0] : ''}</div>
+            </div>
+          `).join('');
+        } else {
+          list.innerHTML = '<div class="text-muted">Відгуків ще немає.</div>';
+        }
+      } else {
+        list.innerHTML = '<div class="text-danger">Не вдалося завантажити відгуки.</div>';
+      }
+    } catch {
+      list.innerHTML = '<div class="text-danger">Не вдалося завантажити відгуки.</div>';
+    }
+  }
+
+  document.getElementById('review-form')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const companyId = params.get('id');
+    const name = document.getElementById('review-name').value.trim();
+    const text = document.getElementById('review-text').value.trim();
+    const form = this;
+    let msg = form.querySelector('.review-msg');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.className = 'review-msg mt-2';
+      form.appendChild(msg);
+    }
+    msg.textContent = '';
+    if (!text) {
+      msg.textContent = 'Введіть текст відгуку.';
+      msg.classList.add('text-danger');
+      return;
+    }
+    if (!name) {
+      msg.textContent = "Введіть ім'я.";
+      msg.className = 'review-msg mt-2 text-danger';
+      form.querySelector('button[type="submit"]').disabled = false;
+      return;
+    }
+    form.querySelector('button[type="submit"]').disabled = true;
+    msg.textContent = 'Надсилається...';
+    msg.className = 'review-msg mt-2 text-secondary';
+    try {
+      const res = await fetch(`/companies/${companyId}/reviews`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ review_text: text, user_name: name })
+      });
+      if (res.ok) {
+        document.getElementById('review-text').value = '';
+        document.getElementById('review-name').value = '';
+        msg.textContent = 'Відгук надіслано!';
+        msg.className = 'review-msg mt-2 text-success';
+        await loadReviews();
+        const last = document.querySelector('#reviews-list > div:last-child');
+        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      } else {
+        msg.textContent = 'Не вдалося надіслати відгук.';
+        msg.className = 'review-msg mt-2 text-danger';
+      }
+    } catch {
+      msg.textContent = 'Не вдалося надіслати відгук.';
+      msg.className = 'review-msg mt-2 text-danger';
+    }
+    form.querySelector('button[type="submit"]').disabled = false;
+  });
+
+  loadReviews();
 });
