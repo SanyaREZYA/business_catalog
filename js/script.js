@@ -159,20 +159,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      companies.slice(0, 8).forEach((company) => {
+      for (const company of companies.slice(0, 8)) {
         const categoryName =
           categoryMap[company.category_id] || `${company.category_id}`;
         const imageSrc = company.logo_path;
-        const rating = 4.5;
-        const stars = Math.min(5, Math.floor(rating));
+
+        let rating = 0;
+        try {
+          const reviewsResponse = await fetch(`/reviews/${company.id}`);
+          if (reviewsResponse.ok) {
+            const reviews = await reviewsResponse.json();
+            if (reviews.length > 0) {
+              const totalRating = reviews.reduce(
+                (sum, review) => sum + review.rating,
+                0,
+              );
+              rating = totalRating / reviews.length;
+            }
+          }
+        } catch (error) {
+          console.error(
+            `Помилка при завантаженні відгуків для компанії ${company.id}:`,
+            error,
+          );
+        }
+
+        const wholeStars = Math.floor(rating);
+        const decimalPart = rating - wholeStars;
+        const hasHalfStar = decimalPart < 0.5 && decimalPart > 0;
+        const totalStars = Math.min(
+          5,
+          wholeStars + (hasHalfStar ? 1 : decimalPart >= 0.5 ? 1 : 0),
+        );
+
         const starElements = Array(5)
           .fill()
-          .map(
-            (_, i) =>
-              `<svg class="rate-star ${i < stars ? 'rate-star--yellow' : ''}" width="25" height="25" viewBox="0 0 24 24" focusable="false">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="${i < stars ? 'orange' : 'gray'}"></path>
-          </svg>`,
-          )
+          .map((_, i) => {
+            if (i < wholeStars) {
+              return `<svg class="rate-star rate-star--yellow" width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="orange"></path>
+              </svg>`;
+            } else if (i === wholeStars && hasHalfStar) {
+              return `<svg width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <defs>
+                  <linearGradient id="halfFill${company.id}" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="50%" style="stop-color:orange" />
+                    <stop offset="50%" style="stop-color:gray" />
+                  </linearGradient>
+                </defs>
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="url(#halfFill${company.id})" />
+              </svg>`;
+            } else {
+              return `<svg class="rate-star" width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="gray"></path>
+              </svg>`;
+            }
+          })
           .join('');
 
         const companyElement = document.createElement('div');
@@ -214,7 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         `;
         catalogBody.appendChild(companyElement);
-      });
+      }
     } catch (error) {
       console.error('Помилка при завантаженні компаній (послуги):', error);
       catalogBody.innerHTML =
@@ -226,6 +268,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const lastAddedBody = document.querySelector(
       '.catalog__last-added .catalog__body',
     );
+    if (!lastAddedBody) {
+      return;
+    }
 
     let categoryMap = {};
     try {
@@ -244,7 +289,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      const response = await fetch('/companies');
+      const response = await fetch('/last-companies');
       if (!response.ok) {
         throw new Error(
           `Помилка HTTP: ${response.status} ${response.statusText}`,
@@ -258,32 +303,67 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      const latestCompanies = [...companies]
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .slice(0, 8);
-
-      latestCompanies.forEach((company) => {
-        const imageSrc = company.logo_path || '/images/poster_09.webp';
-        const rating = 4.5;
-        const stars = Math.min(5, Math.floor(rating));
-        const starElements = Array(5)
-          .fill()
-          .map(
-            (_, i) =>
-              `<svg class="rate-star ${i < stars ? 'rate-star--yellow' : ''}" width="25" height="25" viewBox="0 0 24 24" focusable="false">
-            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="${i < stars ? 'orange' : 'gray'}"></path>
-          </svg>`,
-          )
-          .join('');
+      for (const company of companies.slice(0, 8)) {
+        const imageSrc = company.logo_path || '/images/default-logo.png';
         const categoryName =
           categoryMap[company.category_id] || `${company.category_id}`;
+
+        let rating = 0;
+        try {
+          const reviewsResponse = await fetch(`/reviews/${company.id}`);
+          if (reviewsResponse.ok) {
+            const reviews = await reviewsResponse.json();
+            if (reviews.length > 0) {
+              const totalRating = reviews.reduce(
+                (sum, review) => sum + review.rating,
+                0,
+              );
+              rating = totalRating / reviews.length;
+            }
+          }
+        } catch (error) {
+          console.error(
+            `Помилка при завантаженні відгуків для компанії ${company.id}:`,
+            error,
+          );
+        }
+
+        const wholeStars = Math.floor(rating);
+        const decimalPart = rating - wholeStars;
+        const hasHalfStar = decimalPart > 0 && decimalPart < 0.5;
+        const displayStars = decimalPart >= 0.5 ? wholeStars + 1 : wholeStars;
+
+        const starElements = Array(5)
+          .fill()
+          .map((_, rate) => {
+            if (rate < displayStars) {
+              return `<svg class="rate-star rate-star--yellow" width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="orange"></path>
+              </svg>`;
+            } else if (rate === displayStars && hasHalfStar) {
+              return `<svg width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <defs>
+                  <linearGradient id="halfFill${company.id}" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="50%" style="stop-color:orange" />
+                    <stop offset="50%" style="stop-color:gray" />
+                  </linearGradient>
+                </defs>
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="url(#halfFill${company.id})" />
+              </svg>`;
+            } else {
+              return `<svg class="rate-star" width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="gray"></path>
+              </svg>`;
+            }
+          })
+          .join('');
 
         const companyElement = document.createElement('div');
         companyElement.className = 'item-catalog';
         companyElement.innerHTML = `
           <div class="item-catalog__wrapper">
             <div class="item-catalog__header">
-              <div class="item-catalog__vip">VIP</div>
+              <div class="item-catalog__vip" style="opacity: 0;">VIP</div>
               <div class="item-catalog__category">${categoryName}</div>
             </div>
             <a class="item-catalog__img" href="/companies/${company.id}">
@@ -317,11 +397,150 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         `;
         lastAddedBody.appendChild(companyElement);
+      }
+    } catch (error) {
+      console.error('Помилка при завантаженні компаній:', error);
+      lastAddedBody.innerHTML =
+        '<p>Не вдалося завантажити компанії. Попробуйте пізніше.</p>';
+    }
+  }
+
+  async function loadCompanyServices() {
+    const catalogBody = document.querySelector('.catalog__body');
+    if (!catalogBody) {
+      return;
+    }
+
+    let categoryMap = {};
+    try {
+      const response = await fetch('/categories');
+      if (!response.ok) {
+        throw new Error(
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
+        );
+      }
+      const categories = await response.json();
+      categories.forEach((category) => {
+        categoryMap[category.id] = category.name;
       });
     } catch (error) {
-      console.error('Помилка при завантаженні послуг:', error);
-      lastAddedBody.innerHTML =
-        '<p>Не вдалося завантажити послуги. Попробуйте пізніше.</p>';
+      console.error('Помилка при завантаженні категорій:', error);
+    }
+
+    try {
+      const response = await fetch('/companies');
+      if (!response.ok) {
+        throw new Error(
+          `Помилка HTTP: ${response.status} ${response.statusText}`,
+        );
+      }
+      const companies = await response.json();
+
+      catalogBody.innerHTML = '';
+      if (companies.length === 0) {
+        catalogBody.innerHTML = '<p>Компанії відсутні.</p>';
+        return;
+      }
+
+      for (const company of companies.slice(0, 8)) {
+        const categoryName =
+          categoryMap[company.category_id] || `${company.category_id}`;
+        const imageSrc = company.logo_path;
+
+        let rating = 0;
+        try {
+          const reviewsResponse = await fetch(`/reviews/${company.id}`);
+          if (reviewsResponse.ok) {
+            const reviews = await reviewsResponse.json();
+            if (reviews.length > 0) {
+              const totalRating = reviews.reduce(
+                (sum, review) => sum + review.rating,
+                0,
+              );
+              rating = totalRating / reviews.length;
+            }
+          }
+        } catch (error) {
+          console.error(
+            `Помилка при завантаженні відгуків для компанії ${company.id}:`,
+            error,
+          );
+        }
+
+        const wholeStars = Math.floor(rating);
+        const decimalPart = rating % 1;
+        const hasHalfStar = decimalPart > 0 && decimalPart < 0.5;
+        const displayStars = decimalPart >= 0.5 ? wholeStars + 1 : wholeStars;
+
+        const starElements = Array(5)
+          .fill()
+          .map((_, i) => {
+            if (i < displayStars) {
+              return `<svg class="rate-star rate-star--yellow" width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="orange"></path>
+              </svg>`;
+            } else if (i === displayStars && hasHalfStar) {
+              return `<svg width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <defs>
+                  <linearGradient id="halfFill${company.id}" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="50%" style="stop-color:orange" />
+                    <stop offset="50%" style="stop-color:gray" />
+                  </linearGradient>
+                </defs>
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="url(#halfFill${company.id})" />
+              </svg>`;
+            } else {
+              return `<svg class="rate-star" width="25" height="25" viewBox="0 0 24 24" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="gray"></path>
+              </svg>`;
+            }
+          })
+          .join('');
+
+        const companyElement = document.createElement('div');
+        companyElement.className = 'item-catalog';
+        companyElement.innerHTML = `
+          <div class="item-catalog__wrapper">
+            <div class="item-catalog__header">
+              <div class="item-catalog__vip">VIP</div>
+              <div class="item-catalog__category">${categoryName}</div>
+            </div>
+            <a class="item-catalog__img" target="_blank" href="${company.website}">
+              <img src="/${imageSrc}" alt="${company.name}">
+            </a>
+            <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
+            <ul class="item-catalog__list">
+              <li class="item-catalog__item">
+                <img class="item-catalog__item-ico" src="/images/world.svg" alt="">
+                <span class="item-catalog__item-context">${company.address.split(', ')[0]}</span>
+              </li>
+              <li class="item-catalog__item">
+                <img class="item-catalog__item-ico" src="/images/email.svg" alt="">
+                <a href="mailto:${company.email}" class="item-catalog__item-context">${company.email}</a>
+              </li>
+              <li class="item-catalog__item">
+                <img class="item-catalog__item-ico" src="/images/website.svg" alt="">
+                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
+              </li>
+            </ul>
+            <div class="item-catalog__feedback">
+              <div class="item-catalog__rate rate">
+                ${starElements}
+              </div>
+              <a class="item-catalog__feedback-link" href="/reviews?company_id=${company.id}">Відгуки</a>
+            </div>
+            <div class="item-catalog__footer">
+              <a class="item-catalog__button" href="#">Детальніше</a>
+              <a class="item-catalog__contact-button" href="#">Контакти</a>
+            </div>
+          </div>
+        `;
+        catalogBody.appendChild(companyElement);
+      }
+    } catch (error) {
+      console.error('Помилка при завантаженні компаній (послуги):', error);
+      catalogBody.innerHTML =
+        '<p>Не вдалося завантажити компанії. Попробуйте пізніше.</p>';
     }
   }
 
