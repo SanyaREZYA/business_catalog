@@ -42,9 +42,23 @@ app.get('/companies', async (req, res) => {
   }
 });
 
+app.get('/last-companies', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM companies ORDER BY created_at DESC LIMIT 8',
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting last companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/companies/:id', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM companies WHERE id = $1', [req.params.id]);
+    const result = await pool.query('SELECT * FROM companies WHERE id = $1', [
+      req.params.id,
+    ]);
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting companies:', err);
@@ -108,7 +122,6 @@ app.get('/companies-by-tag-name/:tagName', async (req, res) => {
   }
 });
 
-
 app.get('/companies-by-area-id/:areaId', async (req, res) => {
   const { areaId } = req.params;
 
@@ -150,6 +163,32 @@ app.get('/companies-by-category-id/:categoryId', async (req, res) => {
 app.get('/reviews', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM reviews');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/last-reviews', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM reviews ORDER BY created_at DESC LIMIT 8',
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/reviews/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+  try {
+    const result = await pool.query(
+      'SELECT * FROM reviews WHERE company_id = $1',
+      [companyId],
+    );
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting reviews:', err);
