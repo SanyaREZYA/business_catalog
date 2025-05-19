@@ -1,20 +1,9 @@
-require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const app = express();
-const { Pool } = require('pg');
-//const pool = require('./db');
+const pool = require('./db');
 const PORT = process.env.PORT || 3000;
-
-// Підключення до PostgreSQL
-const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: 'bizlist',
-  password: process.env.DB_PASSWORD || '',
-  port: process.env.DB_PORT || 5432,
-});
 
 // Налаштування Multer для завантаження файлів
 const storage = multer.diskStorage({
@@ -33,7 +22,16 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
-app.use('/images', express.static('images'));
+
+app.use(async (req, res, next) => {
+  try {
+    await pool.query('SELECT 1');
+    next();
+  } catch (err) {
+    res.status(500).json({ error: 'Database connection error' });
+  }
+});
+
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -178,16 +176,6 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       success: false,
       message: error.message
     });
-  }
-});
-
-// Ендпоїнт для отримання областей
-app.get('/api/activity-areas', async (req, res) => {
-  try {
-    const { rows } = await pool.query('SELECT id, name FROM activity_areas');
-    res.json(rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
 });
 
@@ -348,4 +336,10 @@ app.get('/company-tags', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Сервер запущено на http://localhost:${PORT}`);
+});
+
+// На завершення роботи сервера
+process.on('SIGINT', async () => {
+  await pool.end();
+  process.exit(0);
 });

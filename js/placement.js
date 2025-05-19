@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
   async function loadInitialData() {
     try {
       
-      const areasResponse = await fetch('/api/activity-areas');
+      const areasResponse = await fetch('/activity-areas');
       const areas = await areasResponse.json();
       const regionSelect = document.getElementById('region');
       const vipRegionSelect = document.getElementById('vip-region');
