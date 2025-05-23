@@ -144,11 +144,13 @@ function renderResults(companies) {
       <div class="card h-100 shadow-sm">
         <div class="badge">${short_description}</div>
         <img alt="${name}" class="card-img-top" src="${logo_path}">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body">
           <h5 class="card-title">${name}</h5>
-          <p class="info-item"><span>📍</span> ${address}</p>
-          <p class="info-item"><span>📧</span> ${email}</p>
-          <p class="info-item"><span>🌐</span> ${website}</p>
+          <div class="info-list">
+            <div class="info-item"><span>📍</span> ${address}</div>
+            <div class="info-item"><span>📧</span> ${email}</div>
+            <div class="info-item"><span>🌐</span> ${website}</div>
+          </div>
           <!-- Зірки під сайтом (видимі до натискання "Контакти") -->
           <div class="rating rating-main mb-2" data-company-id="${id}">
             <span class="star" data-value="1">&#9733;</span>

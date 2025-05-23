@@ -33,14 +33,16 @@ h2 {
 
 .card-img-top {
     margin-top: 1rem;
-    width: 100%;
-    height: 100px;
-    object-fit: contain;
+    width: 180px;         /* Однакова ширина для всіх фото */
+    height: 90px;         /* Однакова висота для всіх фото */
+    object-fit: contain;  /* Зберігає пропорції, не обрізає */
     border: 2px solid #ddd;
     border-radius: 8px;
     padding: 4px;
     background-color: #fff;
     display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .category {
@@ -71,6 +73,14 @@ h2 {
     text-align: left;
 }
 
+.info-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Вирівнює список по лівій стороні */
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
 .info-item {
     display: flex;
     align-items: center;
@@ -78,20 +88,17 @@ h2 {
     margin: 0.2rem 0;
     font-size: 0.9rem;
     color: #555;
-}
-
-.info-item span {
-    display: inline-block;
-    width: 1.5rem;
-    text-align: center;
+    justify-content: flex-start; /* Вирівнює іконку та текст по лівій */
+    width: 100%;
 }
 
 .rating {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -0.1rem; /* Менший відступ зверху */
-    gap: 0.15rem;       /* Менший відступ між зірками */
+    margin-top: 0.2rem;
+    gap: 0.2rem;
+    width: 100%;
 }
 
 .rating .star {
@@ -135,6 +142,7 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Центрує весь вміст */
     height: 100%;
     padding: 1rem;
 }
