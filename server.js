@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const pool = require('./db');
+const { query } = require('./db');
 const PORT = process.env.PORT || 3000;
 
 app.use('/css', express.static(path.join(__dirname, 'css')));
@@ -34,7 +35,7 @@ app.get('/search', (req, res) => {
 
 app.get('/companies', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM companies');
+    const result = await pool.query('SELECT * FROM public.companies');
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting companies:', err);
@@ -45,7 +46,10 @@ app.get('/companies', async (req, res) => {
 app.get('/companies/:id', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM companies WHERE id = $1', [req.params.id]);
-    res.json(result.rows);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Компанію не знайдено' });
+    }
+    res.json(result.rows[0]); // <-- повертаємо об'єкт, а не масив
   } catch (err) {
     console.error('Error getting companies:', err);
     res.status(500).send('Internal Server Error');
@@ -56,9 +60,10 @@ app.get('/companies/search/:name', async (req, res) => {
   const { name } = req.params;
 
   try {
+    console.log('SQL Query:', `SELECT * FROM companies WHERE LOWER(name) LIKE LOWER('%${name}%')`);
     const result = await pool.query(
       `SELECT *
-       FROM companies
+       FROM public.companies
        WHERE LOWER(name) LIKE LOWER($1)`,
       [`%${name}%`],
     );
@@ -95,9 +100,7 @@ app.get('/companies-by-tag-name/:tagName', async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT DISTINCT c.*
-       FROM companies c
-                JOIN company_tags ct ON c.id = ct.company_id
-       WHERE LOWER(ct.tag) LIKE LOWER($1)`,
+       FROM companies c JOIN company_tags ct ON c.id = ct.company_id WHERE LOWER(ct.tag) LIKE LOWER($1)`,
       [`%${tagName}%`],
     );
 
@@ -183,6 +186,43 @@ app.get('/company-tags', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting company tags:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Отримати всі відгуки для конкретної компанії
+app.get('/companies/:id/reviews', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM reviews WHERE company_id = $1 ORDER BY created_at DESC',
+      [req.params.id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Додати відгук для компанії
+app.post('/companies/:id/reviews', express.json(), async (req, res) => {
+  try {
+    console.log('BODY:', req.body); // ДОДАЙТЕ ЦЕ ДЛЯ ДЕБАГУ
+    const { review_text, user_name } = req.body;
+    const rating = 5; // або інше дефолтне значення
+    if (!review_text || !review_text.trim()) {
+      return res.status(400).json({ error: 'Текст відгуку обовʼязковий' });
+    }
+    if (!user_name || !user_name.trim()) {
+      return res.status(400).json({ error: "Ім'я обов'язкове" });
+    }
+    const result = await pool.query(
+      'INSERT INTO reviews (company_id, review_text, user_name, rating, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
+      [req.params.id, review_text.trim(), user_name.trim(), rating]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error('Error adding review:', err);
     res.status(500).send('Internal Server Error');
   }
 });
