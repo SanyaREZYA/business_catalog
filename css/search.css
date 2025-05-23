@@ -15,15 +15,15 @@ h2 {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 1rem;
+    padding: 0.7rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    max-width: 300px;
+    width: 270px;
     height: auto;
-    margin: 1rem;
+    margin: 0;
 }
 
 .card:hover {
@@ -90,22 +90,23 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0.5rem;
+    margin-top: -0.1rem; /* Менший відступ зверху */
+    gap: 0.15rem;       /* Менший відступ між зірками */
 }
 
-.star {
-    font-size: 1.5rem;
+.rating .star {
+    font-size: 28px;    /* Збільшено розмір зірок */
     color: #ccc;
+    cursor: pointer;
     transition: color 0.2s;
 }
 
-.star.hovered,
-.star.selected {
-    color: gold;
+.rating .star.selected {
+  color: #ffc107;
 }
 
 .actions {
-    margin-top: 1rem;
+    margin-top: 0.3rem;
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -115,12 +116,13 @@ h2 {
     background-color: #3366ff;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
+    border-radius: 150px !important; /* Овальна форма */
+    padding: 0.5rem 1.2rem;
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s;
+    width: 110px;
 }
 
 .btn:hover {
@@ -133,7 +135,6 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
     padding: 1rem;
 }
@@ -144,7 +145,7 @@ h2 {
     left: 50%;
     transform: translateX(-50%);
     background-color: #e0f7fa;
-    color: #007b83;
+    color: #007b83 !important;
     font-size: 0.85rem;
     padding: 0.3rem 0.8rem;
     border-radius: 16px;
@@ -154,4 +155,14 @@ h2 {
     overflow: hidden;
     text-overflow: ellipsis;
     z-index: 10;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }

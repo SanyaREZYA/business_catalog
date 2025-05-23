@@ -40,6 +40,38 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.key === 'Enter') handleSearch(tagInput);
     });
   }
+
+  document.querySelectorAll('.rating').forEach(rating => {
+    const stars = rating.querySelectorAll('.star');
+    let selected = 0;
+
+    stars.forEach((star, idx) => {
+      // Наведення
+      star.addEventListener('mouseenter', () => {
+        stars.forEach((s, i) => {
+          s.classList.remove('selected');
+          if (i <= idx) s.classList.add('selected');
+        });
+      });
+      // Вихід миші
+      star.addEventListener('mouseleave', () => {
+        stars.forEach((s, i) => {
+          s.classList.remove('selected');
+          if (i < selected) s.classList.add('selected');
+        });
+      });
+      // Клік
+      star.addEventListener('click', () => {
+        selected = idx + 1;
+        stars.forEach((s, i) => {
+          s.classList.remove('selected');
+          if (i < selected) s.classList.add('selected');
+        });
+        // TODO: Відправити рейтинг на сервер через fetch
+        // fetch('/api/rate', {method: 'POST', body: JSON.stringify({companyId: rating.dataset.companyId, value: selected})})
+      });
+    });
+  });
 });
 
 function searchCombined(query) {
@@ -117,12 +149,28 @@ function renderResults(companies) {
           <p class="info-item"><span>📍</span> ${address}</p>
           <p class="info-item"><span>📧</span> ${email}</p>
           <p class="info-item"><span>🌐</span> ${website}</p>
+          <!-- Зірки під сайтом (видимі до натискання "Контакти") -->
+          <div class="rating rating-main mb-2" data-company-id="${id}">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+          </div>
           <div class="details mt-3" style="display: none;">
             <p class="info-item" style="margin-top:-1rem !important"><span>👤</span> ${founder}</p>
             <p class="info-item"><span>📅</span> ${year_founded}</p>
+            <!-- Зірки під датою створення (видимі після натискання "Контакти") -->
+            <div class="rating rating-details mb-2 mt-2" data-company-id="${id}">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
           </div>
           <div class="actions mt-auto d-flex justify-content-between">
-            <button class="btn btn-outline-primary btn-sm contact-btn" data-id="${id}">Контакти</button>
+            <button class="btn btn-primary btn-sm contact-btn" data-id="${id}">Контакти</button>
             <a class="btn btn-primary btn-sm details-btn" href="/company?id=${id}">Детальніше</a>
           </div>
         </div>
@@ -130,23 +178,59 @@ function renderResults(companies) {
     container.appendChild(card);
   });
 
-  const contactButtons = container.querySelectorAll('.contact-btn');
-  contactButtons.forEach(button => {
-    button.addEventListener('click', function () {
+  // Додаємо ініціалізацію зірок для нових карток
+  document.querySelectorAll('.rating').forEach(rating => {
+    const stars = rating.querySelectorAll('.star');
+    let selected = 0;
+
+    stars.forEach((star, idx) => {
+      star.addEventListener('mouseenter', () => {
+        stars.forEach((s, i) => {
+          s.classList.remove('selected');
+          if (i <= idx) s.classList.add('selected');
+        });
+      });
+      star.addEventListener('mouseleave', () => {
+        stars.forEach((s, i) => {
+          s.classList.remove('selected');
+          if (i < selected) s.classList.add('selected');
+        });
+      });
+      star.addEventListener('click', () => {
+        selected = idx + 1;
+        stars.forEach((s, i) => {
+          s.classList.remove('selected');
+          if (i < selected) s.classList.add('selected');
+        });
+        // TODO: fetch для збереження рейтингу
+      });
+    });
+  });
+
+  // Додаємо функціонал кнопки "Контакти"
+  document.querySelectorAll('.contact-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
       const cardBody = this.closest('.card-body');
+      if (!cardBody) return;
       const details = cardBody.querySelector('.details');
-      if (details.style.display === 'none') {
-        details.style.display = 'block';
-        this.textContent = 'Згорнути';
-      } else {
-        details.style.display = 'none';
-        this.textContent = 'Контакти';
+      const ratingMain = cardBody.querySelector('.rating-main');
+      const ratingDetails = cardBody.querySelector('.rating-details');
+      if (details) {
+        const show = (details.style.display === 'none' || !details.style.display);
+        details.style.display = show ? 'block' : 'none';
+        if (ratingMain) ratingMain.style.display = show ? 'none' : '';
+        if (ratingDetails) ratingDetails.style.display = show ? '' : 'none';
       }
     });
   });
+
+  // При ініціалізації: rating-main показувати, rating-details сховати
+  document.querySelectorAll('.rating-main').forEach(r => r.style.display = '');
+  document.querySelectorAll('.rating-details').forEach(r => r.style.display = 'none');
 }
 
 function renderError(message) {
   const container = document.querySelector('main .row');
-  if (container) container.innerHTML = `<p class="text-danger">${message}</p>`;
+  if (!container) return;
+  container.innerHTML = `<p class="text-danger">${message}</p>`;
 }
