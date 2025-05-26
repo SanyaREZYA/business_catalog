@@ -43,13 +43,25 @@ app.get('/companies', async (req, res) => {
   }
 });
 
+app.get('/last-companies', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM companies ORDER BY created_at DESC LIMIT 8',
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting last companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/companies/:id', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM companies WHERE id = $1', [req.params.id]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Компанію не знайдено' });
     }
-    res.json(result.rows[0]); // <-- повертаємо об'єкт, а не масив
+    res.json(result.rows[0]);
   } catch (err) {
     console.error('Error getting companies:', err);
     res.status(500).send('Internal Server Error');
@@ -111,7 +123,6 @@ app.get('/companies-by-tag-name/:tagName', async (req, res) => {
   }
 });
 
-
 app.get('/companies-by-area-id/:areaId', async (req, res) => {
   const { areaId } = req.params;
 
@@ -153,6 +164,32 @@ app.get('/companies-by-category-id/:categoryId', async (req, res) => {
 app.get('/reviews', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM reviews');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/last-reviews', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM reviews ORDER BY created_at DESC LIMIT 8',
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting reviews:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/reviews/:companyId', async (req, res) => {
+  const { companyId } = req.params;
+  try {
+    const result = await pool.query(
+      'SELECT * FROM reviews WHERE company_id = $1',
+      [companyId],
+    );
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting reviews:', err);
@@ -204,12 +241,11 @@ app.get('/companies/:id/reviews', async (req, res) => {
   }
 });
 
-// Додати відгук для компанії
 app.post('/companies/:id/reviews', express.json(), async (req, res) => {
   try {
     console.log('BODY:', req.body); // ДОДАЙТЕ ЦЕ ДЛЯ ДЕБАГУ
     const { review_text, user_name } = req.body;
-    const rating = 5; // або інше дефолтне значення
+    const rating = 5;
     if (!review_text || !review_text.trim()) {
       return res.status(400).json({ error: 'Текст відгуку обовʼязковий' });
     }
