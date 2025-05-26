@@ -46,7 +46,6 @@
         <button class="tab-btn" data-tab="vip">VIP розміщення (500 грн)</button>
       </div>
 
-      <!-- Стандартне розміщення -->
       <div id="standard-tab" class="tab-content active">
         <form id="standard-form" class="add-business-form" enctype="multipart/form-data">
           <input type="hidden" name="placement_type" value="standard">
@@ -63,20 +62,14 @@
                 <label for="category">Категорія*</label>
                 <select id="category" name="category" required>
                   <option value="">Оберіть категорію</option>
-                  <option value="restaurant">Ресторани та кафе</option>
-                  <option value="shop">Магазини</option>
-                  <option value="service">Послуги</option>
-                  <option value="education">Освіта</option>
-                  <option value="health">Здоров'я</option>
+                  
                 </select>
               </div>
               <div class="form-group">
                 <label for="region">Область*</label>
                 <select id="region" name="region" required>
                   <option value="">Оберіть область</option>
-                  <option value="kyiv">Київська</option>
-                  <option value="lviv">Львівська</option>
-                  <option value="kharkiv">Харківська</option>
+                  
                 </select>
               </div>
             </div>
@@ -85,13 +78,52 @@
               <label for="address">Адреса компанії*</label>
               <input id="address" name="address" required type="text" placeholder="Введіть повну адресу">
             </div>
+
+            <div class="form-group">
+              <label for="postal-code">Поштовий індекс*</label>
+              <input 
+                type="text" 
+                id="postal-code" 
+                name="postal_code" 
+                required 
+                pattern="[0-9]{5}" 
+                title="5 цифр поштового індексу"
+                placeholder="01001"
+              >
+            </div>
           </div>
 
           <div class="form-section">
             <h3><i class="fas fa-user-tie"></i> Контактна особа</h3>
             <div class="form-group">
               <label for="contact-person">Відповідальна особа*</label>
-              <input id="contact-person" name="contact_person" required type="text" placeholder="ПІБ контактної особи">
+              <input id="contact-person" name="contact-person" required type="text" placeholder="ПІБ контактної особи">
+            </div>
+
+            <div class="form-group">
+              <label for="edrpou">Код ЄДРПОУ*</label>
+              <input 
+                type="text" 
+                id="edrpou" 
+                name="edrpou_code" 
+                required 
+                pattern="[0-9]{8,10}" 
+                title="8-10 цифр коду ЄДРПОУ"
+                placeholder="12345678"
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="year-founded">Рік заснування*</label>
+              <input 
+                type="number" 
+                id="year-founded" 
+                name="year_founded" 
+                required 
+                min="1900" 
+                max="2025"
+                placeholder="2000"
+              >
             </div>
 
             <div class="form-row">
@@ -118,8 +150,7 @@
               <div class="form-group">
                 <label for="telegram">Telegram</label>
                 <div class="input-with-icon">
-                  <span class="input-icon">@</span>
-                  <input id="telegram" name="telegram" type="text" placeholder="username">
+                  <input id="telegram" name="telegram" type="text" placeholder="@username">
                 </div>
               </div>
               <div class="form-group">
@@ -170,6 +201,20 @@
               <textarea id="unique-offer" name="unique_offer" rows="3" placeholder="Чим ви відрізняєтесь від конкурентів?"></textarea>
               <div class="char-counter"><span id="offer-counter">0</span>/200 символів</div>
             </div>
+
+            <div class="form-group">
+              <label for="working-hours">Графік роботи*</label>
+              <textarea 
+                id="working-hours" 
+                name="working_hours" 
+                rows="3" 
+                placeholder="Пн-Пт: 9:00-18:00, Сб: 10:00-15:00, Нд: вихідний"
+              ></textarea>
+              <div class="char-counter"><span id="hours-counter">0</span>/200 символів</div>
+              <div class="working-hours-example">
+                Приклад: Пн-Пт: 9:00-18:00, Сб: 10:00-15:00, Нд: вихідний
+              </div>
+            </div>
           </div>
 
           <div class="form-section">
@@ -210,7 +255,6 @@
         </form>
       </div>
 
-      <!-- VIP розміщення -->
       <div id="vip-tab" class="tab-content">
         <form id="vip-form" class="add-business-form" enctype="multipart/form-data">
           <input type="hidden" name="placement_type" value="vip">
@@ -220,6 +264,72 @@
             <div class="form-group">
               <label for="vip-company-name">Назва компанії*</label>
               <input id="vip-company-name" name="company_name" required type="text" placeholder="Введіть назву компанії">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="vip-category">Категорія*</label>
+                <select id="vip-category" name="category" required>
+                  <option value="">Оберіть категорію</option>
+                  
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="vip-region">Область*</label>
+                <select id="vip-region" name="region" required>
+                  <option value="">Оберіть область</option>
+                  
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Адреса компанії*</label>
+              <input id="address" name="address" required type="text" placeholder="Введіть повну адресу">
+            </div>
+
+            <div class="form-group">
+              <label for="postal-code">Поштовий індекс*</label>
+              <input 
+                type="text" 
+                id="postal-code" 
+                name="postal_code" 
+                required 
+                pattern="[0-9]{5}" 
+                title="5 цифр поштового індексу"
+                placeholder="01001"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="contact-person">Відповідальна особа*</label>
+              <input id="contact-person" name="contact-person" required type="text" placeholder="ПІБ контактної особи">
+            </div>
+
+            <div class="form-group">
+              <label for="edrpou">Код ЄДРПОУ*</label>
+              <input 
+                type="text" 
+                id="edrpou" 
+                name="edrpou_code" 
+                required 
+                pattern="[0-9]{8,10}" 
+                title="8-10 цифр коду ЄДРПОУ"
+                placeholder="12345678"
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="year-founded">Рік заснування*</label>
+              <input 
+                type="number" 
+                id="year-founded" 
+                name="year_founded" 
+                required 
+                min="1900" 
+                max="2025"
+                placeholder="2000"
+              >
             </div>
 
             <div class="form-row">
@@ -245,6 +355,20 @@
               <label for="article-requirements">Побажання до статті</label>
               <textarea id="article-requirements" name="article_requirements" rows="5" placeholder="Ваші побажання до тексту, який напише наш копірайтер"></textarea>
               <div class="char-counter"><span id="requirements-counter">0</span>/1000 символів</div>
+            </div>
+
+            <div class="form-group">
+              <label for="working-hours">Графік роботи*</label>
+              <textarea 
+                id="working-hours" 
+                name="working_hours" 
+                rows="3" 
+                placeholder="Пн-Пт: 9:00-18:00, Сб: 10:00-15:00, Нд: вихідний"
+              ></textarea>
+              <div class="char-counter"><span id="hours-counter">0</span>/200 символів</div>
+              <div class="working-hours-example">
+                Приклад: Пн-Пт: 9:00-18:00, Сб: 10:00-15:00, Нд: вихідний
+              </div>
             </div>
           </div>
 
@@ -294,7 +418,6 @@
 
       <div class="comparison-container">
         <div class="comparison-table">
-          <!-- Заголовок таблиці -->
           <div class="comparison-row header">
             <div class="comparison-feature">Переваги</div>
             <div class="comparison-plan">
