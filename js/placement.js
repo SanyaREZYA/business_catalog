@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Переключення табів
   const tabBtns = document.querySelectorAll('.tab-btn');
   tabBtns.forEach(btn => {
     btn.addEventListener('click', function() {
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Лічильник символів
   function setupCharCounter(textareaId, counterId, maxLength) {
     const textarea = document.getElementById(textareaId);
     const counter = document.getElementById(counterId);
@@ -30,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
   setupCharCounter('article-requirements', 'requirements-counter', 1000);
   setupCharCounter('working-hours', 'hours-counter', 200);
 
-  // Попередній перегляд зображень
   function setupImagePreview(inputId, previewId) {
     const input = document.getElementById(inputId);
     const preview = document.getElementById(previewId);
@@ -49,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
   setupImagePreview('logo', 'logo-preview');
   setupImagePreview('logo-vip', 'vip-logo-preview');
 
-  // Відправка форми
   async function submitForm(form, endpoint) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
@@ -61,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const formData = new FormData(form);
       const placementType = formData.get('placement_type');
       
-      // Перевірка обов'язкових полів
       const requiredFields = {
         'company_name': 'Назва компанії',
         'contact-person': 'Відповідальна особа',
@@ -82,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
   
-      // Додаткова перевірка форматів
       if (!/^\d{8,10}$/.test(formData.get('edrpou_code'))) {
         throw new Error('Код ЄДРПОУ має містити 8-10 цифр');
       }
@@ -133,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
     submitForm(e.target, '/api/add-business');
   });
 
-  // Завантаження категорій для select
   async function loadInitialData() {
     try {
       
@@ -171,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
   loadInitialData();
 });
 
-// Динамічна валідація ЄДРПОУ
 document.getElementById('edrpou')?.addEventListener('input', function() {
   const hint = this.nextElementSibling;
   if (this.validity.patternMismatch) {
@@ -183,7 +175,6 @@ document.getElementById('edrpou')?.addEventListener('input', function() {
   }
 });
 
-// Динамічна валідація поштового індексу
 document.getElementById('postal-code')?.addEventListener('input', function() {
   const hint = this.nextElementSibling;
   if (this.validity.patternMismatch) {
@@ -195,7 +186,6 @@ document.getElementById('postal-code')?.addEventListener('input', function() {
   }
 });
 
-// Динамічна валідація часів роботи
 document.getElementById('working-hours')?.addEventListener('input', function() {
   const counter = document.getElementById('hours-counter');
   if (counter) {

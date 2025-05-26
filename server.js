@@ -5,23 +5,35 @@ const app = express();
 const pool = require('./db');
 const PORT = process.env.PORT || 3000;
 
-// Налаштування Multer для завантаження файлів
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const originalName = file.originalname;
+    const extension = path.extname(originalName);
+    const nameWithoutExt = path.basename(originalName, extension);
+    const filename = `${nameWithoutExt}${extension}`;
+    cb(null, filename.toLowerCase());
   }
 });
-const upload = multer({ storage });
+const upload = multer({ 
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Дозволено завантажувати лише зображення'), false);
+    }
+  },
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  }
+ });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  res.setHeader('Content-Type', 'application/json');
-  next();
-});
+
 
 app.use(async (req, res, next) => {
   try {
@@ -60,7 +72,6 @@ app.get('/search', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'search.html'));
 });
 
-// API для додавання компанії
 app.post('/api/add-business', upload.single('logo'), async (req, res) => {
   try {
     const {
@@ -87,7 +98,6 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       'working-hours': working_hours
     } = req.body;
 
-    // Перевірка обов'язкових полів
     const requiredFields = {
       'Назва компанії': name,
       'Відповідальна особа': founder,
@@ -102,7 +112,6 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       if (!value) throw new Error(`Поле "${field}" є обов'язковим`);
     }
 
-    // Перевірка числових полів
     const activity_area_id = parseInt(region);
     const category_id = parseInt(category);
     const year = parseInt(year_founded);
@@ -111,7 +120,6 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       throw new Error('Некоректні числові значення');
     }
 
-    // Перевірка форматів полів
     if (!/^\d{8,10}$/.test(edrpou_code)) {
       throw new Error('Код ЄДРПОУ має містити 8-10 цифр');
     }
@@ -338,7 +346,6 @@ app.listen(PORT, () => {
   console.log(`Сервер запущено на http://localhost:${PORT}`);
 });
 
-// На завершення роботи сервера
 process.on('SIGINT', async () => {
   await pool.end();
   process.exit(0);
