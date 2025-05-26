@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         reviewElement.className = 'feedback__item';
         reviewElement.innerHTML = `
         <a href="/reviews/${review.id}" class="feedback__item-image">
-          <img src="${company.logo_path}" width="110px" height="110px" alt="${company.name}">
+          <img src="${company.logo_path}" height="110px" alt="${company.name}">
         </a>
         <div class="feedback__item-text">${review.review_text}</div>
         <div class="feedback__item-info">${review.user_name} ${formattedDate}</div>
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__category">${categoryName}</div>
             </div>
             <a class="item-catalog__img" target="_blank" href="${company.website}">
-              <img src="/${imageSrc}" alt="${company.name}">
+              <img src="${imageSrc}" alt="${company.name}">
             </a>
             <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__category">${categoryName}</div>
             </div>
             <a class="item-catalog__img" target="_blank" href="${company.website}">
-              <img src="/${imageSrc}" alt="${company.name}">
+              <img src="${imageSrc}" alt="${company.name}">
             </a>
             <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
