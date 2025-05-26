@@ -33,9 +33,9 @@ h2 {
 
 .card-img-top {
     margin-top: 1rem;
-    width: 180px;         /* Однакова ширина для всіх фото */
-    height: 90px;         /* Однакова висота для всіх фото */
-    object-fit: contain;  /* Зберігає пропорції, не обрізає */
+    width: 180px;
+    height: 90px;
+    object-fit: contain;
     border: 2px solid #ddd;
     border-radius: 8px;
     padding: 4px;
@@ -142,7 +142,8 @@ h2 {
 .card-body {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Центрує весь вміст */
+    align-items: center;
+    justify-content: flex-end;
     height: 100%;
     padding: 1rem;
 }

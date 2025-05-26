@@ -170,7 +170,7 @@ function renderResults(companies) {
               <span class="star" data-value="5">&#9733;</span>
             </div>
           </div>
-          <div class="actions mt-auto d-flex justify-content-between">
+          <div class="actions d-flex justify-content-between">
             <button class="btn btn-primary btn-sm contact-btn" data-id="${id}">Контакти</button>
             <a class="btn btn-primary btn-sm details-btn" href="/company?id=${id}">Детальніше</a>
           </div>
