@@ -231,15 +231,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/world.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/world.svg" alt="">
                 <span class="item-catalog__item-context">${company.address.split(', ')[0]}</span>
               </li>
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/email.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/email.svg" alt="">
                 <a href="mailto:${company.email}" class="item-catalog__item-context">${company.email}</a>
               </li>
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/website.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/website.svg" alt="">
                 <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
               </li>
             </ul>
@@ -372,15 +372,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/world.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/world.svg" alt="">
                 <span class="item-catalog__item-context">${company.address.split(', ')[0]}</span>
               </li>
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/email.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/email.svg" alt="">
                 <a href="mailto:${company.email}" class="item-catalog__item-context">${company.email}</a>
               </li>
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/website.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/website.svg" alt="">
                 <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
               </li>
             </ul>
@@ -511,15 +511,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/world.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/world.svg" alt="">
                 <span class="item-catalog__item-context">${company.address.split(', ')[0]}</span>
               </li>
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/email.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/email.svg" alt="">
                 <a href="mailto:${company.email}" class="item-catalog__item-context">${company.email}</a>
               </li>
               <li class="item-catalog__item">
-                <img class="item-catalog__item-ico" src="/images/website.svg" alt="">
+                <img class="item-catalog__item-ico" src="/images/logos/website.svg" alt="">
                 <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
               </li>
             </ul>
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         categoryElement.className = 'main-catalog__item';
         categoryElement.href = `/categories/${category.id}`;
         categoryElement.innerHTML = `
-          <img src="/images/poster_09.webp" alt="${category.name}">
+          <img src="/images/logos/poster_09.webp" alt="${category.name}">
           <span>${category.name}</span>
         `;
         catalogBody.appendChild(categoryElement);
