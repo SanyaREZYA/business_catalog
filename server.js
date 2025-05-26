@@ -34,7 +34,6 @@ const upload = multer({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use(async (req, res, next) => {
   try {
     await pool.query('SELECT 1');
@@ -47,6 +46,7 @@ app.use(async (req, res, next) => {
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/html', express.static(path.join(__dirname, 'html')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'index.html'));
