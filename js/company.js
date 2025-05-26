@@ -12,22 +12,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (!response.ok) throw new Error('Помилка завантаження даних компанії');
     const company = await response.json();
 
-    // Оновлюємо логотип
     document.querySelector('.company-logo').src = company.logo_path || '/images/default.png';
 
-    // Назва компанії
     document.querySelector('.company-info h2').textContent = company.name || 'Без назви';
 
-    // Деталі компанії
     const phones = [company.phone1, company.phone2, company.phone3].filter(Boolean);
 
-    // Отримання тегів компанії
     let tagsHtml = '';
     try {
       const tagsRes = await fetch(`/company-tags`);
       if (tagsRes.ok) {
         const tags = await tagsRes.json();
-        // Фільтруємо теги для цієї компанії
         const companyTags = tags.filter(tag => tag.company_id == companyId);
         if (companyTags.length) {
           tagsHtml = companyTags.map(tag => `<span class="tag" style="display:inline-block;background:#e0f7fa;color:#007b83;padding:0.2em 0.7em;margin:0 0.3em 0.3em 0;border-radius:12px;font-size:0.95em;">${tag.tag}</span>`).join('');
@@ -55,10 +50,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       <p>🌐 Сайт: <a href="${company.website || '#'}" target="_blank">${company.website || '-'}</a></p>
     `;
 
-    // Опис компанії
     document.querySelector('.company-description').innerHTML = company.full_description || 'Опис відсутній.';
 
-    // Додаткові поля
     document.querySelector('.company-additional').innerHTML = `
       <p>🆔 ЄДРПОУ: <span>${company.edrpou_code || '-'}</span></p>
       <p>📅 Рік заснування: <span>${company.year_founded || '-'}</span></p>
@@ -132,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     msg.textContent = 'Надсилається...';
     msg.className = 'review-msg mt-2 text-secondary';
     try {
-      const res = await fetch(`/companies/${companyId}/reviews`, {
+      const res = await fetch(`/company/${companyId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ review_text: text, user_name: name })

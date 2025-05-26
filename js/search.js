@@ -162,7 +162,6 @@ function renderResults(companies) {
           <div class="details mt-3" style="display: none;">
             <p class="info-item" style="margin-top:-1rem !important"><span>👤</span> ${founder}</p>
             <p class="info-item"><span>📅</span> ${year_founded}</p>
-            <!-- Зірки під датою створення (видимі після натискання "Контакти") -->
             <div class="rating rating-details mb-2 mt-2" data-company-id="${id}">
               <span class="star" data-value="1">&#9733;</span>
               <span class="star" data-value="2">&#9733;</span>

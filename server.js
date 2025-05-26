@@ -241,7 +241,7 @@ app.get('/companies/:id/reviews', async (req, res) => {
   }
 });
 
-app.post('/companies/:id/reviews', express.json(), async (req, res) => {
+app.post('/company/:id/reviews', express.json(), async (req, res) => {
   try {
     console.log('BODY:', req.body); // ДОДАЙТЕ ЦЕ ДЛЯ ДЕБАГУ
     const { review_text, user_name } = req.body;
