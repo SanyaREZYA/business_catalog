@@ -240,7 +240,13 @@ document.addEventListener('DOMContentLoaded', async () => {
               </li>
               <li class="item-catalog__item">
                 <img class="item-catalog__item-ico" src="/images/logos/website.svg" alt="">
-                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
+                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${(() => {
+                  if (company.website !== null && company.website !== '') {
+                    return company.website.split('://')[1];
+                  } else {
+                    return 'Немає веб-сайту';
+                  }
+                })()}</a>
               </li>
             </ul>
             <div class="item-catalog__feedback">
@@ -381,7 +387,13 @@ document.addEventListener('DOMContentLoaded', async () => {
               </li>
               <li class="item-catalog__item">
                 <img class="item-catalog__item-ico" src="/images/logos/website.svg" alt="">
-                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
+                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${(() => {
+                  if (company.website !== null && company.website !== '') {
+                    return company.website.split('://')[1];
+                  } else {
+                    return 'Немає веб-сайту';
+                  }
+                })()}</a>
               </li>
             </ul>
             <div class="item-catalog__feedback">
