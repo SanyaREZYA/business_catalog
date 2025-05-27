@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Адмін Панель | BizList</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
+  <link href="/css/admin.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="navbar bg-dark text-white px-3">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="/images/logo.png" alt="logo" width="30" height="30" class="me-2" />
+      BizList Admin
+    </a>
+    <span class="ms-auto">Адміністратор</span>
+  </header>
+
+  <div class="page-container d-flex">
+    <nav class="sidebar pt-3" aria-label="Головне меню">
+      <div class="nav flex-column nav-pills" id="tabButtons" role="tablist">
+        <button
+          type="button"
+          class="nav-link active"
+          data-tab="dashboardTab"
+          role="tab"
+          aria-selected="true"
+          aria-controls="dashboardTab"
+          id="tab-dashboard"
+        >
+          Панель керування
+        </button>
+        <button
+          type="button"
+          class="nav-link"
+          data-tab="companiesTab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="companiesTab"
+          id="tab-companies"
+        >
+          Компанії
+        </button>
+        <button
+          type="button"
+          class="nav-link"
+          data-tab="categoriesTab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="categoriesTab"
+          id="tab-categories"
+        >
+          Категорії
+        </button>
+        <button
+          type="button"
+          class="nav-link"
+          data-tab="usersTab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="usersTab"
+          id="tab-users"
+        >
+          Користувачі
+        </button>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1" role="tabpanel" tabindex="0">
+      <div
+        id="dashboardTab"
+        class="tab-content"
+        role="tabpanel"
+        aria-labelledby="tab-dashboard"
+      >
+        <h2>Панель керування</h2>
+        <p>Ласкаво просимо до адміністративної панелі BizList.</p>
+      </div>
+
+      <div
+        id="companiesTab"
+        class="tab-content d-none"
+        role="tabpanel"
+        aria-labelledby="tab-companies"
+        hidden
+      >
+        <h2>Список компаній</h2>
+        <table class="table table-hover" id="companyTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Назва</th>
+              <th>Засновник</th>
+              <th>ЄДРПОУ</th>
+              <th>Рік заснування</th>
+              <th>Телефон 1</th>
+              <th>Телефон 2</th>
+              <th>Телефон 3</th>
+              <th>Сфера діяльності</th>
+              <th>Категорія</th>
+              <th>Адреса</th>
+              <th>Поштовий індекс</th>
+              <th>Email</th>
+              <th>Telegram</th>
+              <th>Viber</th>
+              <th>Facebook</th>
+              <th>Instagram</th>
+              <th>Вебсайт</th>
+              <th>Логотип</th>
+              <th>Години роботи</th>
+              <th>Короткий опис</th>
+              <th>Повний опис</th>
+              <th>Створено</th>
+              <th>Оновлено</th>
+              <th>Дії</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Динамічно заповнюється з JavaScript -->
+          </tbody>
+        </table>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#companyModal"
+        >
+          ➕ Додати компанію
+        </button>
+        <button onclick="clearTable()" class="btn btn-danger">🧹 Очистити таблицю</button>
+      </div>
+
+      <div
+        id="categoriesTab"
+        class="tab-content d-none"
+        role="tabpanel"
+        aria-labelledby="tab-categories"
+        hidden
+      >
+        <h2>Категорії</h2>
+        <p>Список категорій буде тут...</p>
+      </div>
+      <div
+        id="usersTab"
+        class="tab-content d-none"
+        role="tabpanel"
+        aria-labelledby="tab-users"
+        hidden
+      >
+        <h2>Користувачі</h2>
+        <p>Тут буде список користувачів.</p>
+      </div>
+    </main>
+  </div>
+
+  <footer class="text-center p-3 bg-light">
+    © 2025 BizList. Всі права захищено.
+  </footer>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="companyModal"
+    tabindex="-1"
+    aria-labelledby="modalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <form id="companyForm" method="POST" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Додати компанію</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрити"></button>
+            </div>
+            <div class="modal-body overflow-auto" style="max-height: 70vh;">
+                <div class="row g-3">
+                <!-- Назва -->
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Назва компанії</label>
+                    <input type="text" class="form-control" id="name" name="name" required />
+                </div>
+                <!-- Засновник -->
+                <div class="col-md-6">
+                    <label for="founder" class="form-label">Засновник</label>
+                    <input type="text" class="form-control" id="founder" name="founder" />
+                </div>
+                <!-- ЄДРПОУ -->
+                <div class="col-md-6">
+                    <label for="edrpou_code" class="form-label">ЄДРПОУ</label>
+                    <input type="text" class="form-control" id="edrpou_code" name="edrpou_code" />
+                </div>
+                <!-- Рік заснування -->
+                <div class="col-md-6">
+                    <label for="year_founded" class="form-label">Рік заснування</label>
+                    <input type="number" class="form-control" id="year_founded" name="year_founded" min="1900" max="2025" />
+                </div>
+                <!-- Телефони -->
+                <div class="col-md-4">
+                    <label for="phone1" class="form-label">Телефон 1</label>
+                    <input type="tel" class="form-control" id="phone1" name="phone1" />
+                </div>
+                <div class="col-md-4">
+                    <label for="phone2" class="form-label">Телефон 2</label>
+                    <input type="tel" class="form-control" id="phone2" name="phone2" />
+                </div>
+                <div class="col-md-4">
+                    <label for="phone3" class="form-label">Телефон 3</label>
+                    <input type="tel" class="form-control" id="phone3" name="phone3" />
+                </div>
+                <!-- Сфера діяльності -->
+                <div class="col-md-6">
+                    <label for="activity_area_id" class="form-label">Сфера діяльності</label>
+                    <select class="form-select" id="activity_area_id" name="activity_area_id">
+                    <option value="">Оберіть...</option>
+                    <option value="1">Інформаційні технології</option>
+                    <option value="2">Освіта</option>
+                    <option value="3">Охорона здоров'я</option>
+                    </select>
+                </div>
+                <!-- Категорія -->
+                <div class="col-md-6">
+                    <label for="category_id" class="form-label">Категорія</label>
+                    <select class="form-select" id="category_id" name="category_id">
+                    <option value="">Оберіть...</option>
+                    <option value="1">Компанія</option>
+                    <option value="2">ФОП</option>
+                    <option value="3">Державна установа</option>
+                    </select>
+                </div>
+                <!-- Адреса -->
+                <div class="col-md-8">
+                  <label for="address" class="form-label">Адреса</label>
+                    <input type="text" class="form-control" id="address" name="address" />
+                </div>
+                <!-- Поштовий індекс -->
+                <div class="col-md-4">
+                    <label for="postal_code" class="form-label">Поштовий індекс</label>
+                    <input type="text" class="form-control" id="postal_code" name="postal_code" />
+                </div>
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" />
+                </div>
+                <!-- Telegram -->
+                <div class="col-md-6">
+                    <label for="telegram" class="form-label">Telegram</label>
+                    <input type="text" class="form-control" id="telegram" name="telegram" />
+                </div>
+                <!-- Viber -->
+                <div class="col-md-6">
+                    <label for="viber" class="form-label">Viber</label>
+                    <input type="text" class="form-control" id="viber" name="viber" />
+                </div>
+                <!-- Facebook -->
+                <div class="col-md-6">
+                    <label for="facebook" class="form-label">Facebook</label>
+                    <input type="text" class="form-control" id="facebook" name="facebook" />
+                </div>
+                <!-- Instagram -->
+                <div class="col-md-6">
+                    <label for="instagram" class="form-label">Instagram</label>
+                    <input type="text" class="form-control" id="instagram" name="instagram" />
+                </div>
+                <!-- Вебсайт -->
+                <div class="col-md-6">
+                    <label for="website" class="form-label">Вебсайт</label>
+                    <input type="text" class="form-control" id="website" name="website" />
+                </div>
+                <!-- Логотип -->
+                <div class="form-group">
+                    <label for="logo_path">Логотип компанії</label>
+                    <input type="file" class="form-control" id="logo_path" name="logo_path" accept="image/*" />
+                </div>
+                <!-- Години роботи -->
+                <div class="col-md-6">
+                    <label for="working_hours" class="form-label">Години роботи</label>
+                    <input type="text" class="form-control" id="working_hours" name="working_hours" />
+                </div>
+                <!-- Короткий опис -->
+                <div class="col-md-6">
+                    <label for="short_description" class="form-label">Короткий опис</label>
+                    <input type="text" class="form-control" id="short_description" name="short_description" />
+                </div>
+                <!-- Повний опис -->
+                <div class="col-12">
+                    <label for="full_description" class="form-label">Повний опис</label>
+                    <textarea class="form-control" id="full_description" name="full_description" rows="3"></textarea>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="autofillForm()">Автозаповнення</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabButtonsContainer = document.getElementById("tabButtons");
+      const tabButtons = tabButtonsContainer.querySelectorAll("[role='tab']");
+      const tabs = document.querySelectorAll(".tab-content");
+      tabButtonsContainer.addEventListener("click", (e) => {
+        const clicked = e.target;
+        if (clicked.getAttribute("role") !== "tab") return;
+
+        // Деактивуємо всі вкладки
+        tabButtons.forEach((btn) => {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-selected", "false");
+          document.getElementById(btn.getAttribute("data-tab")).hidden = true;
+          document.getElementById(btn.getAttribute("data-tab")).classList.add("d-none");
+        });
+
+        // Активуємо клікнуту вкладку
+        clicked.classList.add("active");
+        clicked.setAttribute("aria-selected", "true");
+        const tabId = clicked.getAttribute("data-tab");
+        const tab = document.getElementById(tabId);
+        tab.hidden = false;
+        tab.classList.remove("d-none");
+      });
+
+      // Підтримка клавіатури (стрілки вліво/вправо для перемикання вкладок)
+      tabButtons.forEach((btn, idx) => {
+        btn.addEventListener("keydown", (e) => {
+          let newIdx = null;
+          if (e.key === "ArrowRight") {
+            newIdx = (idx + 1) % tabButtons.length;
+          } else if (e.key === "ArrowLeft") {
+            newIdx = (idx - 1 + tabButtons.length) % tabButtons.length;
+          }
+          if (newIdx !== null) {
+            e.preventDefault();
+            tabButtons[newIdx].focus();
+            tabButtons[newIdx].click();
+          }
+        });
+      });
+    });
+  </script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

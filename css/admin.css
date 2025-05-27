@@ -1,0 +1,172 @@
+/* main.css */
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  display: flex;
+  flex: 1 1 auto;
+  height: calc(100vh - 56px - 48px); /* віднімаємо header (56px) і footer (48px) */
+  overflow: hidden;
+}
+
+/* sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #343a40;
+  color: #fff;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid #495057;
+}
+
+.sidebar .nav-link {
+  color: #adb5bd;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 12px 20px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-left: 4px solid transparent;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+  border-left-color: #ffc107;
+  font-weight: 700;
+}
+
+/* main content */
+main {
+  flex-grow: 1;
+  padding: 20px 30px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+/* Заголовки */
+h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #212529;
+}
+
+/* Таблиця компаній */
+#companyTable {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+#companyTable thead {
+  background-color: #0d6efd;
+  color: white;
+}
+
+#companyTable tbody tr:hover {
+  background-color: #e9f5ff;
+}
+
+/* Кнопки */
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}
+
+/* Header */
+header.navbar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+/* Footer */
+footer {
+  height: 48px;
+  background-color: #f1f3f5;
+  color: #6c757d;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Modal customizations */
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+}
+
+/* Form inputs */
+.form-label {
+  font-weight: 600;
+  color: #495057;
+}
+
+input.form-control,
+textarea.form-control {
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s;
+}
+
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+  outline: none;
+}
+
+/* Scrollbar for sidebar and modal body */
+.sidebar::-webkit-scrollbar,
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.3);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.modal-body::-webkit-scrollbar-track {
+  background-color: transparent;
+}

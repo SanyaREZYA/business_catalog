@@ -1,0 +1,30 @@
+{
+  "companies": [
+    {
+      "id": 1,
+      "name": "Паляниця",
+      "founder": "Олег Коваль",
+      "edrpou_code": "12345678",
+      "year_founded": 2022,
+      "phone1": "+380671112233",
+      "phone2": "",
+      "phone3": "",
+      "activity_area_id": "1",
+      "category_id": "2",
+      "address": "вул. Шевченка, 12",
+      "postal_code": "79000",
+      "email": "palianytsia@example.com",
+      "telegram": "@palianytsia",
+      "viber": "",
+      "facebook": "https://facebook.com/palianytsia",
+      "instagram": "https://instagram.com/palianytsia",
+      "website": "https://palianytsia.ua",
+      "logo_path": "https://via.placeholder.com/40",
+      "working_hours": "9:00 - 18:00",
+      "short_description": "Заклад з українською кухнею",
+      "full_description": "Пропонуємо смачну їжу та затишну атмосферу.",
+      "created_at": "2025-05-17",
+      "updated_at": "2025-05-17"
+    }
+  ]
+}
