@@ -138,7 +138,23 @@
         hidden
       >
         <h2>Категорії</h2>
-        <p>Список категорій буде тут...</p>
+        <table class="table table-striped" id="categoryTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Назва категорії</th>
+              <th>Дії</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Категорії будуть завантажені JavaScript'ом -->
+          </tbody>
+        </table>
+        <button class="btn btn-primary" onclick="showAddCategoryForm()">➕ Додати категорію</button>
+        <div id="addCategoryForm" class="mt-3 d-none">
+          <input type="text" id="newCategoryName" class="form-control d-inline w-auto" placeholder="Нова категорія" />
+          <button class="btn btn-success" onclick="addCategory()">Зберегти</button>
+        </div>
       </div>
       <div
         id="usersTab"
@@ -219,13 +235,11 @@
                 </div>
                 <!-- Категорія -->
                 <div class="col-md-6">
-                    <label for="category_id" class="form-label">Категорія</label>
-                    <select class="form-select" id="category_id" name="category_id">
+                  <label for="category_id" class="form-label">Категорія</label>
+                  <select class="form-select" id="category_id" name="category_id">
                     <option value="">Оберіть...</option>
-                    <option value="1">Компанія</option>
-                    <option value="2">ФОП</option>
-                    <option value="3">Державна установа</option>
-                    </select>
+                    <!-- Динамічно додаються з JS -->
+                  </select>
                 </div>
                 <!-- Адреса -->
                 <div class="col-md-8">
@@ -268,9 +282,9 @@
                     <input type="text" class="form-control" id="website" name="website" />
                 </div>
                 <!-- Логотип -->
-                <div class="form-group">
-                    <label for="logo_path">Логотип компанії</label>
-                    <input type="file" class="form-control" id="logo_path" name="logo_path" accept="image/*" />
+                <div class="col-md-6">
+                  <label for="logo" class="form-label">Логотип</label>
+                  <input type="file" class="form-control" id="logo" name="logo" accept="image/*" />
                 </div>
                 <!-- Години роботи -->
                 <div class="col-md-6">

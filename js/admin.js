@@ -1,4 +1,115 @@
-// Отримати список компаній з сервера
+// admin.js
+let arrCat = [];
+// Показати повідомлення про помилку в UI
+function showErrorMessage(message) {
+  let errorDiv = document.getElementById("errorMessage");
+  if (!errorDiv) {
+    errorDiv = document.createElement("div");
+    errorDiv.id = "errorMessage";
+    errorDiv.style.color = "red";
+    errorDiv.style.margin = "10px 0";
+    const container = document.querySelector("#companyForm")?.parentNode || document.body;
+    container.insertBefore(errorDiv, container.firstChild);
+  }
+  errorDiv.textContent = message;
+
+  setTimeout(() => {
+    errorDiv.textContent = "";
+  }, 5000);
+}
+
+// Прибрати повідомлення про помилку
+function clearErrorMessage() {
+  const errorDiv = document.getElementById("errorMessage");
+  if (errorDiv) errorDiv.textContent = "";
+}
+
+// Завантажити категорії та оновити селект і таблицю
+async function loadCategories() {
+  try {
+    const res = await fetch("/categories");
+    if (!res.ok) throw new Error("Не вдалося завантажити категорії");
+    const categories = await res.json();
+
+    // Оновити селект category_id
+    const select = document.getElementById("category_id");
+    if (select) {
+      select.innerHTML = '<option value="">Оберіть категорію</option>';
+      categories.forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.id;
+        option.textContent = cat.name;
+        arrCat.push(cat.id);
+        select.appendChild(option);
+      });
+    }
+
+    // Оновити таблицю категорій
+    const tbody = document.querySelector("#categoryTable tbody");
+    if (tbody) {
+      tbody.innerHTML = '';
+      categories.forEach(cat => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${cat.id}</td>
+          <td>${cat.name}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" onclick="deleteCategory(${cat.id})">🗑️</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  } catch (err) {
+    console.error("❌ Помилка завантаження категорій:", err);
+    showErrorMessage("Помилка завантаження категорій: " + err.message);
+  }
+}
+
+// Показати/сховати форму додавання категорії
+function showAddCategoryForm() {
+  document.getElementById('addCategoryForm').classList.toggle('d-none');
+}
+
+// Додати нову категорію
+async function addCategory() {
+  const nameInput = document.getElementById('newCategoryName');
+  const name = nameInput.value.trim();
+  if (!name) return alert('Введіть назву категорії');
+
+  try {
+    const res = await fetch('/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    if (!res.ok) throw new Error("Не вдалося додати категорію");
+
+    nameInput.value = '';
+    document.getElementById('addCategoryForm').classList.add('d-none');
+    await loadCategories();
+
+  } catch (err) {
+    console.error('❌ Помилка додавання категорії:', err);
+    showErrorMessage("Не вдалося додати категорію: " + err.message);
+  }
+}
+
+// Видалити категорію
+async function deleteCategory(id) {
+  if (!confirm('Ви впевнені, що хочете видалити цю категорію?')) return;
+
+  try {
+    const res = await fetch(`/categories/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error("Не вдалося видалити категорію");
+    await loadCategories();
+  } catch (err) {
+    console.error('❌ Помилка видалення категорії:', err);
+    showErrorMessage("Не вдалося видалити категорію: " + err.message);
+  }
+}
+
+// Отримати список компаній з сервера та заповнити таблицю
 async function fetchCompanies() {
   try {
     const response = await fetch("/companies");
@@ -11,21 +122,22 @@ async function fetchCompanies() {
   }
 }
 
-// Прибрати повідомлення про помилку
-function clearErrorMessage() {
-  const errorDiv = document.getElementById("errorMessage");
-  if (errorDiv) errorDiv.textContent = "";
-}
-
 // Заповнити таблицю компаніями
 function populateTable(companies) {
   const tbody = document.querySelector("#companyTable tbody");
+  if (!tbody) return;
   tbody.innerHTML = "";
 
   companies.forEach((company, index) => {
     const row = createCompanyRow(company, index + 1);
     tbody.appendChild(row);
   });
+}
+
+// Очистити таблицю компаній
+function clearTable() {
+  const tbody = document.querySelector("#companyTable tbody");
+  if (tbody) tbody.innerHTML = "";
 }
 
 // Створити DOM-рядок таблиці для компанії (безпечне додавання тексту)
@@ -89,6 +201,7 @@ function createCompanyRow(company, index) {
 // Додати компанію в таблицю (без повторного fetch)
 function addCompanyRow(company) {
   const tbody = document.querySelector("#companyTable tbody");
+  if (!tbody) return;
   const newIndex = tbody.rows.length + 1;
   const row = createCompanyRow(company, newIndex);
   tbody.appendChild(row);
@@ -115,72 +228,31 @@ async function handleDelete(button, companyId) {
   }
 }
 
+// Заповнити форму тестовими даними
 function autofillForm() {
-    document.getElementById("name").value = "Тестова компанія";
-    document.getElementById("founder").value = "Іван Тестовий";
-    document.getElementById("edrpou_code").value = "12345678";
-    document.getElementById("year_founded").value = "2020";
-    document.getElementById("phone1").value = "+380991112233";
-    document.getElementById("phone2").value = "+380671112233";
-    document.getElementById("phone3").value = "+380631112233";
-    document.getElementById("activity_area_id").value = "1"; // або значення select
-    document.getElementById("category_id").value = "2";
-    document.getElementById("address").value = "м. Київ, вул. Прикладна, 1";
-    document.getElementById("postal_code").value = "01001";
-    document.getElementById("email").value = "test@company.com";
-    document.getElementById("telegram").value = "@testcompany";
-    document.getElementById("viber").value = "@testviber";
-    document.getElementById("facebook").value = "https://facebook.com/testcompany";
-    document.getElementById("instagram").value = "https://instagram.com/testcompany";
-    document.getElementById("website").value = "https://testcompany.com";
-    document.getElementById("working_hours").value = "Пн-Пт: 09:00-18:00";
-    document.getElementById("short_description").value = "Короткий опис компанії.";
-    document.getElementById("full_description").value = "Повний опис компанії для детального перегляду.";
+  document.getElementById("name").value = "Тестова компанія";
+  document.getElementById("founder").value = "Іван Тестовий";
+  document.getElementById("edrpou_code").value = "12345678";
+  document.getElementById("year_founded").value = "2020";
+  document.getElementById("phone1").value = "+380991112233";
+  document.getElementById("phone2").value = "+380671112233";
+  document.getElementById("phone3").value = "+380631112233";
+  document.getElementById("activity_area_id").value = "1";
+  document.getElementById("category_id").value = "2";
+  document.getElementById("address").value = "м. Київ, вул. Прикладна, 1";
+  document.getElementById("postal_code").value = "01001";
+  document.getElementById("email").value = "test@company.com";
+  document.getElementById("telegram").value = "@testcompany";
+  document.getElementById("viber").value = "@testviber";
+  document.getElementById("facebook").value = "https://facebook.com/testcompany";
+  document.getElementById("instagram").value = "https://instagram.com/testcompany";
+  document.getElementById("website").value = "https://testcompany.com";
+  document.getElementById("working_hours").value = "Пн-Пт: 09:00-18:00";
+  document.getElementById("short_description").value = "Короткий опис компанії.";
+  document.getElementById("full_description").value = "Повний опис компанії для детального перегляду.";
 }
 
-function clearTable() {
-  const tbody = document.querySelector("#companyTable tbody");
-  tbody.innerHTML = "";
-}
-
-document.querySelectorAll('#tabButtons .nav-link').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-      tab.classList.add('d-none');
-      tab.setAttribute('hidden', true);
-    });
-
-    const targetId = btn.getAttribute('data-tab');
-    document.getElementById(targetId).classList.remove('d-none');
-    document.getElementById(targetId).removeAttribute('hidden');
-
-    document.querySelectorAll('#tabButtons .nav-link').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-
-document.getElementById('companyModal').addEventListener('shown.bs.modal', () => {
-  document.getElementById('name')?.focus();
-});
-
-function showErrorMessage(message) {
-  let errorDiv = document.getElementById("errorMessage");
-  if (!errorDiv) {
-    errorDiv = document.createElement("div");
-    errorDiv.id = "errorMessage";
-    errorDiv.style.color = "red";
-    errorDiv.style.margin = "10px 0";
-    const container = document.querySelector("#companyForm")?.parentNode || document.body;
-    container.insertBefore(errorDiv, container.firstChild);
-  }
-  errorDiv.textContent = message;
-
-  setTimeout(() => {
-    errorDiv.textContent = "";
-  }, 5000);
-}
-
-// Додавання компанії через форму
+// Обробник сабміту форми додавання компанії
 async function handleFormSubmit(e) {
   e.preventDefault();
   clearErrorMessage();
@@ -188,14 +260,16 @@ async function handleFormSubmit(e) {
   const form = e.target;
   const formData = new FormData(form);
 
-  // Підготовка даних вручну (для додавання у таблицю у випадку помилки)
+  console.log('Вибрана категорія ID:', formData.get('category_id'));
+
+  // Локальна компанія для відображення у випадку помилки (без id)
   const formFields = Object.fromEntries(formData.entries());
   const tempCompany = {
     ...formFields,
-    id: null, // локальна компанія — без id
+    id: null,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-    logo_path: null // можна розширити якщо буде вибраний файл
+    logo_path: null
   };
 
   try {
@@ -206,27 +280,53 @@ async function handleFormSubmit(e) {
 
     if (!response.ok) throw new Error("Не вдалося створити компанію");
 
-    const newCompany = await response.json(); // Очікуємо, що сервер поверне створену компанію
-    addCompanyRow(newCompany); // Успішно — додаємо відповідь
+    const newCompany = await response.json();
+    addCompanyRow(newCompany);
 
   } catch (error) {
     console.warn("❗ Помилка при створенні компанії, додаємо локально:", error);
     showErrorMessage("Сервер недоступний. Компанію додано лише в таблицю.");
-    addCompanyRow(tempCompany); // Локально додаємо компанію без id
+    addCompanyRow(tempCompany);
   }
 
-  // Закриваємо модальне вікно та чистимо форму
+  // Закрити модальне вікно і очистити форму
   const modalElement = document.getElementById("companyModal");
   if (modalElement) {
     const modal = bootstrap.Modal.getInstance(modalElement);
     modal.hide();
   }
-
   form.reset();
 }
+
+// Переключення вкладок
+document.querySelectorAll('#tabButtons .nav-link').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.add('d-none');
+      tab.setAttribute('hidden', true);
+    });
+
+    const targetId = btn.getAttribute('data-tab');
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.classList.remove('d-none');
+      target.removeAttribute('hidden');
+    }
+
+    document.querySelectorAll('#tabButtons .nav-link').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Фокус у формі після показу модального вікна
+document.getElementById('companyModal')?.addEventListener('shown.bs.modal', () => {
+  document.getElementById('name')?.focus();
+});
+
 // Ініціалізація після завантаження DOM
 document.addEventListener("DOMContentLoaded", () => {
   fetchCompanies();
+  loadCategories();
 
   const form = document.getElementById("companyForm");
   if (form) {

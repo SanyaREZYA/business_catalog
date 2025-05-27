@@ -167,7 +167,7 @@ app.get('/reviews/:companyId', async (req, res) => {
 
 app.get('/categories', async (_, res) => {
   try {
-    const result = await pool.query('SELECT * FROM categories');
+    const result = await pool.query('SELECT * FROM categories ORDER BY name');
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting categories:', err);
@@ -226,21 +226,37 @@ app.post('/company/:id/reviews', express.json(), async (req, res) => {
   }
 });
 
-app.post('/companies', upload.single('logo_path'), async (req, res) => {
+app.post('/companies', upload.any(), async (req, res) => {
   try {
+    console.log('🧾 Тіло запиту:', req.body);
+    console.log('🖼️ Файл:', req.file);
+
     const {
-      name, founder, edrpou_code, year_founded, phone1, phone2, phone3,
-      activity_area_id, category_id, address, postal_code, email,
-      telegram, viber, facebook, instagram, website, working_hours,
-      short_description, full_description
+      name,
+      founder,
+      edrpou_code,
+      year_founded,
+      phone1,
+      phone2,
+      phone3,
+      activity_area_id,
+      category_id,
+      address,
+      postal_code,
+      email,
+      telegram,
+      viber,
+      facebook,
+      instagram,
+      website,
+      working_hours,
+      short_description,
+      full_description,
     } = req.body;
 
-    const year_founded_num = year_founded ? parseInt(year_founded) : null;
-    const activity_area_id_num = activity_area_id ? parseInt(activity_area_id) : null;
-    const category_id_num = category_id ? parseInt(category_id) : null;
-    const logo_path = req.file ? req.file.filename : null;
+    const logo_path = req.file ? `/images/logos/${req.file.filename}` : null;
 
-    await pool.query(
+    const result = await pool.query(
       `INSERT INTO companies (
         name, founder, edrpou_code, year_founded, phone1, phone2, phone3,
         activity_area_id, category_id, address, postal_code, email,
@@ -253,17 +269,43 @@ app.post('/companies', upload.single('logo_path'), async (req, res) => {
         $19, $20, $21, NOW(), NOW()
       ) RETURNING *`,
       [
-        name, founder, edrpou_code, year_founded_num, phone1, phone2, phone3,
-        activity_area_id_num, category_id_num, address, postal_code, email,
+        name, founder, edrpou_code, year_founded, phone1, phone2, phone3,
+        activity_area_id, category_id, address, postal_code, email,
         telegram, viber, facebook, instagram, website, logo_path,
-        working_hours, short_description, full_description
+        working_hours, short_description, full_description,
       ]
     );
 
-    res.status(201).json({ message: 'Компанія створена' });
+    res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error('Error inserting company:', err);
-    res.status(500).send('Internal Server Error');
+    console.error('❌ ПОМИЛКА СЕРВЕРА:', err.stack);
+    res.status(500).send('Помилка сервера при створенні компанії');
+  }
+});
+
+app.post('/categories', async (req, res) => {
+  const { name } = req.body;
+  try {
+    const result = await pool.query(
+      'INSERT INTO categories (name) VALUES ($1) RETURNING *',
+      [name]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error('❌ categories POST error:', err);
+    res.status(500).json({ error: 'Помилка при створенні категорії' });
+  }
+});
+
+// Видалити категорію
+app.delete('/categories/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query('DELETE FROM categories WHERE id = $1', [id]);
+    res.sendStatus(204);
+  } catch (err) {
+    console.error('❌ categories DELETE error:', err);
+    res.status(500).json({ error: 'Помилка при видаленні категорії' });
   }
 });
 
