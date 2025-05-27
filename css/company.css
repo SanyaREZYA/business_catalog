@@ -25,13 +25,23 @@
 }
 
 .company-additional {
-  flex: 1 1 340px;
-  background: #f8f9fa;
-  padding: 32px 24px;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(33, 37, 41, 0.06);
-  border: 1px solid #dee2e6;
-  min-width: 260px;
+  flex: 1 1 420px;
+  background: transparent; 
+  padding: 0;             
+  border-radius: 0;        
+  box-shadow: none;       
+  border: none;            
+  min-width: 340px;        
+  max-width: 650px;       
+}
+
+.company-additional-wide {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  margin-bottom: 24px;
 }
 
 .company-main {
@@ -53,25 +63,31 @@
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
+  margin-top: 0;
 }
 
 .company-logo {
-  width: 110px;
-  height: 110px;
+  max-width: 220px;
+  max-height: 220px;
+  width: 100%;
+  height: auto;
   object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(33, 37, 41, 0.10);
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(33, 37, 41, 0.13);
   background: #fff;
-  border: 1px solid #dee2e6;
-  padding: 8px;
+  border: 1.5px solid #dee2e6;
+  padding: 18px;
+  margin-top: 0;
 }
 
 .company-info h2 {
   margin: 0;
-  font-size: 2.1rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #212529;
   letter-spacing: 0.5px;
+  line-height: 1.1;
+  margin-top: 0; /* прибрати додатковий відступ */
 }
 
 .company-rating {
@@ -122,6 +138,40 @@
   font-size: 1.01rem;
   color: #495057;
   padding-bottom: 0.5rem;
+}
+
+.company-reviews {
+  margin-top: 32px;
+  width: 100%;
+}
+
+#reviews-list {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#reviews-list > div {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 12px rgba(33,37,41,0.08);
+  font-size: 1.22rem;
+}
+
+#reviews-list .fw-bold {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+#reviews-list .text-muted {
+  font-size: 1.05rem;
+  margin-top: 10px;
+}
+
+.company-center {
+  margin-top: 36px;
 }
 
 @media (max-width: 991.98px) {
