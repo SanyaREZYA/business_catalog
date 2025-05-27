@@ -480,6 +480,15 @@
   background-color: #fff;
 }
 
+.item-catalog__category {
+  margin-left: auto;
+  height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px;
+}
+
 .item-catalog__contact-button {
   display: flex;
   align-items: center;
