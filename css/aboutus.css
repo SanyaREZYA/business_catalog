@@ -6,7 +6,9 @@ body {
     margin: 0;
     padding: 0;
 }
-
+.contact-info .fw-bold{
+    margin-bottom: 20px !important;
+}
 /* Заголовок статті */
 .article-title {
     font-weight: 700;
@@ -21,6 +23,31 @@ body {
 /* Контактна інформація */
 .contact-info i {
     width: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+.contact-info p:first-child {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
+}
+
+/* Забезпечення коректного перенесення тексту для "Режим роботи" */
+.contact-info p:first-child br {
+    display: none;
+}
+
+.contact-info p:first-child strong {
+    display: inline;
+}
+
+.contact-info p:first-child::after {
+    content: " Пн.–Пт. 9:00 – 18:00";
 }
 
 /* Контейнер з реквізитами */
@@ -46,21 +73,26 @@ body {
     text-decoration: underline;
 }
 
-/* Жирні заголовки */
+
 .contact-info strong {
     display: inline-block;
     margin-bottom: 5px;
+    font-size: 18px; /* Уніфіковано з розміром шрифту <p> */
 }
-p{
+
+p {
     font-size: 18px;
+    line-height: 1.5; /* Уніфікована висота рядка */
 }
-strong{
-    font-size: 20px;
+
+strong {
+    font-size: 18px; /* Уніфіковано */
 }
-h4{
-    font-size: 28px;
+
+h4 {
+    font-size: 32px !important;
 }
-/* Адаптивність для мобільних */
+
 @media (max-width: 767.98px) {
     .article-title {
         font-size: 24px;
