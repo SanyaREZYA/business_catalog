@@ -1,4 +1,3 @@
-/* Загальні стилі */
 body {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
@@ -9,18 +8,15 @@ body {
 .contact-info .fw-bold{
     margin-bottom: 20px !important;
 }
-/* Заголовок статті */
 .article-title {
     font-weight: 700;
     margin-bottom: 20px;
 }
 
-/* Вирівнювання тексту */
 .text-justify {
     text-align: justify;
 }
 
-/* Контактна інформація */
 .contact-info i {
     width: 20px;
     vertical-align: middle;
@@ -37,7 +33,6 @@ body {
     line-height: 1.5;
 }
 
-/* Забезпечення коректного перенесення тексту для "Режим роботи" */
 .contact-info p:first-child br {
     display: none;
 }
@@ -50,7 +45,6 @@ body {
     content: " Пн.–Пт. 9:00 – 18:00";
 }
 
-/* Контейнер з реквізитами */
 .text-container {
     background-color: #ffffff;
     padding: 20px;
@@ -58,12 +52,10 @@ body {
     border-radius: 5px;
 }
 
-/* Відступ секцій */
 .section-padding {
     padding: 40px 0;
 }
 
-/* Посилання в контактах */
 .contact-info a {
     color: #007bff;
     text-decoration: none;
@@ -77,20 +69,16 @@ body {
 .contact-info strong {
     display: inline-block;
     margin-bottom: 5px;
-    font-size: 18px; /* Уніфіковано з розміром шрифту <p> */
+    font-size: 18px;
 }
 
 p {
     font-size: 18px;
-    line-height: 1.5; /* Уніфікована висота рядка */
+    line-height: 1.5;
 }
 
 strong {
-    font-size: 18px; /* Уніфіковано */
-}
-
-h4 {
-    font-size: 32px !important;
+    font-size: 18px;
 }
 
 @media (max-width: 767.98px) {
