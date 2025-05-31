@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   setupCharCounter('description', 'desc-counter', 500);
-  setupCharCounter('unique-offer', 'offer-counter', 200);
+  setupCharCounter('unique-offer', 'offer-counter', 100);
   setupCharCounter('article-requirements', 'requirements-counter', 1000);
   setupCharCounter('working-hours', 'hours-counter', 200);
 
