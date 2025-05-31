@@ -124,6 +124,14 @@ main {
   .form-group input:invalid {
     border-left: 3px solid #e74c3c;
   }
+
+  .form-group select:required {
+    border-left: 3px solid #3498db;
+  }
+
+  .form-group select:invalid {
+    border-left: 3px solid #e74c3c;
+  }
   
   .error-hint {
     color: #e74c3c;
