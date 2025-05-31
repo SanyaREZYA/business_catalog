@@ -25,13 +25,29 @@
 }
 
 .company-additional {
-  flex: 1 1 340px;
-  background: #f8f9fa;
-  padding: 32px 24px;
+  all: unset;
+  display: block;
+  background: #ffffff !important;
+  padding: 24px 28px !important;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(33, 37, 41, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   border: 1px solid #dee2e6;
-  min-width: 260px;
+  min-width: 320px;
+  max-width: 650px;
+  transition: all 0.3s ease;
+}
+
+.company-additional:hover {
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.1);
+}
+
+.company-additional-wide {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  margin-bottom: 24px;
 }
 
 .company-main {
@@ -40,10 +56,16 @@
 
 .company-extra {
   flex: 1;
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.company-extra:hover {
+  transform: translateY(-4px);
 }
 
 .company-header {
@@ -53,25 +75,31 @@
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
+  margin-top: 0;
 }
 
 .company-logo {
-  width: 110px;
-  height: 110px;
+  max-width: 220px;
+  max-height: 220px;
+  width: 100%;
+  height: auto;
   object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(33, 37, 41, 0.10);
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(33, 37, 41, 0.13);
   background: #fff;
-  border: 1px solid #dee2e6;
-  padding: 8px;
+  border: 1.5px solid #dee2e6;
+  padding: 18px;
+  margin-top: 0;
 }
 
 .company-info h2 {
   margin: 0;
-  font-size: 2.1rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #212529;
   letter-spacing: 0.5px;
+  line-height: 1.1;
+  margin-top: 0;
 }
 
 .company-rating {
@@ -90,10 +118,19 @@
 }
 
 .company-details {
-  margin-top: 20px;
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #dee2e6;
   font-size: 1.05rem;
   color: #495057;
   line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.company-details:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.09);
 }
 
 .company-details a {
@@ -122,6 +159,44 @@
   font-size: 1.01rem;
   color: #495057;
   padding-bottom: 0.5rem;
+}
+
+.company-reviews {
+  margin-top: 32px;
+  width: 100%;
+}
+
+#reviews-list {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#reviews-list > div {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 12px rgba(33,37,41,0.08);
+  font-size: 1.22rem;
+}
+
+#reviews-list .fw-bold {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+#reviews-list .text-muted {
+  font-size: 1.05rem;
+  margin-top: 10px;
+}
+
+.company-center {
+  margin-top: 36px;
+}
+
+.nav-bar {
+  background-color: white;
 }
 
 @media (max-width: 991.98px) {
