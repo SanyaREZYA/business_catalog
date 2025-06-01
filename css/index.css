@@ -387,7 +387,7 @@
   flex-direction: column;
   align-self: flex-start;
   padding-left: 5px;
-  width: 100%;
+  max-width: 265px;
 
   gap: 10px;
   margin-bottom: 30px;
@@ -408,7 +408,9 @@
   font-size: 16px;
   line-height: 120%;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
   color: #000;
 
   -webkit-transition: color 0.2s ease;
@@ -580,6 +582,13 @@
 .feedback__item-text {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  max-height: 65px;
 
   line-height: 120%;
 }

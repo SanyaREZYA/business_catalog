@@ -315,10 +315,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           categoryMap[company.category_id] || `${company.category_id}`;
 
         let rating = 0;
+        let reviewCount = 0; // Добавляем переменную для количества отзывов
         try {
           const reviewsResponse = await fetch(`/reviews/${company.id}`);
           if (reviewsResponse.ok) {
             const reviews = await reviewsResponse.json();
+            reviewCount = reviews.length; // Сохраняем количество отзывов
             if (reviews.length > 0) {
               const totalRating = reviews.reduce(
                 (sum, review) => sum + review.rating,
@@ -400,7 +402,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__rate rate">
                 ${starElements}
               </div>
-              <a class="item-catalog__feedback-link" href="/reviews?company_id=${company.id}">Відгуки</a>
+              <a class="item-catalog__feedback-link" href="/reviews/${company.id}">Відгуки (${reviewCount})</a>
             </div>
             <div class="item-catalog__footer">
               <a class="item-catalog__button" href="/companies/${company.id}">Детальніше</a>
@@ -460,10 +462,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const imageSrc = company.logo_path;
 
         let rating = 0;
+        let reviewCount = 0; // Добавляем переменную для количества отзывов
         try {
           const reviewsResponse = await fetch(`/reviews/${company.id}`);
           if (reviewsResponse.ok) {
             const reviews = await reviewsResponse.json();
+            reviewCount = reviews.length; // Сохраняем количество отзывов
             if (reviews.length > 0) {
               const totalRating = reviews.reduce(
                 (sum, review) => sum + review.rating,
@@ -480,18 +484,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const wholeStars = Math.floor(rating);
-        const decimalPart = rating % 1;
-        const hasHalfStar = decimalPart > 0 && decimalPart < 0.5;
-        const displayStars = decimalPart >= 0.5 ? wholeStars + 1 : wholeStars;
+        const decimalPart = rating - wholeStars;
+        const hasHalfStar = decimalPart < 0.5 && decimalPart > 0;
+        const totalStars = Math.min(
+          5,
+          wholeStars + (hasHalfStar ? 1 : decimalPart >= 0.5 ? 1 : 0),
+        );
 
         const starElements = Array(5)
           .fill()
           .map((_, i) => {
-            if (i < displayStars) {
+            if (i < wholeStars) {
               return `<svg class="rate-star rate-star--yellow" width="25" height="25" viewBox="0 0 24 24" focusable="false">
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z" fill="orange"></path>
               </svg>`;
-            } else if (i === displayStars && hasHalfStar) {
+            } else if (i === wholeStars && hasHalfStar) {
               return `<svg width="25" height="25" viewBox="0 0 24 24" focusable="false">
                 <defs>
                   <linearGradient id="halfFill${company.id}" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -532,14 +539,20 @@ document.addEventListener('DOMContentLoaded', async () => {
               </li>
               <li class="item-catalog__item">
                 <img class="item-catalog__item-ico" src="/images/logos/website.svg" alt="">
-                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${company.website.split('://')[1]}</a>
+                <a target="_blank" href="${company.website}" class="item-catalog__item-context">${(() => {
+                  if (company.website !== null && company.website !== '') {
+                    return company.website.split('://')[1];
+                  } else {
+                    return 'Немає веб-сайту';
+                  }
+                })()}</a>
               </li>
             </ul>
             <div class="item-catalog__feedback">
               <div class="item-catalog__rate rate">
                 ${starElements}
               </div>
-              <a class="item-catalog__feedback-link" href="/reviews?company_id=${company.id}">Відгуки</a>
+              <a class="item-catalog__feedback-link" href="/reviews/${company.id}">Відгуки (${reviewCount})</a>
             </div>
             <div class="item-catalog__footer">
               <a class="item-catalog__button" href="#">Детальніше</a>
