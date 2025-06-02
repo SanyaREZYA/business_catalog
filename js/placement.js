@@ -24,20 +24,32 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   setupCharCounter('description', 'desc-counter', 500);
-  setupCharCounter('unique-offer', 'offer-counter', 200);
+  setupCharCounter('unique-offer', 'offer-counter', 100);
   setupCharCounter('article-requirements', 'requirements-counter', 1000);
   setupCharCounter('working-hours', 'hours-counter', 200);
 
   function setupImagePreview(inputId, previewId) {
-    const input = document.getElementById(inputId);
-    const preview = document.getElementById(previewId);
-    
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  
     if (input && preview) {
       input.addEventListener('change', function() {
         if (this.files && this.files[0]) {
           const reader = new FileReader();
-          reader.onload = (e) => preview.innerHTML = `<img src="${e.target.result}" alt="Попередній перегляд">`;
+        
+          reader.onload = function(e) {
+            preview.innerHTML = `
+              <img 
+                src="${e.target.result}" 
+                alt="Попередній перегляд логотипу" 
+                style="max-width: 300px; max-height: 300px;"
+              />
+            `;
+          }
+        
           reader.readAsDataURL(this.files[0]);
+        } else {
+          preview.innerHTML = '';
         }
       });
     }

@@ -155,6 +155,7 @@ function renderResults(companies) {
 }
 
 function initializeRatings() {
+
   document.querySelectorAll('.rating').forEach(rating => {
     const stars = rating.querySelectorAll('.star');
     let selected = 0;
