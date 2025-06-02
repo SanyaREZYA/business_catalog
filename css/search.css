@@ -175,3 +175,10 @@ h2 {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}

@@ -166,37 +166,100 @@
   width: 100%;
 }
 
+/* Оновлені стилі для відгуків */
+
 #reviews-list {
-  width: 1000px;
+  width: 600px;
   margin: 0 auto;
 }
 
 #reviews-list > div {
   background: #fff;
   border: 1px solid #dee2e6;
-  border-radius: 16px;
-  margin-bottom: 24px;
-  padding: 28px 32px;
-  box-shadow: 0 2px 12px rgba(33,37,41,0.08);
-  font-size: 1.22rem;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 8px rgba(33,37,41,0.06);
+  font-size: 1rem;
 }
 
 #reviews-list .fw-bold {
-  font-size: 1.25rem;
-  margin-bottom: 8px;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
 }
 
 #reviews-list .text-muted {
-  font-size: 1.05rem;
-  margin-top: 10px;
-}
-
-.company-center {
-  margin-top: 36px;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  color: #6c757d;
 }
 
 .nav-bar {
   background-color: white;
+}
+
+.company-layout {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.company-left {
+  width: 20%;
+}
+
+.company-center {
+  width: 60%;
+}
+
+.company-right {
+  width: 20%;
+}
+
+/* Star Rating Styles */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse; /* Дуже ВАЖЛИВО: Зворотний порядок елементів для коректної роботи CSS */
+  justify-content: flex-end; /* Вирівнюємо зірки праворуч */
+  margin-top: 5px;
+}
+
+.star-rating input {
+  display: none; /* Приховуємо радіо-кнопки */
+}
+
+.star-rating label {
+  font-size: 2.2rem; /* Розмір зірок */
+  color: #ccc; /* Колір неактивних зірок */
+  cursor: pointer;
+  padding: 0 0.1rem;
+  transition: color 0.2s ease-in-out;
+}
+
+/* При наведенні курсору на зірку або виборі, зафарбувати її та всі НАСТУПНІ в HTML-порядку (які візуально є ПОПЕРЕДНІМИ) */
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #ffc107; /* Колір зірок при наведенні курсору та для вибраних зірок */
+}
+
+/* For displaying existing reviews with stars */
+.review-stars {
+  color: #ffc107; /* Gold color for displayed stars */
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 991.98px) {
+  .company-layout {
+    flex-direction: column;
+  }
+  .company-left,
+  .company-center,
+  .company-right {
+    width: 100%;
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -213,5 +276,11 @@
     flex-direction: column;
     gap: 18px;
     align-items: flex-start;
+  }
+  /* Адаптивність для відгуків */
+  #reviews-list {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
 }

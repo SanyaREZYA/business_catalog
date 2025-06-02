@@ -2,12 +2,15 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const pool = require('./db');
-const { query } = require('./db');
+const { query } = require('./db'); // Можливо, `query` не потрібен тут, якщо ви використовуєте `pool.query`
 const PORT = process.env.PORT || 3000;
 
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Дуже ВАЖЛИВО: Додайте цей рядок для парсингу JSON-тіла запитів
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'html', 'index.html'));
@@ -35,7 +38,11 @@ app.get('/search', (req, res) => {
 
 app.get('/companies', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM public.companies');
+    const result = await pool.query(
+      `SELECT c.*, cat.name AS category_name
+       FROM companies c
+       LEFT JOIN categories cat ON c.category_id = cat.id`
+    );
     res.json(result.rows);
   } catch (err) {
     console.error('Error getting companies:', err);
@@ -46,7 +53,10 @@ app.get('/companies', async (req, res) => {
 app.get('/last-companies', async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM companies ORDER BY created_at DESC LIMIT 8',
+      `SELECT c.*, cat.name AS category_name
+       FROM companies c
+       LEFT JOIN categories cat ON c.category_id = cat.id
+       ORDER BY c.created_at DESC LIMIT 8`
     );
     res.json(result.rows);
   } catch (err) {
@@ -57,13 +67,19 @@ app.get('/last-companies', async (req, res) => {
 
 app.get('/companies/:id', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM companies WHERE id = $1', [req.params.id]);
+    const result = await pool.query(
+      `SELECT c.*, cat.name AS category_name
+       FROM companies c
+       LEFT JOIN categories cat ON c.category_id = cat.id
+       WHERE c.id = $1`,
+      [req.params.id]
+    );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Компанію не знайдено' });
     }
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('Error getting companies:', err);
+    console.error('Error getting company by id:', err);
     res.status(500).send('Internal Server Error');
   }
 });
@@ -72,12 +88,12 @@ app.get('/companies/search/:name', async (req, res) => {
   const { name } = req.params;
 
   try {
-    console.log('SQL Query:', `SELECT * FROM companies WHERE LOWER(name) LIKE LOWER('%${name}%')`);
     const result = await pool.query(
-      `SELECT *
-       FROM public.companies
-       WHERE LOWER(name) LIKE LOWER($1)`,
-      [`%${name}%`],
+      `SELECT c.*, cat.name AS category_name
+       FROM companies c
+       LEFT JOIN categories cat ON c.category_id = cat.id
+       WHERE LOWER(c.name) LIKE LOWER($1)`,
+      [`%${name}%`]
     );
 
     res.json(result.rows);
@@ -92,11 +108,12 @@ app.get('/companies-by-tag-id/:tagId', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT c.*
+      `SELECT c.*, cat.name AS category_name
        FROM companies c
-                JOIN company_tags ct ON c.id = ct.company_id
+       JOIN company_tags ct ON c.id = ct.company_id
+       LEFT JOIN categories cat ON c.category_id = cat.id
        WHERE ct.id = $1`,
-      [tagId],
+      [tagId]
     );
 
     res.json(result.rows);
@@ -111,9 +128,12 @@ app.get('/companies-by-tag-name/:tagName', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT DISTINCT c.*
-       FROM companies c JOIN company_tags ct ON c.id = ct.company_id WHERE LOWER(ct.tag) LIKE LOWER($1)`,
-      [`%${tagName}%`],
+      `SELECT DISTINCT c.*, cat.name AS category_name
+       FROM companies c
+       JOIN company_tags ct ON c.id = ct.company_id
+       LEFT JOIN categories cat ON c.category_id = cat.id
+       WHERE LOWER(ct.tag) LIKE LOWER($1)`,
+      [`%${tagName}%`]
     );
 
     res.json(result.rows);
@@ -128,11 +148,12 @@ app.get('/companies-by-area-id/:areaId', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT c.*
+      `SELECT c.*, cat.name AS category_name
        FROM companies c
-                JOIN activity_areas aa ON aa.id = c.activity_area_id
+       JOIN activity_areas aa ON aa.id = c.activity_area_id
+       LEFT JOIN categories cat ON c.category_id = cat.id
        WHERE aa.id = $1`,
-      [areaId],
+      [areaId]
     );
 
     res.json(result.rows);
@@ -147,11 +168,11 @@ app.get('/companies-by-category-id/:categoryId', async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT c.*
+      `SELECT c.*, cat.name AS category_name
        FROM companies c
-                JOIN categories cc ON cc.id = c.category_id
-       WHERE cc.id = $1`,
-      [categoryId],
+       JOIN categories cat ON c.category_id = cat.id
+       WHERE cat.id = $1`,
+      [categoryId]
     );
 
     res.json(result.rows);
@@ -174,7 +195,7 @@ app.get('/reviews', async (req, res) => {
 app.get('/last-reviews', async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM reviews ORDER BY created_at DESC LIMIT 8',
+      'SELECT * FROM reviews ORDER BY created_at DESC LIMIT 8'
     );
     res.json(result.rows);
   } catch (err) {
@@ -188,7 +209,7 @@ app.get('/reviews/:companyId', async (req, res) => {
   try {
     const result = await pool.query(
       'SELECT * FROM reviews WHERE company_id = $1',
-      [companyId],
+      [companyId]
     );
     res.json(result.rows);
   } catch (err) {
@@ -227,7 +248,6 @@ app.get('/company-tags', async (req, res) => {
   }
 });
 
-// Отримати всі відгуки для конкретної компанії
 app.get('/companies/:id/reviews', async (req, res) => {
   try {
     const result = await pool.query(
@@ -241,20 +261,25 @@ app.get('/companies/:id/reviews', async (req, res) => {
   }
 });
 
-app.post('/company/:id/reviews', express.json(), async (req, res) => {
+app.post('/company/:id/reviews', async (req, res) => {
   try {
-    console.log('BODY:', req.body); // ДОДАЙТЕ ЦЕ ДЛЯ ДЕБАГУ
-    const { review_text, user_name } = req.body;
-    const rating = 5;
+    // Отримуємо review_text, user_name ТА rating з тіла запиту
+    const { review_text, user_name, rating } = req.body; 
+
     if (!review_text || !review_text.trim()) {
       return res.status(400).json({ error: 'Текст відгуку обовʼязковий' });
     }
     if (!user_name || !user_name.trim()) {
       return res.status(400).json({ error: "Ім'я обов'язкове" });
     }
+    // Додаємо перевірку на коректність значення rating
+    if (typeof rating !== 'number' || rating < 1 || rating > 5) {
+        return res.status(400).json({ error: 'Рейтинг має бути числом від 1 до 5.' });
+    }
+
     const result = await pool.query(
       'INSERT INTO reviews (company_id, review_text, user_name, rating, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
-      [req.params.id, review_text.trim(), user_name.trim(), rating]
+      [req.params.id, review_text.trim(), user_name.trim(), rating] // Використовуємо отриманий rating
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
