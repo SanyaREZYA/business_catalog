@@ -179,7 +179,6 @@ function renderResults(companies) {
     container.appendChild(card);
   });
 
-  // Додаємо ініціалізацію зірок для нових карток
   document.querySelectorAll('.rating').forEach(rating => {
     const stars = rating.querySelectorAll('.star');
     let selected = 0;

@@ -253,10 +253,10 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__rate rate">
                 ${starElements}
               </div>
-              <a class="item-catalog__feedback-link" href="/reviews?company_id=${company.id}">Відгуки</a>
+              <a class="item-catalog__feedback-link" href="/company?id=${company.id}#reviews">Відгуки</a>
             </div>
             <div class="item-catalog__footer">
-              <a class="item-catalog__button" href="#">Детальніше</a>
+              <a class="item-catalog__button" href="/company?id=${company.id}">Детальніше</a>
               <a class="item-catalog__contact-button" href="#">Контакти</a>
             </div>
           </div>
@@ -315,12 +315,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           categoryMap[company.category_id] || `${company.category_id}`;
 
         let rating = 0;
-        let reviewCount = 0; // Добавляем переменную для количества отзывов
+        let reviewCount = 0;
         try {
           const reviewsResponse = await fetch(`/reviews/${company.id}`);
           if (reviewsResponse.ok) {
             const reviews = await reviewsResponse.json();
-            reviewCount = reviews.length; // Сохраняем количество отзывов
+            reviewCount = reviews.length;
             if (reviews.length > 0) {
               const totalRating = reviews.reduce(
                 (sum, review) => sum + review.rating,
@@ -402,11 +402,11 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__rate rate">
                 ${starElements}
               </div>
-              <a class="item-catalog__feedback-link" href="/reviews/${company.id}">Відгуки (${reviewCount})</a>
+              <a class="item-catalog__feedback-link" href="/company?id=${company.id}#reviews">Відгуки (${reviewCount})</a>
             </div>
             <div class="item-catalog__footer">
-              <a class="item-catalog__button" href="/companies/${company.id}">Детальніше</a>
-              <a class="item-catalog__contact-button" href="/companies/${company.id}/contact">Контакти</a>
+              <a class="item-catalog__button" href="/company?id=${company.id}">Детальніше</a>
+              <a class="item-catalog__contact-button" href="#">Контакти</a>
             </div>
           </div>
         `;
@@ -462,12 +462,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const imageSrc = company.logo_path;
 
         let rating = 0;
-        let reviewCount = 0; // Добавляем переменную для количества отзывов
+        let reviewCount = 0;
         try {
           const reviewsResponse = await fetch(`/reviews/${company.id}`);
           if (reviewsResponse.ok) {
             const reviews = await reviewsResponse.json();
-            reviewCount = reviews.length; // Сохраняем количество отзывов
+            reviewCount = reviews.length;
             if (reviews.length > 0) {
               const totalRating = reviews.reduce(
                 (sum, review) => sum + review.rating,
@@ -552,10 +552,10 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__rate rate">
                 ${starElements}
               </div>
-              <a class="item-catalog__feedback-link" href="/reviews/${company.id}">Відгуки (${reviewCount})</a>
+              <a class="item-catalog__feedback-link" href="/company?id=${company.id}#reviews">Відгуки (${reviewCount})</a>
             </div>
             <div class="item-catalog__footer">
-              <a class="item-catalog__button" href="#">Детальніше</a>
+              <a class="item-catalog__button" href="/company?id=${company.id}">Детальніше</a>
               <a class="item-catalog__contact-button" href="#">Контакти</a>
             </div>
           </div>
