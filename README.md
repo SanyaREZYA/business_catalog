@@ -20,7 +20,7 @@ bizlist/
 ├── .prettierrc         # Налаштування форматування коду Prettier
 │
 ├── db.js               # Конфігурація підключення до бази даних PostgreSQL
-├── server.js           # Основний сервер Node.js
+├── app.js           # Основний сервер Node.js
 │
 ├── package.json        # Основні мета-дані про проєкт і залежності
 ├── package-lock.json   # Фіксує точні версії встановлених пакетів
@@ -73,7 +73,7 @@ DB_PORT=5432           # Порт подключення до PostgreSQL
 
 ### 5. Запуск проекту
 
-`node server.js`
+`node app.js`
 
 ---
 
