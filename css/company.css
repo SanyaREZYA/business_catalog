@@ -10,8 +10,7 @@
   gap: 32px;
   align-items: flex-start;
   justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 85%;
 }
 
 .company-card {
@@ -118,6 +117,8 @@
 }
 
 .company-details {
+  /*word-break: break-word;*/
+  width: 100%;
   background: #ffffff;
   padding: 24px 28px;
   border-radius: 16px;
@@ -206,7 +207,7 @@
 }
 
 .company-left {
-  width: 20%;
+  width: auto;
 }
 
 .company-center {
@@ -214,7 +215,7 @@
 }
 
 .company-right {
-  width: 20%;
+  width: auto;
 }
 
 /* Star Rating Styles */

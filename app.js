@@ -82,6 +82,12 @@ app.get('/companies', async (req, res) => {
        FROM companies c
        LEFT JOIN categories cat ON c.category_id = cat.id`
     );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 app.post('/api/add-business', upload.single('logo'), async (req, res) => {
   try {
@@ -434,7 +440,6 @@ app.post('/company/:id/reviews', async (req, res) => {
     const result = await pool.query(
       'INSERT INTO reviews (company_id, review_text, user_name, rating, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
       [companyId, review_text.trim(), user_name.trim(), rating] // Використовуємо отриманий rating
-
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
