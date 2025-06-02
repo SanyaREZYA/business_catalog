@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         companyMap[company.id] = {
           logo_path: company.logo_path,
           name: company.name,
+          id: company.id,
         };
       });
 
@@ -106,12 +107,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const reviewElement = document.createElement('div');
         reviewElement.className = 'feedback__item';
         reviewElement.innerHTML = `
-        <a href="/reviews/${review.id}" class="feedback__item-image">
+        <a href="/company?id=${company.id}#reviews" class="feedback__item-image">
           <img src="${company.logo_path}" height="110px" alt="${company.name}">
         </a>
         <div class="feedback__item-text">${review.review_text}</div>
         <div class="feedback__item-info">${review.user_name} ${formattedDate}</div>
-        <a class="feedback__item-link white-back__button" href="/reviews/${review.id}">Читати детальніше</a>
+        <a class="feedback__item-link white-back__button" href="/company?id=${company.id}#reviews">Читати детальніше</a>
       `;
         feedbackContainer.appendChild(reviewElement);
       });
@@ -225,10 +226,10 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__vip">VIP</div>
               <div class="item-catalog__category">${categoryName}</div>
             </div>
-            <a class="item-catalog__img" target="_blank" href="${company.website}">
+            <a class="item-catalog__img" target="_blank" href="/company?id=${company.id}">
               <img src="${imageSrc}" alt="${company.name}">
             </a>
-            <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
+            <a class="item-catalog__title" href="/company?id=${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
               <li class="item-catalog__item">
                 <img class="item-catalog__item-ico" src="/images/logos/world.svg" alt="">
@@ -257,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="item-catalog__footer">
               <a class="item-catalog__button" href="/company?id=${company.id}">Детальніше</a>
-              <a class="item-catalog__contact-button" href="#">Контакти</a>
+              <a class="item-catalog__contact-button" href="/company?id=${company.id}#company-details">Контакти</a>
             </div>
           </div>
         `;
@@ -374,10 +375,10 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="item-catalog__vip" style="opacity: 0;">VIP</div>
               <div class="item-catalog__category">${categoryName}</div>
             </div>
-            <a class="item-catalog__img" href="/companies/${company.id}">
+            <a class="item-catalog__img" href="/company?id=${company.id}">
               <img src="${imageSrc}" alt="${company.name}">
             </a>
-            <a class="item-catalog__title" href="/companies/${company.id}">${company.name}</a>
+            <a class="item-catalog__title" href="/company?id=${company.id}">${company.name}</a>
             <ul class="item-catalog__list">
               <li class="item-catalog__item">
                 <img class="item-catalog__item-ico" src="/images/logos/world.svg" alt="">
@@ -406,7 +407,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="item-catalog__footer">
               <a class="item-catalog__button" href="/company?id=${company.id}">Детальніше</a>
-              <a class="item-catalog__contact-button" href="#">Контакти</a>
+              <a class="item-catalog__contact-button" href="/company?id=${company.id}#company-details">Контакти</a>
             </div>
           </div>
         `;
@@ -556,7 +557,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div class="item-catalog__footer">
               <a class="item-catalog__button" href="/company?id=${company.id}">Детальніше</a>
-              <a class="item-catalog__contact-button" href="#">Контакти</a>
+              <a class="item-catalog__contact-button" href="/company?id=${company.id}#company-details">Контакти</a>
             </div>
           </div>
         `;
