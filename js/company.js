@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Отримуємо вибране значення оцінки
     const ratingInput = document.querySelector('input[name="rating"]:checked');
     const rating = ratingInput ? parseInt(ratingInput.value) : null;
-
+    console.log(rating);
     if (!user_name || !review_text || rating === null) {
       alert('Будь ласка, заповніть усі поля та поставте оцінку.');
       return;
@@ -130,16 +130,15 @@ document.addEventListener('DOMContentLoaded', async function () {
       const res = await fetch(`/company/${companyId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ user_name, review_text, rating }) // Включено 'rating' до тіла запиту
+        body: JSON.stringify({ user_name, review_text, rating })
       });
 
       if (res.ok) {
         alert('Відгук успішно додано!');
         userNameInput.value = '';
         reviewTextInput.value = '';
-        // Зняти вибір з усіх зірок після відправки
         document.querySelectorAll('input[name="rating"]').forEach(radio => radio.checked = false);
-        await loadReviews(); // Перезавантажити відгуки для відображення нового
+        await loadReviews();
       } else {
         alert('Не вдалося додати відгук. Спробуйте ще раз.');
       }

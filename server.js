@@ -277,9 +277,12 @@ app.post('/company/:id/reviews', async (req, res) => {
         return res.status(400).json({ error: 'Рейтинг має бути числом від 1 до 5.' });
     }
 
+    const companyId = parseInt(req.params.id, 10);
+
+
     const result = await pool.query(
       'INSERT INTO reviews (company_id, review_text, user_name, rating, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING *',
-      [req.params.id, review_text.trim(), user_name.trim(), rating] // Використовуємо отриманий rating
+      [companyId, review_text.trim(), user_name.trim(), rating] // Використовуємо отриманий rating
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
