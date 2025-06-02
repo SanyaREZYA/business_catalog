@@ -39,12 +39,30 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     document.querySelector('.company-description').innerHTML = company.full_description || 'Опис відсутній.';
 
+    // Генерація HTML для соціальних мереж у новому форматі
+    let socialMediaHtml = '';
+    const socialMediaLinks = [];
+    if (company.telegram) socialMediaLinks.push(`<div><b>Telegram:</b> <a href="${company.telegram}" target="_blank">${company.telegram}</a></div>`);
+    if (company.viber) socialMediaLinks.push(`<div><b>Viber:</b> <a href="${company.viber}" target="_blank">${company.viber}</a></div>`);
+    if (company.facebook) socialMediaLinks.push(`<div><b>Facebook:</b> <a href="${company.facebook}" target="_blank">${company.facebook}</a></div>`);
+    if (company.instagram) socialMediaLinks.push(`<div><b>Instagram:</b> <a href="${company.instagram}" target="_blank">${company.instagram}</a></div>`);
+
+    if (socialMediaLinks.length > 0) {
+      socialMediaHtml = socialMediaLinks.join('');
+    } else {
+      socialMediaHtml = '<div>-</div>'; // Якщо немає жодної соцмережі
+    }
+
+    // Оновлений блок company-details з соціальними мережами
     document.querySelector('.company-details').innerHTML = `
       <div><b>Фактична адреса:</b><br>${company.address || '-'}</div>
       <div><b>Поштова адреса:</b><br>${company.address || '-'}</div>
       <div><b>Юридична адреса:</b><br>${company.address || '-'}</div>
       <div><b>Телефони:</b><br>
         ${phones.length ? phones.map(phone => `<a href="tel:${phone}">${phone}</a>`).join(', ') : '-'}
+      </div>
+      <div><b>Соціальні мережі:</b><br>
+        ${socialMediaHtml}
       </div>
       <div><b>Факс:</b> ${company.fax ? `<a href="tel:${company.fax}">${company.fax}</a>` : '-'}</div>
       <div><b>E-mail:</b> <a href="mailto:${company.email}">${company.email || '-'}</a></div>
@@ -120,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Отримуємо вибране значення оцінки
     const ratingInput = document.querySelector('input[name="rating"]:checked');
     const rating = ratingInput ? parseInt(ratingInput.value) : null;
-    console.log(rating);
+
     if (!user_name || !review_text || rating === null) {
       alert('Будь ласка, заповніть усі поля та поставте оцінку.');
       return;
@@ -130,17 +148,20 @@ document.addEventListener('DOMContentLoaded', async function () {
       const res = await fetch(`/company/${companyId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ user_name, review_text, rating })
+        body: JSON.stringify({ user_name, review_text, rating }) // Включено 'rating' до тіла запиту
       });
 
       if (res.ok) {
         alert('Відгук успішно додано!');
         userNameInput.value = '';
         reviewTextInput.value = '';
+        // Зняти вибір з усіх зірок після відправки
         document.querySelectorAll('input[name="rating"]').forEach(radio => radio.checked = false);
-        await loadReviews();
+        await loadReviews(); // Перезавантажити відгуки для відображення нового
       } else {
-        alert('Не вдалося додати відгук. Спробуйте ще раз.');
+        // Отримати повідомлення про помилку з сервера, якщо доступно
+        const errorData = await res.json();
+        alert(`Не вдалося додати відгук: ${errorData.error || 'Спробуйте ще раз.'}`);
       }
     } catch (error) {
       console.error('Помилка при відправці відгуку:', error);
