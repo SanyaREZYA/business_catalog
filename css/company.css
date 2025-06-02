@@ -25,13 +25,29 @@
 }
 
 .company-additional {
-  flex: 1 1 340px;
-  background: #f8f9fa;
-  padding: 32px 24px;
+  all: unset;
+  display: block;
+  background: #ffffff !important;
+  padding: 24px 28px !important;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(33, 37, 41, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   border: 1px solid #dee2e6;
-  min-width: 260px;
+  min-width: 320px;
+  max-width: 650px;
+  transition: all 0.3s ease;
+}
+
+.company-additional:hover {
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.1);
+}
+
+.company-additional-wide {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  margin-bottom: 24px;
 }
 
 .company-main {
@@ -40,10 +56,16 @@
 
 .company-extra {
   flex: 1;
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.company-extra:hover {
+  transform: translateY(-4px);
 }
 
 .company-header {
@@ -53,25 +75,31 @@
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
+  margin-top: 0;
 }
 
 .company-logo {
-  width: 110px;
-  height: 110px;
+  max-width: 220px;
+  max-height: 220px;
+  width: 100%;
+  height: auto;
   object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(33, 37, 41, 0.10);
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(33, 37, 41, 0.13);
   background: #fff;
-  border: 1px solid #dee2e6;
-  padding: 8px;
+  border: 1.5px solid #dee2e6;
+  padding: 18px;
+  margin-top: 0;
 }
 
 .company-info h2 {
   margin: 0;
-  font-size: 2.1rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #212529;
   letter-spacing: 0.5px;
+  line-height: 1.1;
+  margin-top: 0;
 }
 
 .company-rating {
@@ -90,10 +118,19 @@
 }
 
 .company-details {
-  margin-top: 20px;
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #dee2e6;
   font-size: 1.05rem;
   color: #495057;
   line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.company-details:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.09);
 }
 
 .company-details a {
@@ -124,6 +161,107 @@
   padding-bottom: 0.5rem;
 }
 
+.company-reviews {
+  margin-top: 32px;
+  width: 100%;
+}
+
+/* Оновлені стилі для відгуків */
+
+#reviews-list {
+  width: 1100px;
+  margin: 0 auto;
+}
+
+#reviews-list > div {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 8px rgba(33,37,41,0.06);
+  font-size: 1rem;
+}
+
+#reviews-list .fw-bold {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+#reviews-list .text-muted {
+  font-size: 0.9rem;
+  margin-top: 6px;
+  color: #6c757d;
+}
+
+.nav-bar {
+  background-color: white;
+}
+
+.company-layout {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.company-left {
+  width: 20%;
+}
+
+.company-center {
+  width: 60%;
+}
+
+.company-right {
+  width: 20%;
+}
+
+/* Star Rating Styles */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse; /* Дуже ВАЖЛИВО: Зворотний порядок елементів для коректної роботи CSS */
+  justify-content: flex-end; /* Вирівнюємо зірки праворуч */
+  margin-top: 5px;
+}
+
+.star-rating input {
+  display: none; /* Приховуємо радіо-кнопки */
+}
+
+.star-rating label {
+  font-size: 2.2rem; /* Розмір зірок */
+  color: #ccc; /* Колір неактивних зірок */
+  cursor: pointer;
+  padding: 0 0.1rem;
+  transition: color 0.2s ease-in-out;
+}
+
+/* При наведенні курсору на зірку або виборі, зафарбувати її та всі НАСТУПНІ в HTML-порядку (які візуально є ПОПЕРЕДНІМИ) */
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #ffc107; /* Колір зірок при наведенні курсору та для вибраних зірок */
+}
+
+/* For displaying existing reviews with stars */
+.review-stars {
+  color: #ffc107; /* Gold color for displayed stars */
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 991.98px) {
+  .company-layout {
+    flex-direction: column;
+  }
+  .company-left,
+  .company-center,
+  .company-right {
+    width: 100%;
+  }
+}
+
 @media (max-width: 991.98px) {
   .company-container {
     flex-direction: column;
@@ -138,5 +276,11 @@
     flex-direction: column;
     gap: 18px;
     align-items: flex-start;
+  }
+  /* Адаптивність для відгуків */
+  #reviews-list {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
 }

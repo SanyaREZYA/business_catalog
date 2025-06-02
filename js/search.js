@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const tagInput = document.querySelector('.tag-search input[type="text"]');
   const tagButton = document.querySelector('.tag-search button');
 
-  // Функція отримує input-елемент і створює змінну query із його значення
   function handleSearch(inputElement) {
     const query = inputElement.value;
     if (!query.trim()) {
@@ -40,38 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (e.key === 'Enter') handleSearch(tagInput);
     });
   }
-
-  document.querySelectorAll('.rating').forEach(rating => {
-    const stars = rating.querySelectorAll('.star');
-    let selected = 0;
-
-    stars.forEach((star, idx) => {
-      // Наведення
-      star.addEventListener('mouseenter', () => {
-        stars.forEach((s, i) => {
-          s.classList.remove('selected');
-          if (i <= idx) s.classList.add('selected');
-        });
-      });
-      // Вихід миші
-      star.addEventListener('mouseleave', () => {
-        stars.forEach((s, i) => {
-          s.classList.remove('selected');
-          if (i < selected) s.classList.add('selected');
-        });
-      });
-      // Клік
-      star.addEventListener('click', () => {
-        selected = idx + 1;
-        stars.forEach((s, i) => {
-          s.classList.remove('selected');
-          if (i < selected) s.classList.add('selected');
-        });
-        // TODO: Відправити рейтинг на сервер через fetch
-        // fetch('/api/rate', {method: 'POST', body: JSON.stringify({companyId: rating.dataset.companyId, value: selected})})
-      });
-    });
-  });
 });
 
 function searchCombined(query) {
@@ -91,13 +58,13 @@ function searchCombined(query) {
       if (!res.ok) throw new Error('Network response was not ok for company name search');
       return res.json();
     });
-    
+
   const searchByTag = fetch(`/companies-by-tag-name/${encodeURIComponent(query)}`)
     .then(res => {
       if (!res.ok) throw new Error('Network response was not ok for tag search');
       return res.json();
     });
-  
+
   Promise.all([searchByName, searchByTag])
     .then(([byName, byTag]) => {
       const merged = [];
@@ -120,15 +87,17 @@ function renderResults(companies) {
   const container = document.querySelector('main .row');
   if (!container) return;
   container.innerHTML = '';
+
   if (!Array.isArray(companies) || companies.length === 0) {
     container.innerHTML = '<p class="text-muted">Нічого не знайдено.</p>';
     return;
   }
+
   companies.forEach(company => {
     const {
       id,
       name = 'Без назви',
-      short_description = 'Категорія',
+      category_name = 'Категорія',
       logo_path = '/images/default.png',
       address = 'Невідомо',
       email = '-',
@@ -142,16 +111,17 @@ function renderResults(companies) {
 
     card.innerHTML = `
       <div class="card h-100 shadow-sm">
-        <div class="badge">${short_description}</div>
+        <div class="badge" title="${category_name}">
+          <span class="ellipsis-text">${category_name}</span>
+        </div>
         <img alt="${name}" class="card-img-top" src="${logo_path}">
         <div class="card-body">
-          <h5 class="card-title">${name}</h5>
+          <h5 class="card-title" title="${name}">${name}</h5>
           <div class="info-list">
-            <div class="info-item"><span>📍</span> ${address}</div>
-            <div class="info-item"><span>📧</span> ${email}</div>
-            <div class="info-item"><span>🌐</span> ${website}</div>
+            <div class="info-item" title="${address}"><span>📍</span> <span class="ellipsis-text">${address}</span></div>
+            <div class="info-item" title="${email}"><span>📧</span> <span class="ellipsis-text">${email}</span></div>
+            <div class="info-item" title="${website}"><span>🌐</span> <span class="ellipsis-text">${website}</span></div>
           </div>
-          <!-- Зірки під сайтом (видимі до натискання "Контакти") -->
           <div class="rating rating-main mb-2" data-company-id="${id}">
             <span class="star" data-value="1">&#9733;</span>
             <span class="star" data-value="2">&#9733;</span>
@@ -160,8 +130,8 @@ function renderResults(companies) {
             <span class="star" data-value="5">&#9733;</span>
           </div>
           <div class="details mt-3" style="display: none;">
-            <p class="info-item" style="margin-top:-1rem !important"><span>👤</span> ${founder}</p>
-            <p class="info-item"><span>📅</span> ${year_founded}</p>
+            <p class="info-item" title="${founder}"><span>👤</span> <span class="ellipsis-text">${founder}</span></p>
+            <p class="info-item" title="${year_founded}"><span>📅</span> <span class="ellipsis-text">${year_founded}</span></p>
             <div class="rating rating-details mb-2 mt-2" data-company-id="${id}">
               <span class="star" data-value="1">&#9733;</span>
               <span class="star" data-value="2">&#9733;</span>
@@ -175,9 +145,16 @@ function renderResults(companies) {
             <a class="btn btn-primary btn-sm details-btn" href="/company?id=${id}">Детальніше</a>
           </div>
         </div>
-      </div>`;
+      </div>
+    `;
     container.appendChild(card);
   });
+
+  initializeRatings();
+  initializeContactButtons();
+}
+
+function initializeRatings() {
 
   document.querySelectorAll('.rating').forEach(rating => {
     const stars = rating.querySelectorAll('.star');
@@ -206,10 +183,11 @@ function renderResults(companies) {
       });
     });
   });
+}
 
-  // Додаємо функціонал кнопки "Контакти"
+function initializeContactButtons() {
   document.querySelectorAll('.contact-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       const cardBody = this.closest('.card-body');
       if (!cardBody) return;
       const details = cardBody.querySelector('.details');
@@ -224,7 +202,6 @@ function renderResults(companies) {
     });
   });
 
-  // При ініціалізації: rating-main показувати, rating-details сховати
   document.querySelectorAll('.rating-main').forEach(r => r.style.display = '');
   document.querySelectorAll('.rating-details').forEach(r => r.style.display = 'none');
 }
