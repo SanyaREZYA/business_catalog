@@ -124,6 +124,41 @@ main {
   .form-group input:invalid {
     border-left: 3px solid #e74c3c;
   }
+
+  .form-group select:required {
+    border-left: 3px solid #3498db;
+  }
+
+  .form-group select:invalid {
+    border-left: 3px solid #e74c3c;
+  }
+
+  .form-group textarea:required {
+    border-left: 3px solid #3498db;
+  }
+  
+  .form-group textarea:invalid {
+    border-left: 3px solid #e74c3c;
+  }
+
+.file-preview img {
+  max-width: 300px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 10px;
+  object-fit: contain;
+}
+
+.file-preview {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  margin: 10px 0;
+}
   
   .error-hint {
     color: #e74c3c;
