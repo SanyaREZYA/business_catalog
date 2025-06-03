@@ -220,6 +220,24 @@ app.get('/last-companies', async (req, res) => {
   }
 });
 
+app.get('/vip-companies', async (req, res) => {
+  try {
+    const result = await pool.query(
+
+      `SELECT c.*, cat.name AS category_name
+       FROM companies c
+       LEFT JOIN categories cat ON c.category_id = cat.id
+       WHERE c.vip = true
+       ORDER BY RANDOM()
+       LIMIT 8`
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error getting last companies:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/companies/:id', async (req, res) => {
   try {
     const result = await pool.query(
