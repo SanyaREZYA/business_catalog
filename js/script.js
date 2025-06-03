@@ -570,43 +570,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // async function loadBusinessCategories() {
-  //   const catalogBody = document.querySelector('.main-catalog__body');
-  //   if (!catalogBody) {
-  //     return;
-  //   }
-  //
-  //   try {
-  //     const response = await fetch('/categories');
-  //     if (!response.ok) {
-  //       throw new Error(
-  //         `Помилка HTTP: ${response.status} ${response.statusText}`,
-  //       );
-  //     }
-  //     const categories = await response.json();
-  //
-  //     catalogBody.innerHTML = '';
-  //     if (categories.length === 0) {
-  //       catalogBody.innerHTML = '<p>Категорії відсутні.</p>';
-  //       return;
-  //     }
-  //
-  //     categories.slice(0, 4).forEach((category) => {
-  //       const categoryElement = document.createElement('a');
-  //       categoryElement.className = 'main-catalog__item';
-  //       categoryElement.href = `/categories/${category.id}`;
-  //       categoryElement.innerHTML = `
-  //         <img src="/images/logos/poster_09.webp" alt="${category.name}">
-  //         <span>${category.name}</span>
-  //       `;
-  //       catalogBody.appendChild(categoryElement);
-  //     });
-  //   } catch (error) {
-  //     catalogBody.innerHTML =
-  //       '<p>Не вдалося завантажити категорії. Попробуйте пізніше...</p>';
-  //   }
-  // }
-
   await Promise.all([
     loadReviews(),
     loadCompanyServices(),
