@@ -594,6 +594,10 @@
 }
 
 .feedback__item-info {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #9a9a9a;
 }
 
