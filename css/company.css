@@ -10,9 +10,9 @@
   gap: 32px;
   align-items: flex-start;
   justify-content: center;
-  max-width: 1200px; /* Increased max-width for larger screens */
-  margin: 0 auto; /* Center the container */
-  padding: 0 20px; /* Add some padding on sides for larger screens */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .company-card {
@@ -26,7 +26,7 @@
 }
 
 .company-additional {
-  all: unset; /* Reset all properties first */
+  all: unset;
   display: block;
   background: #ffffff !important;
   padding: 16px 18px !important;
@@ -36,8 +36,8 @@
   min-width: 300px;
   max-width: 430px;
   transition: all 0.3s ease;
-  min-height: 350px; /* Changed height to min-height for flexibility */
-  box-sizing: border-box; /* Ensure padding is included in width/height */
+  min-height: 350px;
+  box-sizing: border-box;
 }
 
 .company-additional:hover {
@@ -79,14 +79,14 @@
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
   margin-top: 0;
-  flex-wrap: wrap; /* Додано, щоб елементи могли переноситись */
+  flex-wrap: wrap;
 }
 
 .company-logo {
   max-width: 220px;
   max-height: 220px;
-  width: 100%; /* Make it responsive */
-  height: auto; /* Maintain aspect ratio */
+  width: 100%;
+  height: auto;
   object-fit: contain;
   border-radius: 20px;
   box-shadow: 0 2px 16px rgba(33, 37, 41, 0.13);
@@ -97,9 +97,9 @@
 }
 
 .company-info {
-    flex-grow: 1; /* Дозволяє зайняти доступний простір */
-    word-wrap: break-word; /* Для перенесення довгих назв */
-    overflow-wrap: break-word;
+  flex-grow: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .company-info h2 {
@@ -138,7 +138,9 @@
   color: #495057;
   line-height: 1.6;
   transition: all 0.3s ease;
-  box-sizing: border-box; /* Ensure padding is included in width */
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .company-details:hover {
@@ -178,11 +180,10 @@
   width: 100%;
 }
 
-/* Оновлені стилі для відгуків */
 #reviews-list {
-  max-width: 100%; /* Changed from fixed width to max-width */
+  width: 1150px;
   margin: 0 auto;
-  padding: 0 15px; /* Added padding for smaller screens */
+  padding: 0 15px;
   box-sizing: border-box;
 }
 
@@ -192,7 +193,7 @@
   border-radius: 12px;
   margin-bottom: 16px;
   padding: 16px 20px;
-  box-shadow: 0 1px 8px rgba(33,37,41,0.06);
+  box-shadow: 0 1px 8px rgba(33, 37, 41, 0.06);
   font-size: 1rem;
 }
 
@@ -221,22 +222,20 @@
 }
 
 .company-left {
-  flex: 1; /* Use flex-grow for flexible width */
-  min-width: 300px; /* Ensure a minimum width before wrapping */
+  flex: 1;
+  min-width: 300px;
 }
 
 .company-center {
-  flex: 2; /* Main content takes more space */
-  min-width: 300px; /* Ensure a minimum width */
+  flex: 2;
+  min-width: 300px;
 }
 
 .company-right {
-  flex: 1; /* Use flex-grow for flexible width */
-  min-width: 300px; /* Ensure a minimum width */
+  flex: 1;
+  min-width: 300px;
 }
 
-
-/* Star Rating Styles */
 .star-rating {
   display: flex;
   flex-direction: row-reverse;
@@ -268,93 +267,87 @@
   margin-bottom: 5px;
 }
 
-/* --- Media Queries for Responsiveness --- */
-
-/* For screens smaller than 1200px (adjust company-container max-width) */
 @media (max-width: 1200px) {
   .company-container {
-    max-width: 95%; /* Adjust for slightly smaller screens */
+    max-width: 95%;
   }
 }
 
-/* For screens smaller than 992px (typical tablet landscape and smaller desktops) */
 @media (max-width: 991.98px) {
   .company-container {
-    flex-direction: column; /* Stack main sections vertically */
+    flex-direction: column;
     gap: 24px;
-    max-width: 90%; /* Adjust for tablets */
-    padding: 0; /* Remove horizontal padding here, inner elements will have it */
+    max-width: 90%;
+    padding: 0;
   }
 
   .company-layout {
-    flex-direction: column; /* Stack inner columns vertically */
+    flex-direction: column;
     gap: 24px;
   }
 
   .company-left,
   .company-center,
   .company-right {
-    width: 100%; /* Take full width */
-    min-width: unset; /* Remove min-width to allow shrinking */
-    flex: none; /* Disable flex-grow */
+    width: 100%;
+    min-width: unset;
+    flex: none;
   }
 
   .company-additional {
-    max-width: 100%; /* Ensure it takes full width when stacked */
-    height: auto; /* Allow height to adjust to content */
-    min-height: unset; /* Reset min-height */
+    max-width: 100%;
+    height: auto;
+    min-height: unset;
   }
 
   .company-header {
-    flex-direction: column; /* Stack logo and info vertically */
-    align-items: center; /* Center align items in stacked header */
-    gap: 0; /* Видалив gap, будемо контролювати відступами */
-    padding-bottom: 1rem; /* Зменшити відступ знизу */
-    margin-bottom: 1rem; /* Зменшити відступ знизу */
-    text-align: center; /* Center text under stacked header */
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
   }
 
   .company-logo {
-    max-width: 180px; /* Smaller logo on tablets */
+    max-width: 180px;
     max-height: 180px;
-    margin-bottom: 15px; /* Додати відступ знизу для логотипу */
-    margin-right: 0 !important; /* Важливо: обнулити me-3 (margin-right) від Bootstrap */
+    margin-bottom: 15px;
+    margin-right: 0 !important;
   }
 
   .company-info {
-    margin-bottom: 15px; /* Додати відступ знизу для інформації про компанію */
-    text-align: center; /* Центрувати текст інформації */
+    margin-bottom: 15px;
+    text-align: center;
   }
 
   .company-info h2 {
-    font-size: 2.2rem; /* Slightly smaller font for company name */
-    margin-bottom: 5px; /* Додати невеликий відступ під назвою */
+    font-size: 2.2rem;
+    margin-bottom: 5px;
   }
 
   .company-description {
-    margin-top: 0; /* Обнулити, оскільки відступ вже є в header */
+    margin-top: 0;
   }
 
-  /* Reviews section on smaller screens */
   #reviews-list {
     max-width: 100%;
-    padding: 0 20px; /* Add more padding for reviews on tablets */
+    padding: 0 20px;
   }
 
   #review-form {
-    padding: 0 20px; /* Add padding to form on tablets */
+    padding: 0 20px;
     box-sizing: border-box;
   }
 }
 
-/* For screens smaller than 768px (typical tablet portrait and phones) */
 @media (max-width: 767.98px) {
   .company-page {
-    padding: 20px 0; /* Less vertical padding on smaller screens */
+    padding: 20px 0;
   }
 
   .company-container {
-    max-width: 95%; /* Even tighter max-width on phones */
+    max-width: 95%;
     padding: 0;
   }
 
@@ -362,33 +355,32 @@
   .company-details,
   .company-additional,
   #reviews-list > div {
-    padding: 15px; /* Reduced padding for all main content blocks */
+    padding: 15px;
   }
 
   .company-info h2 {
-    font-size: 1.8rem; /* Further reduce font size for phones */
+    font-size: 1.8rem;
   }
 
   .company-description,
   .company-details,
   .list-group-item,
   #reviews-list > div {
-    font-size: 0.95rem; /* Slightly smaller text for body content */
+    font-size: 0.95rem;
   }
 
   .company-header {
-    padding-bottom: 0.75rem; /* Ще менше відступ знизу */
-    margin-bottom: 0.75rem; /* Ще менше відступ знизу */
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
   .company-logo {
-    max-width: 120px; /* Even smaller logo on phones */
+    max-width: 120px;
     max-height: 120px;
-    padding: 10px; /* Reduced padding for logo */
-    margin-bottom: 10px; /* Зменшити відступ знизу для логотипу */
+    padding: 10px;
+    margin-bottom: 10px;
   }
 
-  /* Adjust star rating size for mobile */
   .star-rating label {
     font-size: 1.8rem;
   }
@@ -398,15 +390,14 @@
   }
 
   #reviews-list {
-    padding: 0 10px; /* Minimal padding for reviews on phones */
+    padding: 0 10px;
   }
 
   #review-form {
-    padding: 0 10px; /* Minimal padding for form on phones */
+    padding: 0 10px;
   }
 }
 
-/* For very small screens (e.g., iPhone 5/SE) */
 @media (max-width: 479.98px) {
   .company-container {
     max-width: 100%;
@@ -417,8 +408,8 @@
   .company-details,
   .company-additional,
   #reviews-list > div {
-    padding: 10px; /* Minimal padding for very small screens */
-    border-radius: 10px; /* Slightly smaller border-radius */
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .company-info h2 {

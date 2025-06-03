@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     `;
 
     // Оновлений правий блок (company-additional)
+    // ЗМІНА ТУТ: Видалено блок "Кількість працівників"
     document.querySelector('.company-additional').innerHTML = `
       <div class="p-3 rounded bg-white mb-3">
         <h5>Реєстраційні дані</h5>
@@ -79,10 +80,6 @@ document.addEventListener('DOMContentLoaded', async function () {
           <div><b>Бухгалтер</b></div>
           <div>${company.accountant}</div>
         </div>` : ''}
-        <div class="mb-2">
-          <div><b>Кількість працівників</b></div>
-          <div>${company.employees_count || '-'}</div>
-        </div>
         <div class="mb-2">
           <div><b>Рік заснування:</b></div>
           <div>${company.year_founded || '-'}</div>
@@ -143,6 +140,15 @@ document.addEventListener('DOMContentLoaded', async function () {
   const userNameInput = document.getElementById('review-name');
   const reviewTextInput = document.getElementById('review-text');
 
+  // ДОДАЄМО ЦЕЙ КОД ДЛЯ ОБМЕЖЕННЯ ВВОДУ СИМВОЛІВ
+  const MAX_USERNAME_LENGTH = 256;
+  userNameInput.addEventListener('input', function() {
+    if (this.value.length > MAX_USERNAME_LENGTH) {
+      this.value = this.value.slice(0, MAX_USERNAME_LENGTH);
+    }
+  });
+  // КІНЕЦЬ НОВОГО КОДУ
+
   reviewForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const user_name = userNameInput.value.trim();
@@ -153,6 +159,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (!user_name || !review_text || rating === null) {
       alert('Будь ласка, заповніть усі поля та поставте оцінку.');
       return;
+    }
+
+    // Додаткова перевірка довжини перед відправкою (хоча event listener вже обріже)
+    if (user_name.length > MAX_USERNAME_LENGTH) {
+        alert(`Ім'я користувача не може перевищувати ${MAX_USERNAME_LENGTH} символів.`);
+        return;
     }
 
     try {
