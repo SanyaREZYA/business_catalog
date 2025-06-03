@@ -9,12 +9,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/company.css">
   <link rel="stylesheet" href="css/main.css">
-  <link href="https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap"
-        rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-light">
+
 <header class="nav-bar">
   <div class="logo">
     <img alt="logo" src="/images/logos/logo.png">
@@ -37,7 +36,8 @@
     <div class="company-layout">
       <div class="company-left">
         <div id="company-details" class="company-details p-3 border rounded bg-white mb-3">
-          </div>
+          <!-- Сюди підтягуються дані -->
+        </div>
       </div>
 
       <div class="company-center">
@@ -53,7 +53,8 @@
 
       <div class="company-right">
         <div class="company-additional">
-          </div>
+          <!-- Додаткова інформація -->
+        </div>
       </div>
     </div>
 
@@ -62,17 +63,22 @@
         <h4 id="reviews">Відгуки</h4>
         <div id="reviews-list"></div>
         <form id="review-form" class="mt-3">
-          <input id="review-name" class="form-control mb-2" placeholder="Ваше ім'я">
+          <input id="review-name" class="form-control mb-2" placeholder="Ваше ім'я" type="text" maxlength="256">
           <textarea id="review-text" class="form-control mb-2" placeholder="Ваш відгук"></textarea>
 
           <div class="mb-3">
-            <label for="review-rating" class="form-label">Ваша оцінка:</label>
+            <label class="form-label">Ваша оцінка:</label>
             <div class="star-rating">
-              <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 зірок">★</label>
-              <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 зірки">★</label>
-              <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 зірки">★</label>
-              <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 зірки">★</label>
-              <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 зірка">★</label>
+              <input type="radio" id="star5" name="rating" value="5" />
+              <label for="star5" title="5 зірок">★</label>
+              <input type="radio" id="star4" name="rating" value="4" />
+              <label for="star4" title="4 зірки">★</label>
+              <input type="radio" id="star3" name="rating" value="3" />
+              <label for="star3" title="3 зірки">★</label>
+              <input type="radio" id="star2" name="rating" value="2" />
+              <label for="star2" title="2 зірки">★</label>
+              <input type="radio" id="star1" name="rating" value="1" />
+              <label for="star1" title="1 зірка">★</label>
             </div>
           </div>
 
