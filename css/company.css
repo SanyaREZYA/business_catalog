@@ -182,8 +182,8 @@
 
 #reviews-list {
   width: 1150px;
-  margin: 0 auto;
-  padding: 0 15px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -228,7 +228,7 @@
 
 .company-center {
   flex: 2;
-  min-width: 300px;
+  width: 75%;
 }
 
 .company-right {
@@ -266,6 +266,35 @@
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
+
+/* Зміщення лівого блоку лівіше */
+.company-left {
+  flex: 1;
+  min-width: 300px;
+  margin-left: -70px;
+}
+
+/* Продукція, послуги — в один рядок */
+.company-services {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 8px;
+}
+.company-services div {
+  display: inline-block;
+}
+.company-services .tag {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.company-right {
+  flex: 1;
+  min-width: 300px;
+  margin-right: -70px;
+}
+
 
 @media (max-width: 1200px) {
   .company-container {
