@@ -111,7 +111,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           <img src="${company.logo_path}" height="110px" alt="${company.name}">
         </a>
         <div class="feedback__item-text">${review.review_text}</div>
-        <div class="feedback__item-info">${review.user_name} ${formattedDate}</div>
+        <div class="feedback__item-info truncate">${review.user_name}</div>
+        <div class="feedback__item-info">${formattedDate}</div>
         <a class="feedback__item-link white-back__button" href="/company?id=${company.id}#reviews">Читати детальніше</a>
       `;
         feedbackContainer.appendChild(reviewElement);
@@ -146,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      const response = await fetch('/companies');
+      const response = await fetch('/vip-companies');
       if (!response.ok) {
         throw new Error(
           `Помилка HTTP: ${response.status} ${response.statusText}`,
@@ -372,7 +373,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         companyElement.innerHTML = `
           <div class="item-catalog__wrapper">
             <div class="item-catalog__header">
-              <div class="item-catalog__vip" style="opacity: 0;">VIP</div>
+              <div class="item-catalog__vip" style="opacity: ${company.vip ? 1 : 0};">VIP</div>
               <div class="item-catalog__category">${categoryName}</div>
             </div>
             <a class="item-catalog__img" href="/company?id=${company.id}">
@@ -443,7 +444,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      const response = await fetch('/companies');
+      const response = await fetch('/vip-companies');
       if (!response.ok) {
         throw new Error(
           `Помилка HTTP: ${response.status} ${response.statusText}`,
@@ -574,6 +575,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadReviews(),
     loadCompanyServices(),
     loadLastAddedCompany(),
-    loadBusinessCategories(),
   ]);
 });
