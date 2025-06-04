@@ -36,26 +36,33 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.querySelector('.company-info h2').textContent = company.name || 'Без назви';
     document.querySelector('.company-description').innerHTML = company.full_description || 'Опис відсутній.';
 
-    // Соціальні мережі
     const socialMediaLinks = [];
-    if (company.telegram) socialMediaLinks.push(`<b>Telegram:</b> <a href="${company.telegram}" target="_blank">${company.telegram}</a>`);
-    if (company.viber) socialMediaLinks.push(`<b>Viber:</b> <a href="${company.viber}" target="_blank">${company.viber}</a>`);
-    if (company.facebook) socialMediaLinks.push(`<b>Facebook:</b> <a href="${company.facebook}" target="_blank">${company.facebook}</a>`);
-    if (company.instagram) socialMediaLinks.push(`<b>Instagram:</b> <a href="${company.instagram}" target="_blank">${company.instagram}</a>`);
+    if (company.telegram) socialMediaLinks.push(`<div><b>Telegram:</b><br><a href="${company.telegram}" target="_blank"><span class="truncate">${company.telegram}</span></a></div>`);
+    if (company.viber) socialMediaLinks.push(`<div><b>Viber:</b><br><a href="${company.viber}" target="_blank"><span class="truncate">${company.viber}</span></a></div>`);
+    if (company.facebook) socialMediaLinks.push(`<div><b>Facebook:</b><br><a href="${company.facebook}" target="_blank"><span class="truncate">${company.facebook}</span></a></div>`);
+    if (company.instagram) socialMediaLinks.push(`<div><b>Instagram:</b><br><a href="${company.instagram}" target="_blank"><span class="truncate">${company.instagram}</span></a></div>`);
 
-    const socialMediaHtml = socialMediaLinks.length > 0 ? socialMediaLinks.map(s => `<div>${s}</div>`).join('') : '<div>-</div>';
+    const socialMediaHtml = socialMediaLinks.length > 0 ? socialMediaLinks.join('') : '<div>-</div>';
 
-    // Лівий блок з контактами
+    const phoneHtml = phones.length
+      ? phones.map(p => `<div><a href="tel:${p}">${p}</a></div>`).join('')
+      : '-';
+
     document.querySelector('.company-details').innerHTML = `
-      <div><b>Фактична адреса:</b> ${company.address || '-'}</div>
-      <div><b>Поштова адреса:</b> ${company.address || '-'}</div>
-      <div><b>Юридична адреса:</b> ${company.address || '-'}</div>
-      <div><b>Телефони:</b> ${phones.length ? phones.map(p => `<a href="tel:${p}">${p}</a>`).join(', ') : '-'}</div>
-      <div><b>Соціальні мережі:</b><br>${socialMediaHtml}</div>
-      <div><b>Факс:</b> ${company.fax ? `<a href="tel:${company.fax}">${company.fax}</a>` : '-'}</div>
-      <div><b>E-mail:</b> <a href="mailto:${company.email}">${company.email || '-'}</a></div>
-      <div><b>Сайт:</b> <a href="${company.website || '#'}" target="_blank">${company.website || '-'}</a></div>
-    `;
+  <div><b>Фактична адреса:</b></div>
+  <div>${company.address || '-'}</div>
+  <div><b>Поштова адреса:</b></div>
+  <div>${company.address || '-'}</div>
+  <div><b>Юридична адреса:</b></div>
+  <div>${company.address || '-'}</div>
+  <div><b>Телефони:</b></div>
+  ${phoneHtml}
+  ${socialMediaHtml}
+  <div><b>Факс:</b> ${company.fax ? `<a href="tel:${company.fax}"><span class="truncate">${company.fax}</span></a>` : '-'}</div>
+  <div><b>E-mail:</b> <a href="mailto:${company.email}"><span class="truncate">${company.email || '-'}</span></a></div>
+  <div><b>Сайт:</b> <a href="${company.website || '#'}" target="_blank"><span class="truncate">${company.website || '-'}</span></a></div>
+`;
+
 
     // Послуги
     document.querySelector('.company-services').innerHTML = `
