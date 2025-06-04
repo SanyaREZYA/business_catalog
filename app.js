@@ -115,11 +115,9 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       if (!value) throw new Error(`Поле "${field}" є обов'язковим`);
     }
 
-
     const activity_area_id = parseInt(region);
     const category_id = parseInt(category);
     const year = parseInt(year_founded);
-
 
     if (isNaN(activity_area_id) || isNaN(category_id) || isNaN(year)) {
       throw new Error('Некоректні числові значення');
@@ -180,12 +178,13 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
 
     if (Array.isArray(kveds) && kveds.length > 0) {
       const insertKvedQuery = `
-        INSERT INTO company_kweds (company_id, kwed_id)
-        VALUES ${kveds.map((_, i) => `($1, $${i + 2})`).join(', ')}
+          INSERT INTO company_kweds (company_id, kwed_id, is_main)
+          VALUES ${kveds.map((_, i) => `($1, $${i + 2}, ${i === 0 ? 'true' : 'false'})`).join(', ')}
       `;
       await pool.query(insertKvedQuery, [companyId, ...kveds.map(Number)]);
     }
-    
+
+
     res.setHeader('Content-Type', 'application/json');
     res.status(201).json({
       success: true,
