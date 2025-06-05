@@ -147,63 +147,86 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   async function loadInitialData() {
-    try {
-      
-      const areasResponse = await fetch('/activity-areas');
-      const areas = await areasResponse.json();
-      const regionSelect = document.getElementById('region');
-      const vipRegionSelect = document.getElementById('vip-region');
-      
-      const categoriesResponse = await fetch('/categories');
-      const categories = await categoriesResponse.json();
-      const categorySelect = document.getElementById('category');
-      const vipCategorySelect = document.getElementById('vip-category');
+  try {
+    const areasResponse = await fetch('/activity-areas');
+    const areas = await areasResponse.json();
+    const regionSelect = document.getElementById('region');
+    const vipRegionSelect = document.getElementById('vip-region');
 
-      const kvedsResponse = await fetch('/kveds');
-      const kveds = await kvedsResponse.json();
-      const kvedSelect = document.getElementById('kveds');
-      const vipKvedSelect = document.getElementById('vip-kveds');
-      
-      const populateSelect = (select, data) => {
-        if (select) {
-          data.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            select.appendChild(option);
-          });
-        }
-      };
+    const categoriesResponse = await fetch('/categories');
+    const categories = await categoriesResponse.json();
+    const categorySelect = document.getElementById('category');
+    const vipCategorySelect = document.getElementById('vip-category');
 
-      populateSelect(regionSelect, areas);
-      populateSelect(categorySelect, categories);
-      populateSelect(vipRegionSelect, areas);
-      populateSelect(vipCategorySelect, categories);
+    const kvedsResponse = await fetch('/kveds');
+    const kveds = await kvedsResponse.json();
+    const kvedSelect = document.getElementById('kveds');
+    const vipKvedSelect = document.getElementById('vip-kveds');
+
+    const populateSelect = (select, data) => {
+      if (select) {
+        data.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.id;
+          option.textContent = item.name;
+          select.appendChild(option);
+        });
+      }
+    };
+
+    populateSelect(regionSelect, areas);
+    populateSelect(categorySelect, categories);
+    populateSelect(vipRegionSelect, areas);
+    populateSelect(vipCategorySelect, categories);
+
+    const parseKvedNumber = (name) => {
+      const match = name.match(/^(\d+)(\.\d+)?/);
+      if (!match) return 0;
+      const integer = parseInt(match[1], 10);
+      const decimal = match[2] ? parseFloat(match[2]) : 0;
+      return integer + decimal;
+    };
+
+    const choicesArray = kveds
+      .map(item => {
+        const kvedNumber = parseKvedNumber(item.name);
+        const searchable = item.name.replace(/\./g, '').toLowerCase();
+        return {
+          value: item.id,
+          label: item.name,
+          customProperties: {
+            searchable
+          },
+          _sortNumber: kvedNumber
+        };
+      })
+      .sort((a, b) => a._sortNumber - b._sortNumber);
 
     const kvedChoices = new Choices(kvedSelect, {
       removeItemButton: true,
       shouldSort: false,
       placeholderValue: 'Оберіть КВЕДи',
-      searchPlaceholderValue: 'Пошук...'
+      searchPlaceholderValue: 'Пошук...',
+      searchFields: ['label', 'customProperties.searchable'],
+      searchResultLimit: -1,
     });
 
     const vipKvedChoices = new Choices(vipKvedSelect, {
       removeItemButton: true,
       shouldSort: false,
       placeholderValue: 'Оберіть КВЕДи',
-      searchPlaceholderValue: 'Пошук...'
+      searchPlaceholderValue: 'Пошук...',
+      searchFields: ['label', 'customProperties.searchable'],
+      searchResultLimit: -1,
     });
 
-    kveds.forEach(item => {
-      const choice = { value: item.id, label: item.name };
-      kvedChoices.setChoices([choice], 'value', 'label', false);
-      vipKvedChoices.setChoices([choice], 'value', 'label', false);
-    });
+    kvedChoices.setChoices(choicesArray, 'value', 'label', true);
+    vipKvedChoices.setChoices(choicesArray, 'value', 'label', true);
 
-    } catch (error) {
-      console.error('Помилка завантаження даних:', error);
-    }
+  } catch (error) {
+    console.error('Помилка завантаження даних:', error);
   }
+}
 
   loadInitialData();
 });
