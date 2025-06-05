@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 const pool = require('./db');
-const { query } = require('./db');
+const { query } = require('./db'); // This line is redundant if you use pool.query directly
 const PORT = process.env.PORT || 3000;
 
 const storage = multer.diskStorage({
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     cb(null, filename.toLowerCase());
   }
 });
-const upload = multer({ 
+const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
@@ -30,7 +30,7 @@ const upload = multer({
   limits: {
     fileSize: 5 * 1024 * 1024
   }
- });
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -94,7 +94,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
     const {
       placement_type,
       vip,
-      kveds,
+      kveds, // This will be an array of KVED IDs
       company_name: name,
       category,
       region,
@@ -155,7 +155,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
 
     const query = `
       INSERT INTO companies (
-        name, founder, edrpou_code, year_founded, activity_area_id, 
+        name, founder, edrpou_code, year_founded, activity_area_id,
         category_id, address, postal_code, phone1, phone2, phone3,
         email, telegram, viber, facebook, instagram, website, logo_path,
         short_description, full_description, working_hours,
@@ -193,11 +193,17 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
     const companyId = rows[0].id;
 
     if (Array.isArray(kveds) && kveds.length > 0) {
+      // Ensure kveds are numbers and create values for the batch insert
+      const kvedValues = kveds.map((kved_id, index) => {
+        const isMain = index === 0 ? 'TRUE' : 'FALSE'; // First KVED is main
+        return `(${companyId}, ${parseInt(kved_id)}, ${isMain})`;
+      }).join(',');
+
       const insertKvedQuery = `
-          INSERT INTO company_kweds (company_id, kwed_id, is_main)
-          VALUES ${kveds.map((_, i) => `($1, $${i + 2}, ${i === 0 ? 'true' : 'false'})`).join(', ')}
+        INSERT INTO company_kweds (company_id, kwed_id, is_main)
+        VALUES ${kvedValues}
       `;
-      await pool.query(insertKvedQuery, [companyId, ...kveds.map(Number)]);
+      await pool.query(insertKvedQuery);
     }
 
 
@@ -210,7 +216,7 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
   } catch (error) {
     console.error('Помилка при додаванні компанії:', error);
     res.setHeader('Content-Type', 'application/json');
-    res.status(400).json({  
+    res.status(400).json({
       success: false,
       message: error.message
     });
@@ -438,6 +444,40 @@ app.get('/company-tags', async (req, res) => {
   }
 });
 
+// NEW ENDPOINT: Get company_kweds for a specific company
+app.get('/company_kweds', async (req, res) => {
+  const { company_id } = req.query; // Expect company_id as a query parameter
+  if (!company_id) {
+    return res.status(400).json({ error: 'Company ID is required' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM company_kweds WHERE company_id = $1',
+      [company_id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Помилка при отриманні company_kweds:', err);
+    res.status(500).json({ error: 'Помилка сервера' });
+  }
+});
+
+// NEW ENDPOINT: Get a single KVED by ID
+app.get('/kveds/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('SELECT * FROM kveds WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'KVED не знайдено' });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Помилка при отриманні КВЕДу за ID:', err);
+    res.status(500).json({ error: 'Помилка сервера' });
+  }
+});
+
 app.get('/kveds', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM kveds');
@@ -447,6 +487,7 @@ app.get('/kveds', async (req, res) => {
     res.status(500).json({ error: 'Помилка сервера' });
   }
 });
+
 
 app.get('/companies/:id/reviews', async (req, res) => {
   try {
@@ -463,7 +504,7 @@ app.get('/companies/:id/reviews', async (req, res) => {
 
 app.post('/company/:id/reviews', async (req, res) => {
   try {
-    const { review_text, user_name, rating } = req.body; 
+    const { review_text, user_name, rating } = req.body;
 
     if (!review_text || !review_text.trim()) {
       return res.status(400).json({ error: 'Текст відгуку обовʼязковий' });
@@ -472,7 +513,7 @@ app.post('/company/:id/reviews', async (req, res) => {
       return res.status(400).json({ error: "Ім'я обов'язкове" });
     }
     if (typeof rating !== 'number' || rating < 1 || rating > 5) {
-        return res.status(400).json({ error: 'Рейтинг має бути числом від 1 до 5.' });
+      return res.status(400).json({ error: 'Рейтинг має бути числом від 1 до 5.' });
     }
 
     const companyId = parseInt(req.params.id, 10);
@@ -497,5 +538,3 @@ process.on('SIGINT', async () => {
   await pool.end();
   process.exit(0);
 });
-
-

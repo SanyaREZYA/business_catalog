@@ -49,29 +49,85 @@ document.addEventListener('DOMContentLoaded', async function () {
       : '-';
 
     document.querySelector('.company-details').innerHTML = `
-  <div><b>Фактична адреса:</b></div>
-  <div>${company.address || '-'}</div>
-  <div><b>Поштова адреса:</b></div>
-  <div>${company.address || '-'}</div>
-  <div><b>Юридична адреса:</b></div>
-  <div>${company.address || '-'}</div>
-  <div><b>Телефони:</b></div>
-  ${phoneHtml}
-  ${socialMediaHtml}
-  <div><b>Факс:</b> ${company.fax ? `<a href="tel:${company.fax}"><span class="truncate">${company.fax}</span></a>` : '-'}</div>
-  <div><b>E-mail:</b> <a href="mailto:${company.email}"><span class="truncate">${company.email || '-'}</span></a></div>
-  <div><b>Сайт:</b> <a href="${company.website || '#'}" target="_blank"><span class="truncate">${company.website || '-'}</span></a></div>
-`;
-
-
-    // Послуги
-    document.querySelector('.company-services').innerHTML = `
-      <h5>Продукція, послуги</h5>
-      <div>${tagsHtml}</div>
+      <div><b>Фактична адреса:</b></div>
+      <div>${company.address || '-'}</div>
+      <div><b>Поштова адреса:</b></div>
+      <div>${company.address || '-'}</div>
+      <div><b>Юридична адреса:</b></div>
+      <div>${company.address || '-'}</div>
+      <div><b>Телефони:</b></div>
+      ${phoneHtml}
+      ${socialMediaHtml}
+      <div><b>Факс:</b> ${company.fax ? `<a href="tel:${company.fax}"><span class="truncate">${company.fax}</span></a>` : '-'}</div>
+      <div><b>E-mail:</b> <a href="mailto:${company.email}"><span class="truncate">${company.email || '-'}</span></a></div>
+      <div><b>Сайт:</b> <a href="${company.website || '#'}" target="_blank"><span class="truncate">${company.website || '-'}</span></a></div>
     `;
 
-    // Оновлений правий блок (company-additional)
-    // ЗМІНА ТУТ: Видалено блок "Кількість працівників"
+    // КВЕДИ - Генеруємо HTML для КВЕДів
+    let kwedsHtml = '';
+    try {
+      const companyKwedsRes = await fetch(`/company_kweds?company_id=${companyId}`);
+      if (companyKwedsRes.ok) {
+        const companyKweds = await companyKwedsRes.json(); 
+
+        if (companyKweds.length) {
+          const kvedPromises = companyKweds.map(async (ck) => {
+            const kvedRes = await fetch(`/kveds/${ck.kwed_id}`);
+            if (kvedRes.ok) {
+              const kved = await kvedRes.json();
+              const isMainClass = ck.is_main ? 'fw-bold text-primary' : ''; // Highlight main KVED
+              // Змінено: Додано " - " перед kved.name
+              return `<div class="${isMainClass}">- ${kved.name || '-'}</div>`; 
+            }
+            return '';
+          });
+          const kvedsArray = await Promise.all(kvedPromises);
+          // Збережено inline style для збільшення шрифту КВЕДів
+          kwedsHtml = `
+            <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
+              <h5>Види діяльності КВЕД</h5>
+              ${kvedsArray.join('')}
+            </div>
+          `;
+        } else {
+          // Збережено inline style для збільшення шрифту КВЕДів
+          kwedsHtml = `
+            <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
+              <h5>Види діяльності КВЕД</h5>
+              <div class="text-muted">-</div>
+            </div>
+          `;
+        }
+      } else {
+        // Збережено inline style для збільшення шрифту КВЕДів
+        kwedsHtml = `
+          <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
+            <h5>КВЕДИ</h5>
+            <div class="text-danger">Не вдалося завантажити КВЕДИ.</div>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Помилка при завантаженні КВЕДІВ:', error);
+      // Збережено inline style для збільшення шрифту КВЕДів
+      kwedsHtml = `
+        <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
+          <h5>КВЕДИ</h5>
+          <div class="text-danger">Не вдалося завантажити КВЕДИ.</div>
+        </div>
+      `;
+    }
+
+    // Теги - Генеруємо HTML для Тегів
+    // Змінено: Видалено inline style для контейнера тегів, щоб повернути попередній розмір
+    const tagsSectionHtml = `
+      <div class="p-3 rounded bg-white mb-3">
+        <h5>Теги</h5>
+        <div>${tagsHtml}</div>
+      </div>
+    `;
+
+    // Оновлений правий блок (company-additional) - тепер містить тільки реєстраційні дані
     document.querySelector('.company-additional').innerHTML = `
       <div class="p-3 rounded bg-white mb-3">
         <h5>Реєстраційні дані</h5>
@@ -105,6 +161,19 @@ document.addEventListener('DOMContentLoaded', async function () {
         </div>` : ''}
       </div>
     `;
+
+    // Вставляємо КВЕДИ та Теги в центральний блок.
+    // Додаємо їх після блоку company-description.
+    const companyDescriptionElement = document.querySelector('.company-description');
+    if (companyDescriptionElement) {
+        // Порядок: спочатку КВЕДИ, потім Теги
+        companyDescriptionElement.insertAdjacentHTML('afterend', tagsSectionHtml); // Додаємо Теги
+        companyDescriptionElement.insertAdjacentHTML('afterend', kwedsHtml);    // Додаємо КВЕДИ (буде вище Тегів, якщо вставляти після одного й того ж елемента)
+    } else {
+        // Якщо company-description не знайдено, можна додати до company-container
+        document.querySelector('.company-container').insertAdjacentHTML('beforeend', kwedsHtml);
+        document.querySelector('.company-container').insertAdjacentHTML('beforeend', tagsSectionHtml);
+    }
 
   } catch (error) {
     console.error(error);
@@ -193,7 +262,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     } catch (error) {
       console.error('Помилка при відправці відгуку:', error);
-      alert('Виникла помилка при відправці відгуку.');
+      alert('Виникла помишка при відправці відгуку.');
     }
   });
 });
