@@ -93,6 +93,8 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
   try {
     const {
       placement_type,
+      vip,
+      kveds,
       company_name: name,
       category,
       region,
@@ -157,8 +159,8 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
         category_id, address, postal_code, phone1, phone2, phone3,
         email, telegram, viber, facebook, instagram, website, logo_path,
         short_description, full_description, working_hours,
-        created_at, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, NOW(), NOW())
+        created_at, updated_at, vip
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, NOW(), NOW(), $22)
       RETURNING id
     `;
 
@@ -184,10 +186,21 @@ app.post('/api/add-business', upload.single('logo'), async (req, res) => {
       short_description || null,
       full_description || null,
       working_hours || null,
+      vip === 'true' || vip === true
     ];
 
     const { rows } = await pool.query(query, values);
-    
+    const companyId = rows[0].id;
+
+    if (Array.isArray(kveds) && kveds.length > 0) {
+      const insertKvedQuery = `
+          INSERT INTO company_kweds (company_id, kwed_id, is_main)
+          VALUES ${kveds.map((_, i) => `($1, $${i + 2}, ${i === 0 ? 'true' : 'false'})`).join(', ')}
+      `;
+      await pool.query(insertKvedQuery, [companyId, ...kveds.map(Number)]);
+    }
+
+
     res.setHeader('Content-Type', 'application/json');
     res.status(201).json({
       success: true,
@@ -422,6 +435,16 @@ app.get('/company-tags', async (req, res) => {
   } catch (err) {
     console.error('Error getting company tags:', err);
     res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/kveds', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM kveds');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Помилка при отриманні КВЕДів:', err);
+    res.status(500).json({ error: 'Помилка сервера' });
   }
 });
 
