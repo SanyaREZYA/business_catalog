@@ -73,7 +73,7 @@ DB_PORT=5432           # Порт подключення до PostgreSQL
 
 ### 5. Запуск проекту
 
-`node server.js`
+`node app.js`
 
 ---
 

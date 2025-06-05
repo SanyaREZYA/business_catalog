@@ -12,6 +12,7 @@
   justify-content: center;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .company-card {
@@ -25,13 +26,31 @@
 }
 
 .company-additional {
-  flex: 1 1 340px;
-  background: #f8f9fa;
-  padding: 32px 24px;
+  all: unset;
+  display: block;
+  background: #ffffff !important;
+  padding: 16px 18px !important;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(33, 37, 41, 0.06);
-  border: 1px solid #dee2e6;
-  min-width: 260px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: none !important;
+  min-width: 300px;
+  max-width: 430px;
+  transition: all 0.3s ease;
+  min-height: 350px;
+  box-sizing: border-box;
+}
+
+.company-additional:hover {
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.1);
+}
+
+.company-additional-wide {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  margin-bottom: 24px;
 }
 
 .company-main {
@@ -40,10 +59,16 @@
 
 .company-extra {
   flex: 1;
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.company-extra:hover {
+  transform: translateY(-4px);
 }
 
 .company-header {
@@ -53,25 +78,38 @@
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
+  margin-top: 0;
+  flex-wrap: wrap;
 }
 
 .company-logo {
-  width: 110px;
-  height: 110px;
+  max-width: 220px;
+  max-height: 220px;
+  width: 100%;
+  height: auto;
   object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(33, 37, 41, 0.10);
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(33, 37, 41, 0.13);
   background: #fff;
-  border: 1px solid #dee2e6;
-  padding: 8px;
+  border: 1.5px solid #dee2e6;
+  padding: 18px;
+  margin-top: 0;
+}
+
+.company-info {
+  flex-grow: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .company-info h2 {
   margin: 0;
-  font-size: 2.1rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #212529;
   letter-spacing: 0.5px;
+  line-height: 1.1;
+  margin-top: 0;
 }
 
 .company-rating {
@@ -90,10 +128,23 @@
 }
 
 .company-details {
-  margin-top: 20px;
+  width: 100%;
+  background: #ffffff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #dee2e6;
   font-size: 1.05rem;
   color: #495057;
   line-height: 1.6;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.company-details:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.09);
 }
 
 .company-details a {
@@ -124,19 +175,291 @@
   padding-bottom: 0.5rem;
 }
 
+.company-reviews {
+  margin-top: 32px;
+  width: 100%;
+}
+
+#reviews-list {
+  width: 1150px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#reviews-list > div {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 8px rgba(33, 37, 41, 0.06);
+  font-size: 1rem;
+}
+
+#reviews-list .fw-bold {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#reviews-list .text-muted {
+  font-size: 0.9rem;
+  margin-top: 6px;
+  color: #6c757d;
+}
+
+.nav-bar {
+  background-color: white;
+}
+
+.company-layout {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.company-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.company-center {
+  flex: 2;
+  width: 75%;
+}
+
+.company-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 2.2rem;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0 0.1rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #ffc107;
+}
+
+.review-stars {
+  color: #ffc107;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+/* Зміщення лівого блоку лівіше */
+.company-left {
+  flex: 1;
+  min-width: 300px;
+  margin-left: -70px;
+}
+
+/* Продукція, послуги — в один рядок */
+.company-services {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 8px;
+}
+.company-services div {
+  display: inline-block;
+}
+.company-services .tag {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.company-right {
+  flex: 1;
+  min-width: 300px;
+  margin-right: -70px;
+}
+
+.truncate {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+@media (max-width: 1200px) {
+  .company-container {
+    max-width: 95%;
+  }
+}
+
 @media (max-width: 991.98px) {
   .company-container {
     flex-direction: column;
     gap: 24px;
+    max-width: 90%;
+    padding: 0;
   }
-  .company-card,
-  .company-additional {
-    min-width: 0;
+
+  .company-layout {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .company-left,
+  .company-center,
+  .company-right {
     width: 100%;
+    min-width: unset;
+    flex: none;
   }
+
+  .company-additional {
+    max-width: 100%;
+    height: auto;
+    min-height: unset;
+  }
+
   .company-header {
     flex-direction: column;
-    gap: 18px;
-    align-items: flex-start;
+    align-items: center;
+    gap: 0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .company-logo {
+    max-width: 180px;
+    max-height: 180px;
+    margin-bottom: 15px;
+    margin-right: 0 !important;
+  }
+
+  .company-info {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .company-info h2 {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+  }
+
+  .company-description {
+    margin-top: 0;
+  }
+
+  #reviews-list {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  #review-form {
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .company-page {
+    padding: 20px 0;
+  }
+
+  .company-container {
+    max-width: 95%;
+    padding: 0;
+  }
+
+  .company-card,
+  .company-details,
+  .company-additional,
+  #reviews-list > div {
+    padding: 15px;
+  }
+
+  .company-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .company-description,
+  .company-details,
+  .list-group-item,
+  #reviews-list > div {
+    font-size: 0.95rem;
+  }
+
+  .company-header {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .company-logo {
+    max-width: 120px;
+    max-height: 120px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .star-rating label {
+    font-size: 1.8rem;
+  }
+
+  .review-stars {
+    font-size: 1rem;
+  }
+
+  #reviews-list {
+    padding: 0 10px;
+  }
+
+  #review-form {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 479.98px) {
+  .company-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .company-card,
+  .company-details,
+  .company-additional,
+  #reviews-list > div {
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .company-info h2 {
+    font-size: 1.6rem;
+  }
+
+  .company-logo {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  .company-additional h5,
+  .company-reviews h4 {
+    font-size: 1.2rem;
   }
 }
