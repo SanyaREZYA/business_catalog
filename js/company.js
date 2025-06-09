@@ -65,61 +65,65 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // КВЕДИ - Генеруємо HTML для КВЕДів
     let kwedsHtml = '';
+    let mainKvedHtml = '';
+    let otherKwedsHtml = '';
     try {
       const companyKwedsRes = await fetch(`/company_kweds?company_id=${companyId}`);
       if (companyKwedsRes.ok) {
-        const companyKweds = await companyKwedsRes.json(); 
+        const companyKweds = await companyKwedsRes.json();
+        const kvedDetails = [];
 
         if (companyKweds.length) {
-          const kvedPromises = companyKweds.map(async (ck) => {
+          await Promise.all(companyKweds.map(async (ck) => {
             const kvedRes = await fetch(`/kveds/${ck.kwed_id}`);
             if (kvedRes.ok) {
               const kved = await kvedRes.json();
-              const isMainClass = ck.is_main ? 'fw-bold text-primary' : ''; // Highlight main KVED
-              // Змінено: Додано " - " перед kved.name
-              return `<div class="${isMainClass}">- ${kved.name || '-'}</div>`; 
+              kvedDetails.push({ ...kved, is_main: ck.is_main });
             }
-            return '';
-          });
-          const kvedsArray = await Promise.all(kvedPromises);
-          // Збережено inline style для збільшення шрифту КВЕДів
+          }));
+
+          const mainKved = kvedDetails.find(k => k.is_main);
+          const otherKweds = kvedDetails.filter(k => !k.is_main);
+
+          if (mainKved) {
+            mainKvedHtml = `<div class="fw-bold text-primary mb-2">- ${mainKved.name || '-'}</div>`;
+          }
+
+          if (otherKweds.length > 0) {
+            otherKwedsHtml = otherKweds.map(kved => `<div>- ${kved.name || '-'}</div>`).join('');
+          }
+
           kwedsHtml = `
-            <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
-              <h5>Види діяльності КВЕД</h5>
-              ${kvedsArray.join('')}
+            <div class="p-3 rounded bg-white mb-3" style="font-size: 1em;"> <h5>Види діяльності КВЕД</h5>
+              <div id="main-kved-display">${mainKvedHtml}</div>
+              <div id="other-kweds-display" style="display: none;">${otherKwedsHtml}</div>
+              ${otherKweds.length > 0 ? `<div class="d-flex justify-content-center"><button id="toggle-kweds-button" class="btn btn-primary btn-sm mt-2">Показати всі</button></div>` : ''}
             </div>
           `;
         } else {
-          // Збережено inline style для збільшення шрифту КВЕДів
           kwedsHtml = `
-            <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
-              <h5>Види діяльності КВЕД</h5>
+            <div class="p-3 rounded bg-white mb-3" style="font-size: 1em;"> <h5>Види діяльності КВЕД</h5>
               <div class="text-muted">-</div>
             </div>
           `;
         }
       } else {
-        // Збережено inline style для збільшення шрифту КВЕДів
         kwedsHtml = `
-          <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
-            <h5>КВЕДИ</h5>
+          <div class="p-3 rounded bg-white mb-3" style="font-size: 1em;"> <h5>КВЕДИ</h5>
             <div class="text-danger">Не вдалося завантажити КВЕДИ.</div>
           </div>
         `;
       }
     } catch (error) {
       console.error('Помилка при завантаженні КВЕДІВ:', error);
-      // Збережено inline style для збільшення шрифту КВЕДів
       kwedsHtml = `
-        <div class="p-3 rounded bg-white mb-3" style="font-size: 1.2em;">
-          <h5>КВЕДИ</h5>
+        <div class="p-3 rounded bg-white mb-3" style="font-size: 1em;"> <h5>КВЕДИ</h5>
           <div class="text-danger">Не вдалося завантажити КВЕДИ.</div>
         </div>
       `;
     }
 
     // Теги - Генеруємо HTML для Тегів
-    // Змінено: Видалено inline style для контейнера тегів, щоб повернути попередній розмір
     const tagsSectionHtml = `
       <div class="p-3 rounded bg-white mb-3">
         <h5>Теги</h5>
@@ -163,16 +167,29 @@ document.addEventListener('DOMContentLoaded', async function () {
     `;
 
     // Вставляємо КВЕДИ та Теги в центральний блок.
-    // Додаємо їх після блоку company-description.
     const companyDescriptionElement = document.querySelector('.company-description');
     if (companyDescriptionElement) {
-        // Порядок: спочатку КВЕДИ, потім Теги
-        companyDescriptionElement.insertAdjacentHTML('afterend', tagsSectionHtml); // Додаємо Теги
-        companyDescriptionElement.insertAdjacentHTML('afterend', kwedsHtml);    // Додаємо КВЕДИ (буде вище Тегів, якщо вставляти після одного й того ж елемента)
+        companyDescriptionElement.insertAdjacentHTML('afterend', tagsSectionHtml);
+        companyDescriptionElement.insertAdjacentHTML('afterend', kwedsHtml);
     } else {
-        // Якщо company-description не знайдено, можна додати до company-container
         document.querySelector('.company-container').insertAdjacentHTML('beforeend', kwedsHtml);
         document.querySelector('.company-container').insertAdjacentHTML('beforeend', tagsSectionHtml);
+    }
+
+    // Add event listener for KVED toggle button
+    const toggleKwedsButton = document.getElementById('toggle-kweds-button');
+    const otherKwedsDisplay = document.getElementById('other-kweds-display');
+
+    if (toggleKwedsButton && otherKwedsDisplay) {
+      toggleKwedsButton.addEventListener('click', function() {
+        if (otherKwedsDisplay.style.display === 'none') {
+          otherKwedsDisplay.style.display = 'block'; // Показати інші КВЕДИ
+          this.textContent = 'Приховати';
+        } else {
+          otherKwedsDisplay.style.display = 'none'; // Приховати інші КВЕДИ
+          this.textContent = 'Показати всі';
+        }
+      });
     }
 
   } catch (error) {
@@ -216,14 +233,12 @@ document.addEventListener('DOMContentLoaded', async function () {
   const userNameInput = document.getElementById('review-name');
   const reviewTextInput = document.getElementById('review-text');
 
-  // ДОДАЄМО ЦЕЙ КОД ДЛЯ ОБМЕЖЕННЯ ВВОДУ СИМВОЛІВ
   const MAX_USERNAME_LENGTH = 256;
   userNameInput.addEventListener('input', function() {
     if (this.value.length > MAX_USERNAME_LENGTH) {
       this.value = this.value.slice(0, MAX_USERNAME_LENGTH);
     }
   });
-  // КІНЕЦЬ НОВОГО КОДУ
 
   reviewForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -237,7 +252,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       return;
     }
 
-    // Додаткова перевірка довжини перед відправкою (хоча event listener вже обріже)
     if (user_name.length > MAX_USERNAME_LENGTH) {
         alert(`Ім'я користувача не може перевищувати ${MAX_USERNAME_LENGTH} символів.`);
         return;
